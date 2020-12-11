@@ -54,8 +54,8 @@
                                 <th>Giá tiền</th>
                                 <th style="width:30px;"></th>
                             </tr>
-                            @foreach($all_service_packet as $key=> $value)
-                    
+                           
+                            
                             @for ($i=0; $i < sizeof($tam) ; $i++)
                             <tr>
                                 <td class="project-title">
@@ -67,13 +67,14 @@
 
                                 <td class="project-actions">
                                     <a href="#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> View </a>
-                                    <button onClick="edit_service({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
-                                    <button onClick="delete_service({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
+                                    <button onClick="edit_service({{$tam[$i]['id']}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
+                                    <button onClick="delete_service({{$tam[$i]['id']}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
                                 </td>
+
                             </tr>
                             @endfor
                             
-                            @endforeach
+                            
                             </tbody>
                         </table>
                     </div>
@@ -96,13 +97,13 @@ function create_service_packet()
     <div  class="form-horizontal">
         <div class="form-group">
         <label class="col-sm-2 control-label">Tên gói khám</label>
-        <div class="col-sm-10"><input type="text"  id="title_news" class="form-control"></div>
+        <div class="col-sm-10"><input type="text"  id="packet_service" class="form-control"></div>
         </div>
         <div class="hr-line-dashed"></div>
 
         <div class="form-group">
         <label class="col-sm-2 control-label">Mô tả</label>
-        <div class="col-sm-10"><input type="text"  id="content_news" class="form-control"></div>
+        <div class="col-sm-10"><input type="text"  id="packet_content" class="form-control"></div>
         </div>
         <div class="hr-line-dashed"></div>
 
@@ -121,7 +122,7 @@ function create_service_packet()
         <div class="hr-line-dashed"></div>
         <div class="form-group">
         <div class="col-sm-6 col-sm-offset-2">
-            <button class="btn btn-primary" onClick="save_news()"" type="btn" id="save_news">Lưu gói kham</button>
+            <button class="btn btn-primary" onClick="save_service_packet()"" type="btn" id="save_news">Lưu gói kham</button>
         </div>
         </div>
     </div>
@@ -162,19 +163,82 @@ function list_service()
                     </td>
                 </tr>
                  `;
+                 
             });
             $('#show_list').append(output); 
         }
     });
 }
 
-function save_news()
+function save_service_packet()
 {
     var arr=[];
    $(':checkbox:checked').each(function(i) {
-       arr.push($(this.value));
+       arr.push($(this).val());
     });
-}
+   console.log(arr);
+    var packet_service1=$('#packet_service').val();
+    var packet_content1=$('#packet_content').val();
+   $.ajax({
+        url: '{{URL::to('/save-service-packet')}}',
+        type: 'GET',
+        data: {arr1: arr, packet_service:packet_service1, packet_content: packet_content1},
+        dataType: 'json',
+        success: function (response) 
+        {
+            alert(response['mes']);
+        }
+    });
 
+}
+function edit_service(id)
+{
+    $.ajax({
+        url: '{{URL::to('/edit-service-packet')}}'+'/'+id,
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) 
+        {
+        var output=``;
+        $('tbody').html('');  
+        output+=`
+        <div class="inqbox-content">
+        <div  class="form-horizontal">
+            <div class="form-group">
+            <label class="col-sm-2 control-label">Tên gói khám</label>
+            <div class="col-sm-10"><input type="text" value="${response[0].packet_service}"  id="packet_service_ud" class="form-control"></div>
+            </div>
+            <div class="hr-line-dashed"></div>
+
+            <div class="form-group">
+            <label class="col-sm-2 control-label">Mô tả</label>
+            <div class="col-sm-10"><input type="text" value="${response[0].packet_content}"  id="packet_content_ud" class="form-control"></div>
+            </div>
+            <div class="hr-line-dashed"></div>
+
+            <div class="form-group">
+            <label class="col-sm-2 control-label">Thêm dịch vụ</label>
+            <div class="col-sm-10"><button type="btn" onClick="list_service()"></a><img src="{{asset ('backend/icon/add.svg')}}"></button></div>
+            </div>
+
+            <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+            <div class="col-sm-10" >
+            <tr><td id="show_list"></td> <td id="select_list"></td></tr>
+            </div>
+            </div>
+
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+            <div class="col-sm-6 col-sm-offset-2">
+                <button class="btn btn-primary" onClick="save_service_packet()"" type="btn" id="save_news">Lưu gói khám</button>
+            </div>
+            </div>
+        </div>
+        </div> `;
+        $('tbody').html(output);   
+        }
+    });   
+}
 
 </script>

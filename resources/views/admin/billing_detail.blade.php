@@ -40,8 +40,9 @@
                         <button type="button" class="btn btn btn-primary"> <i class="fa fa-search"></i> Search</button>
                         </span>
                     </div>
-                     @foreach($data as $v)
+                    
                     <div class="clients-list">
+                         @foreach($data as $v)
                         <ul class="nav nav-tabs tab-border-top-danger">
                             <span class="pull-right small text-muted">1406 Elements</span>
                             <li class="active"><a data-toggle="tab" href="#tab-1" onClick="billing_detail({{$v->id_billing}})">Thông tin bill</a></li>
@@ -49,7 +50,8 @@
                             <li class=""><a data-toggle="tab" href="#" onClick="service_detail({{$v->id_billing}})">Dịch vụ</a></li>
                             <li class=""><a data-toggle="tab" href="#" onClick="actually_detail({{$v->id_billing}})">Phát sinh</a></li>
                         </ul>
-
+                        @break
+                        @endforeach
                         <div class="tab-content">
                             <div id="tab-1" class="tab-pane active">
                             <div class="full-height-scroll">
@@ -63,8 +65,8 @@
                                             <th>Kết quả</th>
                                             
                                         </tr>
-                                        </tr>
-                                       
+                                
+                                       @foreach($data as $v)
                                         <tr>
                                             <td>{{$v->billing_code}}</td>
                                             <td>{{$v->billing_date}}-{{$v->billing_time}}</td>
@@ -75,11 +77,10 @@
                                             @elseif ($v->billing_status==3)
                                             <td>Chuyển nhượng</td>
                                             @elseif ($v->billing_status==4)
-                                            <td>Hoàn tất</td
+                                            <td>Hoàn tất</td>
                                             @else
-                                            <td>Hủy bỏ</td
+                                            <td> Hủy bỏ</td>
                                             @endif
-
 
                                             <td ><img alt="image" src="#"> </td>
                                         </tr>
@@ -136,7 +137,7 @@
 <script>   
 function service_detail(id)
 {
-    console.log(id);
+   // console.log(id);
     $.ajax({
         url: '{{URL::to('/service-detail')}}'+'/'+id,
         type: 'GET',
@@ -176,7 +177,7 @@ function service_detail(id)
 }
 function customer_detail(id)
 {
-    console.log(id);
+    //console.log(id);
     $.ajax({
         url: '{{URL::to('/customer-detail')}}'+'/'+id,
         type: 'GET',
@@ -225,7 +226,7 @@ function customer_detail(id)
 }
 function actually_detail(id)
 {
-    console.log(id);
+   // console.log(id);
      $.ajax({
         url: '{{URL::to('/actually-detail')}}'+'/'+id,
         type: 'GET',

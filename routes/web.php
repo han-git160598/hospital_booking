@@ -36,6 +36,9 @@ Route::get('/disable-service-service','ServiceController@all_disable_service');
 Route::get('/all-service-packet','ServicePacketController@all_service_packet');
 Route::get('/list-service-service','ServicePacketController@listservice_service');
 Route::get('/select-list-service','ServicePacketController@select_list');
+
+Route::get('/save-service-packet','ServicePacketController@save_service_packet');
+Route::get('/edit-service-packet/{id}','ServicePacketController@edit_service_packet');
 // QL bài đăng---------------------------------------------------------------------
 Route::get('/news',function()
 {

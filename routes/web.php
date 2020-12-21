@@ -66,6 +66,10 @@ Route::get('/service-detail/{id}','AccountCustomerController@service_detail');
 Route::get('/customer-detail/{id}','AccountCustomerController@customer_detail');
 Route::get('/actually-detail/{id}','AccountCustomerController@actually_detail');
 Route::get('/billing-detail/{id}','AccountCustomerController@billing_detail');
+Route::get('/appointment-detail/{id}','AccountCustomerController@appointment_detail');
+
+
+
 
 // QL Slide
 Route::get('/all-slide','SlideController@all_slide');
@@ -89,4 +93,19 @@ Route::get('/edit-account-permission/{id}','AccountPermissionController@edit_acc
 Route::get('/update-account-permission/{id}','AccountPermissionController@update_account_permission');
 
 
+// QL bill
+Route::get('/all-billing','BillingController@all_billing');
 
+
+Route::get('/status-filter-billing','BillingController@status_filter_billing');
+Route::get('/order-billing-detail/{id}','BillingController@order_billing_detail');
+Route::get('/cancel-bill/{id}','BillingController@cancel_bill');
+Route::get('/add-appointment','BillingController@add_appointment');
+Route::get('/update-billing-date-time','BillingController@update_billing_date_time');
+
+ 
+
+//test
+Route::get('/socket-io',function (){
+	return view('admin.testsocket');
+});

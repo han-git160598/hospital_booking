@@ -114,7 +114,7 @@ function save_Slide()
     //console.log(image_upload_slide1);
   // var image_upload_slide1 = $('#image_upload_slide').prop('files');
    var image_upload_slide1 = $('#image_upload_slide')[0].files[0];
-    console.log(image_upload_slide1.name);
+   // console.log(image_upload_slide1);
     $.ajax({
         url: '{{URL::to('/save-slide')}}',
        type: 'GET',

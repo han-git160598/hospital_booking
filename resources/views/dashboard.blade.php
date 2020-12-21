@@ -107,13 +107,9 @@
                                                 <li><a href="{{URL::to('/all-account-type')}}">Quản lý loại tài khoản</a></li>
                                             </ul>
                                         </li>
-                                        <li class="nav-parent">
-                                            <a href="#"><i><img src="{{asset ('backend/icon/order management.svg')}}"></i> <span class="nav-label">Quản lý đơn khám</span></a>
-                                            <ul class="children nav">
-                                                <li><a href="{{URL::to('/all-service-service')}}">Danh sách dịch vụ khám</a></li>
-                                                <li><a href="#">danh sách gói khám</a></li>
-                                                <li><a href="{{URL::to('/disable-service-service')}}">Dịch vụ bị vô hiệu hóa</a></li>
-                                            </ul>
+                                        <li >
+                                            <a href="{{URL::to('/all-billing')}}"><i><img src="{{asset ('backend/icon/order management.svg')}}"></i> <span class="nav-label">Quản lý đơn khám</span></a>
+                                  
                                         </li>
                                         <li >
                                             <a href="{{URL::to('/all-slide')}}"><i><img src="{{asset ('backend/icon/slide management.svg')}}"></i> <span class="nav-label">Quản lý slide</span></a>
@@ -210,9 +206,9 @@
                            
                 @yield('admin_content')
 
+
+
                            
-                       
-             
             <div class="footer">
                <div class="pull-right">
                   10GB of <strong>250GB</strong> Free.
@@ -220,11 +216,13 @@
                <div>
                   <strong>Copyright</strong> Your Company &copy; 2015-2016
                </div>
-            </div>
+            </div>           
+             
+
                 
-                
-                
-            </div>
+            </div>   
+        </div>
+        
             <!-- Mainly scripts -->
             <script src="{{ asset('backend/js/jquery-2.1.1.js')}}"></script>
             <script src="{{ asset('backend/js/bootstrap.min.js')}}"></script>

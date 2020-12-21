@@ -71,7 +71,7 @@
                                     <p> {{$value->address}} VND</p> 
                                 </td>
                                 <td class="project-actions">
-                                    <button onClick="history_account_customer({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i>Lịch sử đơn</button>
+                                    <button onClick="history_account_customer({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i>Lịch sử đơn</button>
                                     <button onClick="edit_account_customer({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
                                     <button onClick="delete_account_customer({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
                                 </td>
@@ -215,7 +215,7 @@ function delete_account_customer(id)
                 </td>
 
                 <td class="project-actions">
-                <button onClick="history_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i>Lịch sử đơn</button>
+                <button onClick="history_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i>Lịch sử đơn</button>
                     <button onClick="edit_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
                     <button onClick="delete_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
                 </td>

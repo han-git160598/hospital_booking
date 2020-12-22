@@ -84,7 +84,6 @@
 
                                 <td class="project-actions">
                                     <a  href="{{URL::to('/order-billing-detail')}}/{{$v->id}}"  class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết </a>
-                                    
                                 </td>
                             </tr>
                             @endforeach

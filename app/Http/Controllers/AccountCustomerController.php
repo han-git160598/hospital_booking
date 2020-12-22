@@ -107,9 +107,9 @@ class AccountCustomerController extends Controller
         $data = DB::table('tbl_billing_billing')    
         ->join('tbl_billing_detail','tbl_billing_detail.id_billing','=','tbl_billing_billing.id')    
         ->join('tbl_service_service','tbl_service_service.id','=','tbl_billing_detail.id_service')
-        ->where('tbl_billing_detail.id_billing',$id)
-        ->get();   
-        return json_encode($data); 
+        ->where('tbl_billing_detail.id_billing',$id)->get();
+      //  dd($data);
+        return json_encode($data);
     }
     public function customer_detail($id)
     {
@@ -131,16 +131,13 @@ class AccountCustomerController extends Controller
     public function billing_detail($id)
     {
         $data = DB::table('tbl_billing_billing')    
-        ->join('tbl_billing_document','tbl_billing_document.id_billing','=','tbl_billing_billing.id')    
+      //  ->join('tbl_billing_document','tbl_billing_document.id_billing','=','tbl_billing_billing.id')    
         ->where('tbl_billing_billing.id',$id)
         ->get();   
-        //dd($data);
+      //  dd($data);
         return json_encode($data);     
     }
-    public function appointment_detail($id, Request $request)
-    {
-        
-    }
+
     
     
 }

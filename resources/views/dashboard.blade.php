@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>InQ - A Responsive Bootstrap 3 Admin Dashboard Template</title>
         <link href="{{ asset('backend/css/bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ asset('backend/fonts/font-awesome/css/font-awesome.css')}}" rel="stylesheet">
@@ -219,9 +220,7 @@
             </div>           
              
 
-                
-            </div>   
-        </div>
+      
         
             <!-- Mainly scripts -->
             <script src="{{ asset('backend/js/jquery-2.1.1.js')}}"></script>
@@ -248,6 +247,15 @@
             <script src="{{ asset('backend/js/plugins/ckeditor/ckeditor.js')}}"></script>
             <!-- Summernote Plugin -->
             <script src="{{ asset('backend/js/plugins/summernote/summernote.min.js')}}"></script>
+            <script>
+            $(document).ready(function () {
+                "use strict";
+                // Add slimscroll to element
+                $('.full-height-scroll').slimscroll({
+                    height: '100%'
+                });
+            });
+            </script>
                 
     </body>
 </html>

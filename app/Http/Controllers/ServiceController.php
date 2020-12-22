@@ -87,5 +87,17 @@ class ServiceController extends Controller
         $disable_service = DB::table('tbl_service_service')->where('status_service',$stt)->orderby('id','desc')->get();
         return view('admin.disable_service',compact('disable_service'));
     }
-  
+    public function search_service_service(Request $request)
+    {
+        $keywork = $request->service;
+        if($keywork =='')
+        {
+            $data = DB::table('tbl_service_service')->orderby('id','desc')->get();
+            return json_encode($data);
+        }else{
+            $data = DB::table('tbl_service_service')->where('service', 'LIKE', "%{$keywork}%")->get();
+            return json_encode($data);
+        }
+      
+    }
 }

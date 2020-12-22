@@ -32,6 +32,9 @@ Route::get('/update-service-service/{id}','ServiceController@updateservice_servi
 Route::get('/disable-service-service/{id}','ServiceController@disable_service');
 Route::get('/enable-service-service/{id}','ServiceController@enable_service');
 Route::get('/disable-service-service','ServiceController@all_disable_service');
+
+Route::post('/search-service-service','ServiceController@search_service_service');
+
 //QL service_packet
 Route::get('/all-service-packet','ServicePacketController@all_service_packet');
 Route::get('/list-service-service','ServicePacketController@listservice_service');
@@ -102,6 +105,7 @@ Route::get('/order-billing-detail/{id}','BillingController@order_billing_detail'
 Route::get('/cancel-bill/{id}','BillingController@cancel_bill');
 Route::get('/add-appointment','BillingController@add_appointment');
 Route::get('/update-billing-date-time','BillingController@update_billing_date_time');
+// Acctually
 
  
 

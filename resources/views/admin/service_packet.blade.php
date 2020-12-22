@@ -145,7 +145,7 @@ function list_service()
                 <th>Giá tiền</th>
                 <th style="width:30px;"></th>
             </tr>`;
-            $('show_list').html('');
+            $('#show_list').html('');
             response.forEach(function (item) {
                 //console.log(item);
                 output+=`
@@ -158,8 +158,6 @@ function list_service()
                     </td>
                     <td class="project-actions">
                         <input type="checkbox" value="${item.id}">
-                    </td>
-                  
                     </td>
                 </tr>
                  `;

@@ -143,23 +143,24 @@ function service_detail(id)
         type: 'GET',
         dataType: 'json',
         success: function (response) 
-        {   
+        {   var dem = 1;
             var output=`
-            <tr> 
+            <tr>
                 <th style="width:30px;"></th>
                 <th>STT</th>
                 <th>Dịch vụ</th>
                 <th>Giá</th>
-                <th style="width:30px;"></th>
+                <th style="width:30px;"></th>   
             </tr>`;
             $('tbody').html('');
+            var sum =0 ;
             response.forEach(function (item) {
-                //console.log(item);
+                console.log(item);
             output+=`
             <tr>
                 <td style="width:30px;"></td>
                 <td class="project-title">
-                    <p>1<p>
+                    <p>${dem++}<p>
                 </td>
                 <td class="project-title">
                     <p>${item.service}<p>
@@ -167,10 +168,14 @@ function service_detail(id)
                 <td class="project-title">
                     <p>${item.price}<p>
                 </td>
-                <td style="width:30px;"></td>
-                
-            </tr>`;    
+                <td style="width:30px;"></td>    
+            </tr>`;
+            sum +=parseInt(item.price);
             });
+             output+=`
+            <tr> <td style="width:30px;"></td><td>Tổng tiền:</td>
+            <td></td>
+            <td>${sum}</td></tr>`;
             $('tbody').html(output);   
         }
     });

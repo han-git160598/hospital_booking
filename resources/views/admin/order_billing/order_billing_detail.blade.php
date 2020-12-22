@@ -64,6 +64,32 @@
                             <div class="full-height-scroll">
                                 <div class="table-responsive">
                                     <table class="table table-striped table-hover">
+      {{--  ////////////////////////danh sách dịch vụ/////////////////////////  --}}
+
+        <div id="add_data_Modal" class="modal fade">
+            <div class="modal-dialog">
+             <div class="modal-content">
+              <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+               <h4 class="modal-title">Danh sách dịch vụ</h4>
+              </div>
+              <div class="modal-body">
+               <form method="post" id="insert_form">
+               <div id="list_service2">    
+               
+               </div>
+
+                
+               </form>
+              </div>
+              <div class="modal-footer">
+               <button type="button"  id="insert_service" onClick="insert_service({{$data[0]->id}})" class="btn btn-success">Thêm dịch vụ</button>
+               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+             </div>
+            </div>
+        </div>
+            {{--  ////////////////////////model/////////////////////////  --}}
                                         <tbody>
                                         <tr>
                                             <th>Mã đơn hàng</th>
@@ -111,6 +137,7 @@
                                     </dialog>
 
                                     <!-- Simple pop-up dialog box containing a form -->
+
 <dialog id="dialogtime">
   <form method="dialog">
     <p><label>Chọn lại thời gian:
@@ -124,12 +151,8 @@
   </form>
 </dialog>
 
-
-
-
-                                    
                                     @if($v->billing_status==5)
-
+                                    @if($v->billing_status==4)
                                     @else
                                     <h3 style="float:right;width:50%;""><center><tr>
                                     <td>
@@ -141,6 +164,7 @@
                                     </td>
                                     <td><button id="confirm_bill" class="btn btn-primary btn-sm" >Xác nhận</button></td>
                                     </tr></center></h3>
+                                    @endif
                                     @endif
                                 </div>
                             </div>
@@ -209,8 +233,9 @@ function service_detail(id)
                 <th style="width:30px;"></th>   
             </tr>`;
             $('tbody').html('');
+            var sum =0 ;
             response.forEach(function (item) {
-                //console.log(item);
+              //  console.log(item);
             output+=`
             <tr>
                 <td style="width:30px;"></td>
@@ -223,10 +248,14 @@ function service_detail(id)
                 <td class="project-title">
                     <p>${item.price}<p>
                 </td>
-                <td style="width:30px;"></td>
-                
-            </tr>`;    
+                <td style="width:30px;"></td>    
+            </tr>`;
+            sum +=parseInt(item.price);// billing_price
             });
+             output+=`
+            <tr> <td style="width:30px;"></td><td>Tổng tiền:</td>
+            <td></td>
+            <td>${sum}</td></tr>`;
             $('tbody').html(output);   
         }
     });
@@ -288,6 +317,7 @@ function actually_detail(id)
         dataType: 'json',
         success: function (response) 
         {
+           // console.log(response[0].id_billing)
             var output=`
             <tr> 
                 <th style="width:30px;"></th>
@@ -296,6 +326,9 @@ function actually_detail(id)
                 <th>Số lượng</th>
                 <th>Tổng</th>
                 <th style="width:30px;"></th>
+                <th>
+                <button type="button" onClick="list_service1()" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning"><img src="{{asset ('backend/icon/add.svg')}}"></button>
+                
             </tr>`;
             $('tbody').html('');
             response.forEach(function (item) {
@@ -317,9 +350,9 @@ function actually_detail(id)
                 </td>
            
                 <td style="width:30px;"></td>
-                
             </tr>`;    
             });
+      
             $('tbody').html(output); 
         
         }
@@ -366,6 +399,7 @@ function billing_detail(id)
             output+=`<td>Hoàn tất</td>`;
                 else
             output+=`<td>Hủy bỏ</td>`;
+
             output+=`
                 <td class="project-title">
                     <p><img  src="${item.image_upload}"><p>
@@ -526,6 +560,110 @@ function update_billing_date(id)
 })();
 
 
+
+function list_service1()
+{
+    $.ajax({
+        url: '{{URL::to('/list-service-service')}}',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) 
+        {
+            var output=`
+            <tr> 
+                <th style="width:30px;"></th>
+                <th>Tên dịch vụ</th>
+                <th>Giá tiền</th>
+                <th style="width:30px;"></th>
+                <th style="width:30px;"></th>
+            </tr>`;
+            $('#list_service2').html('');
+            response.forEach(function (item) {
+                //console.log(item);
+            output+=`
+            <tr>
+                <td style="width:30px;"></td>
+                <td class="project-title">
+                    <p>${item.service}</p>  
+                </td>
+                <td class="project-title">
+                    <p> ${item.price}</p> 
+                </td>
+                <td class="project-actions">
+                    <input type="checkbox" value="${item.id}">
+                </td>
+                <td style="width:30px;"></td>
+            </tr>`;    
+            });
+            $('#list_service2').html(output); 
+        }
+    });
+}
+{{--  function search_service()
+{
+    var search = $('#search_ser').val();
+    $.ajax({
+        url: '{{URL::to('/search-service-service')}}',
+        type: 'POST',
+        data: {service:search},
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        dataType: 'json',
+        success: function (response) 
+        {
+        var output=`
+            <tr>
+             <td colspan="5"><input type="text" id="search_ser"  placeholder="Tìm kiếm"><button type="button" onClick="search_service()">Tìm</button></td>
+            </tr>
+            <tr> 
+                <th style="width:30px;"></th>
+                <th>Tên dịch vụ</th>
+                <th>Giá tiền</th>
+                <th style="width:30px;"></th>
+                <th style="width:30px;"></th>
+            </tr>`;
+            $('cbody').html('');
+            response.forEach(function (item) {
+                //console.log(item);
+            output+=`
+            <tr>
+                <td style="width:30px;"></td>
+                <td class="project-title">
+                    <p>${item.service}</p>  
+                </td>
+                <td class="project-title">
+                    <p> ${item.price}</p> 
+                </td>
+                <td class="project-actions">
+                    <input type="checkbox" value="${item.id}">
+                </td>
+                <td style="width:30px;"></td>
+            </tr>`;    
+            });
+            $('cbody').html(output); 
+        }
+    });
+}  --}}
+function insert_service(id)
+{
+    console.log(id);
+    var arr=[];
+    $(':checkbox:checked').each(function(i) {
+       arr.push($(this).val());
+    });
+    console.log(arr);
+    $.ajax({
+        url: '{{URL::to('/save-billing-actually')}}',
+        type: 'POST',
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        data: {arrayservice: arr},
+        dataType: 'json',
+        success: function (response) 
+        {
+            alert(response['mes']);
+        }
+    });
+
+}
 </script>
   
 @endsection

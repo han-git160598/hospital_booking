@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>InQ - A Responsive Bootstrap 3 Admin Dashboard Template</title>
-      <link href="{{ asset('backend/css/bootstrap.min.css') }}" rel="stylesheet">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <title>InQ - A Responsive Bootstrap 3 Admin Dashboard Template</title>
+        <link href="{{ asset('backend/css/bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ asset('backend/fonts/font-awesome/css/font-awesome.css')}}" rel="stylesheet">
         <!-- Toastr style -->
         <link href="{{ asset('backend/css/plugins/toastr/toastr.min.css')}}" rel="stylesheet">
@@ -16,228 +17,81 @@
         <link href="{{ asset('backend/css/style.css')}}" rel="stylesheet">
         <link href="{{ asset('backend/css/forms/kforms.css')}}" rel="stylesheet">
         <!-- Summernote CSS  -->
-        <link rel="stylesheet" type="text/css" href="{{ asset('backend/js/plugins/summernote/summernote.css')}}">   
-   </head>
+        <link rel="stylesheet" type="text/css" href="{{ asset('backend/js/plugins/summernote/summernote.css')}}">
+        
+    </head>
    <body>
-      <div id="wrapper">
-         <div id="page-wrapper" class="gray-bg">
-            <div>
-               <nav class="navbar navbar-fixed-top white-bg show-menu-full" id="nav" role="navigation" style="margin-bottom: 0">
-                  <div class="navbar-header">
-                     <a class="navbar-minimalize minimalize-styl-2 btn" href="javascript:void(0)"><i class="fa fa-bars" style="font-size:27px;"></i> </a>
-                     <form role="search" class="navbar-form-custom">
-                        <div class="form-group">
-                           <div class="kform inq">
-                              <div>
-                                 <label class="field append-icon">
-                                 <input type="text" name="search" id="search" class="gui-input" placeholder="Type your search here...">
-                                 <label for="search" class="field-icon">
-                                 <i class="fa fa-search"></i>
-                                 </label>
-                                 </label>
-                              </div>
-                           </div>
-                        </div>
-                     </form>
-                  </div>
-                  <ul class="nav navbar-top-links navbar-right">
-                     <li class="dropdown hidden-xs">
-                        <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                        <i class="fa fa-envelope"></i>  <span class="label label-danger">4</span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-messages">
-                           <li>
-                              <div class="dropdown-messages-box">
-                                 <a href="profile.html" class="pull-left animated animated-short fadeInUp">
-                                 <img alt="image" class="img-circle" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=128%C3%97128&w=128&h=128">
-                                 </a>
-                                 <div class="animated animated-short fadeInUp">
-                                    <small class="pull-right">46h ago</small>
-                                    <strong>Alden Richards</strong> started following <strong>Maine Mendoza</strong>. <br>
-                                    <small class="text-muted">2 days ago at 6:58 pm - 08.06.2015</small>
-                                 </div>
-                              </div>
-                           </li>
-                           <li class="divider"></li>
-                           <li>
-                              <div class="dropdown-messages-box">
-                                 <a href="profile.html" class="pull-left animated animated-short fadeInUp">
-                                 <img alt="image" class="img-circle" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=128%C3%97128&w=128&h=128">
-                                 </a>
-                                 <div class="animated animated-short fadeInUp">
-                                    <small class="pull-right text-navy">5h ago</small>
-                                    <strong>Paulo Ballesteros</strong> started following <strong>Alden Richards</strong>. <br>
-                                    <small class="text-muted">Yesterday 1:21 pm - 08.06.2015</small>
-                                 </div>
-                              </div>
-                           </li>
-                           <li class="divider"></li>
-                           <li>
-                              <div class="dropdown-messages-box">
-                                 <a href="profile.html" class="pull-left animated animated-short fadeInUp">
-                                 <img alt="image" class="img-circle" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=128%C3%97128&w=128&h=128">
-                                 </a>
-                                 <div class="animated animated-short fadeInUp">
-                                    <small class="pull-right">23h ago</small>
-                                    <strong>Maine Mendoza</strong> love <strong>Alden Richards</strong>. <br>
-                                    <small class="text-muted">3 days ago at 2:30 am - 11.06.2015</small>
-                                 </div>
-                              </div>
-                           </li>
-                           <li class="divider"></li>
-                           <li>
-                              <div class="text-center link-block">
-                                 <a href="mailbox.html" class="animated animated-short fadeInUp">
-                                 <i class="fa fa-envelope"></i> <strong>Read All Messages</strong>
-                                 </a>
-                              </div>
-                           </li>
-                        </ul>
-                     </li>
-                     <li class="dropdown hidden-xs">
-                        <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                        <i class="fa fa-bell"></i>  <span class="label label-danger">5</span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-alerts">
-                           <li>
-                              <a href="mailbox.html" class="animated animated-short fadeInUp">
-                                 <div>
-                                    <i class="fa fa-envelope fa-fw"></i> You have 16 messages
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                 </div>
-                              </a>
-                           </li>
-                           <li class="divider"></li>
-                           <li>
-                              <a href="profile.html" class="animated animated-short fadeInUp">
-                                 <div>
-                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                    <span class="pull-right text-muted small">12 minutes ago</span>
-                                 </div>
-                              </a>
-                           </li>
-                           <li class="divider"></li>
-                           <li>
-                              <a href="grid_options.html" class="animated animated-short fadeInUp">
-                                 <div>
-                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                 </div>
-                              </a>
-                           </li>
-                           <li class="divider"></li>
-                           <li>
-                              <div class="text-center link-block">
-                                 <a href="notifications.html" class="animated animated-short fadeInUp">
-                                 <strong>See All Alerts</strong>
-                                 <i class="fa fa-angle-right"></i>
-                                 </a>
-                              </div>
-                           </li>
-                        </ul>
-                     </li>
-                     <li class="dropdown pull-right">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-                        <span class="pl15"> Rhian Santos </span>
-                        <span class="caret caret-tp"></span>
-                        </a>
-                        <ul class="dropdown-menu animated m-t-xs">
-                           <li><a href="profile.html" class="animated animated-short fadeInUp"><i class="fa fa-user"></i> Profile</a></li>
-                           <li><a href="contacts.html" class="animated animated-short fadeInUp"><i class="fa fa-group"></i> Contacts</a></li>
-                           <li><a href="mailbox.html" class="animated animated-short fadeInUp"><i class="fa fa-inbox"></i> Mailbox</a></li>
-                           <li class="divider"></li>
-                           <li><a href="login.html" class="animated animated-short fadeInUp"><i class="fa fa-sign-out"></i> Logout</a></li>
-                        </ul>
-                     </li>
-                  </ul>
-               </nav>
-            </div>
-            <div style="clear: both; height: 61px;"></div>
-            <div class="wrapper wrapper-content animated fadeInRight">
+
+               
                <div class="row">
-                  <div class="col-lg-12">
-                     <div class="inqbox float-e-margins">
-                        <div class="inqbox-content">
-                           <h2>Clients</h2>
-                           <ol class="breadcrumb">
-                              <li>
-                                 <a href="index.html">Home</a>
-                              </li>
-                              <li>
-                                 <a>Apps</a>
-                              </li>
-                              <li class="active">
-                                 <strong>Clients</strong>
-                              </li>
-                           </ol>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="row">
-                  <div class="col-sm-8">
-                     <div class="inqbox">
-                        <div class="inqbox-content">
-                           <span class="text-muted small pull-right">Last modification: <i class="fa fa-clock-o"></i> 2:10 pm - 12.06.2015</span>
-                           <h2>Clients</h2>
-                           <p>
-                              All clients need to be verified before you can send email and set a project.
-                           </p>
-                           <div class="input-group">
-                              <input type="text" placeholder="Search client " class="input form-control">
-                              <span class="input-group-btn">
-                              <button type="button" class="btn btn btn-primary"> <i class="fa fa-search"></i> Search</button>
-                              </span>
-                           </div>
-                           <div class="clients-list">
-                              <ul class="nav nav-tabs tab-border-top-danger">
-                                 <span class="pull-right small text-muted">1406 Elements</span>
-                                 <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-user"></i> Contacts</a></li>
-                                 <li class=""><a data-toggle="tab" href="#tab-2"><i class="fa fa-briefcase"></i> Companies</a></li>
-                              </ul>
-                              <div class="tab-content">
-                                 <div id="tab-1" class="tab-pane active">
-                                    <div class="full-height-scroll">
-                                       <div class="table-responsive">
-                                          <table class="table table-striped table-hover">
-                                             <tbody>
-                                                <tr>
-                                                   <td class="client-avatar"><img alt="image" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=128%C3%97128&w=128&h=128"> </td>
-                                                   <td><a data-toggle="tab" href="#contact-1" class="client-link">Anthony Jackson</a></td>
-                                                   <td> Tellus Institute</td>
-                                                   <td class="contact-type"><i class="fa fa-envelope"> </i></td>
-                                                   <td> gravida@rbisit.com</td>
-                                                   <td class="client-status"><span class="label label-primary">Active</span></td>
-                                                </tr>
-                                            
-                                             </tbody>
-                                          </table>
-                                       </div>
+                  <div class="col-lg-9">
+                     <div class="animated fadeInUp">
+                        <div class="inqbox">
+                           <div class="inqbox-content">
+                              <div class="row">
+                                 <div class="col-lg-12">
+                                    <div class="m-b-md">
+                                       <a href="#" class="btn btn-white btn-xs pull-right">Edit project</a>
+                                       <h2>Lorem Ipsum Project</h2>
                                     </div>
+                                    <dl class="dl-horizontal">
+                                       <dt>Status:</dt>
+                                       <dd><span class="label label-primary">Active</span></dd>
+                                    </dl>
                                  </div>
-                                 <div id="tab-2" class="tab-pane">
-                                    <div class="full-height-scroll">
-                                       <div class="table-responsive">
-                                          <table class="table table-striped table-hover">
-                                             <tbody>
-                                                <tr>
-                                                   <td><a data-toggle="tab" href="#company-1" class="client-link">Tellus Institute</a></td>
-                                                   <td>Rexton</td>
-                                                   <td><i class="fa fa-flag"></i> Angola</td>
-                                                   <td class="client-status"><span class="label label-primary">Active</span></td>
-                                                </tr>
-                                                <tr>
-                                                   <td><a data-toggle="tab" href="#company-2" class="client-link">Velit Industries</a></td>
-                                                   <td>Maglie</td>
-                                                   <td><i class="fa fa-flag"></i> Luxembourg</td>
-                                                   <td class="client-status"><span class="label label-primary">Active</span></td>
-                                                </tr>
-                                              
-                                              
-                                             
-                                             </tbody>
-                                          </table>
+                              </div>
+                              <div class="row">
+                                 <div class="col-lg-5">
+                                    <dl class="dl-horizontal">
+                                       <dt>Created by:</dt>
+                                       <dd>Aldin Richard</dd>
+                                       <dt>Messages:</dt>
+                                       <dd>  102</dd>
+                                       <dt>Client:</dt>
+                                       <dd><a href="#" class="text-navy"> ABC Corporation</a> </dd>
+                                       <dt>Version:</dt>
+                                       <dd> 	v5.4.2 </dd>
+                                    </dl>
+                                 </div>
+                                 <div class="col-lg-7" id="cluster_info">
+                                    <dl class="dl-horizontal" >
+                                       <dt>Last Updated:</dt>
+                                       <dd>16.08.2015 05:15:57</dd>
+                                       <dt>Created:</dt>
+                                       <dd> 	11.07.2015 25:36:57 </dd>
+                                       <dt>Participants:</dt>
+                                       <dd class="project-people">
+                                         <a href="#"><img alt="image" class="img-circle" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=128%C3%97128&w=128&h=128"></a>
+                                       </dd>
+                                    </dl>
+                                 </div>
+                              </div>
+                         
+                              <div class="row m-t-sm">
+                                 <div class="col-lg-12">
+                                    <div class="panel blank-panel">
+                                       <div class="panel-heading">
+                                          <div class="panel-options">
+                                             <ul class="nav nav-tabs tab-border-top-danger">
+                                                <li class="active"><a href="#tab-1" data-toggle="tab">Users messages</a></li>
+                                             </ul>
+                                          </div>
                                        </div>
+
+                                       <div class="panel-body">
+                                          <div class="tab-content">
+                                             <div class="tab-pane active" id="tab-1">
+                                                <div class="feed-activity-list">
+                                                   <div class="feed-element">
+                                                      <div class="media-body ">
+                                                         <strong>Mark Kyleson</strong> posted message on <strong>Monica Mendoza</strong> site. <br>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+
                                     </div>
                                  </div>
                               </div>
@@ -245,53 +99,43 @@
                         </div>
                      </div>
                   </div>
-                  <div class="col-sm-4">
-                     <div class="inqbox ">
-                        <div class="inqbox-content">
-                           <div class="tab-content">
-                              <div id="contact-1" class="tab-pane active">
-                                 <div class="row m-b-lg">
-                                    <div class="col-lg-4 text-center">
-                                       <h2>Nicki Smith</h2>
-                                       <div class="m-b-sm">
-                                          <img alt="image" class="img-circle" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=128%C3%97128&w=128&h=128"
-                                             style="width: 62px">
-                                       </div>
-                                    </div>
-                                    <div class="col-lg-8">
-                                       <strong>
-                                       About me
-                                       </strong>
-                                       <p>
-                                          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                          tempor incididunt ut labore et dolore magna aliqua.
-                                       </p>
-                                       <button type="button" class="btn btn-primary btn-sm btn-block"><i
-                                          class="fa fa-envelope"></i> Send Message
-                                       </button>
-                                    </div>
-                                 </div>
-                                 
-                              </div>
-                           
-                             
-                           </div>
+                  <div class="col-lg-3">
+                     <div class="project-manager">
+                        <h4>Project description</h4>
+                        <img src="http://placeholdit.imgix.net/~text?txtsize=40&txt=200x71&w=200&h=71" class="img-responsive">
+                        <p class="small">
+                           There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look
+                           even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing
+                        </p>
+                        <p class="small font-bold">
+                           <span><i class="fa fa-circle text-warning"></i> High priority</span>
+                        </p>
+                        <h5>Project tag</h5>
+                        <ul class="tag-list">
+                           <li><a href="#"><i class="fa fa-tag"></i> PHP</a></li>
+                           <li><a href="#"><i class="fa fa-tag"></i> Lorem ipsum</a></li>
+                           <li><a href="#"><i class="fa fa-tag"></i> Passages</a></li>
+                           <li><a href="#"><i class="fa fa-tag"></i> Variations</a></li>
+                        </ul>
+                        <h5>Project files</h5>
+                        <ul class="list-unstyled project-files">
+                           <li><a href="#"><i class="fa fa-file"></i> Project_document.docx</a></li>
+                           <li><a href="#"><i class="fa fa-file-picture-o"></i> Logo_ABC_company.jpg</a></li>
+                           <li><a href="#"><i class="fa fa-stack-exchange"></i> Email_from_Alex.mln</a></li>
+                           <li><a href="#"><i class="fa fa-file"></i> Contract_20_11_2015.docx</a></li>
+                        </ul>
+                        <div class="text-center m-t-md">
+                           <a href="#" class="btn btn-xs btn-primary">Add files</a>
+                           <a href="#" class="btn btn-xs btn-primary">Report contact</a>
                         </div>
                      </div>
                   </div>
                </div>
-            </div>
-            <div class="footer">
-               <div class="pull-right">
-                  10GB of <strong>250GB</strong> Free.
-               </div>
-               <div>
-                  <strong>Copyright</strong> Your Company &copy; 2015-2016
-               </div>
-            </div>
-         </div>
-      </div>
- <!-- Mainly scripts -->
+         
+           
+
+
+      <!-- Mainly scripts -->
             <script src="{{ asset('backend/js/jquery-2.1.1.js')}}"></script>
             <script src="{{ asset('backend/js/bootstrap.min.js')}}"></script>
             <script src="{{ asset('backend/js/plugins/metisMenu/jquery.metisMenu.js')}}"></script>
@@ -316,17 +160,7 @@
             <script src="{{ asset('backend/js/plugins/ckeditor/ckeditor.js')}}"></script>
             <!-- Summernote Plugin -->
             <script src="{{ asset('backend/js/plugins/summernote/summernote.min.js')}}"></script>
-
-
-
-      <script>
-         $(document).ready(function () {
-             "use strict";
-             // Add slimscroll to element
-             $('.full-height-scroll').slimscroll({
-                 height: '100%'
-             });
-         });
-      </script>
+           
+     
    </body>
 </html>

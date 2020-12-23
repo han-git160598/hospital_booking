@@ -103,7 +103,7 @@
                                         <li class="nav-parent">
                                             <a href="#"><i><img src="{{asset ('backend/icon/employee management.svg')}}"></i></i> <span class="nav-label">Quản lý nhân viên</span></a>
                                             <ul class="children nav">
-                                                <li><a href="{{URL::to('/all-service-service')}}">Danh sách tài khoản</a></li>
+                                                <li><a href="{{URL::to('/all-account-admin')}}">Danh sách tài khoản</a></li>
                                                 <li><a href="{{URL::to('/all-account-permission')}}">Quản lý quyền hạn module</a></li>
                                                 <li><a href="{{URL::to('/all-account-type')}}">Quản lý loại tài khoản</a></li>
                                             </ul>

@@ -109,7 +109,7 @@ function create_service_packet()
 
         <div class="form-group">
         <label class="col-sm-2 control-label">Thêm dịch vụ</label>
-        <div class="col-sm-10"><button type="btn" onClick="list_service()"></a><img src="{{asset ('backend/icon/add.svg')}}"></button></div>
+        <div class="col-sm-10"><button type="btn" onClick="list_service()"><img src="{{asset ('backend/icon/add.svg')}}"></button></div>
         </div>
 
         <div class="form-group">

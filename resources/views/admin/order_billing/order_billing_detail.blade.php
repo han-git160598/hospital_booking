@@ -328,7 +328,7 @@ function actually_detail(id)
                 <th style="width:30px;"></th>
                 <th>
                 <button type="button" onClick="list_service1()" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning"><img src="{{asset ('backend/icon/add.svg')}}"></button>
-                
+                </th>
             </tr>`;
             $('tbody').html('');
             response.forEach(function (item) {
@@ -574,8 +574,10 @@ function list_service1()
                 <th style="width:30px;"></th>
                 <th>Tên dịch vụ</th>
                 <th>Giá tiền</th>
+                <th>Số lượng</th>
                 <th style="width:30px;"></th>
                 <th style="width:30px;"></th>
+      
             </tr>`;
             $('#list_service2').html('');
             response.forEach(function (item) {
@@ -590,9 +592,14 @@ function list_service1()
                     <p> ${item.price}</p> 
                 </td>
                 <td class="project-actions">
-                    <input type="checkbox" value="${item.id}">
+                    <input type="number" min="1" max="10"  id="${item.id}">
                 </td>
-                <td style="width:30px;"></td>
+                <td class="project-actions">
+                    <input type="checkbox" id="checked_ck" value="${item.id}">
+                </td>
+           
+                
+             <td style="width:30px;"></td>
             </tr>`;    
             });
             $('#list_service2').html(output); 
@@ -645,24 +652,26 @@ function list_service1()
 }  --}}
 function insert_service(id)
 {
-    console.log(id);
+   // console.log(id);
     var arr=[];
-    $(':checkbox:checked').each(function(i) {
+    $(':checkbox:checked').each(function(i){
        arr.push($(this).val());
     });
+   
+    
     console.log(arr);
+    console.log(bill_quantity1);
     $.ajax({
         url: '{{URL::to('/save-billing-actually')}}',
         type: 'POST',
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        data: {arrayservice: arr},
+        data: {arrayservice: arr, id_billing:id},
         dataType: 'json',
         success: function (response) 
         {
             alert(response['mes']);
         }
     });
-
 }
 </script>
   

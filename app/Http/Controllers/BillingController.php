@@ -87,6 +87,23 @@ class BillingController extends Controller
         $date_time= DB::table('tbl_billing_billing')->where('id',$request->id_billing)->get();
         return json_encode($date_time);
     }
+    public function save_billing_acctually(Request $request)
+    {
+        $arr = $request->arrayservice;
+        $dem = count($arr);
+        if($dem==0)
+        {
+            $mes['mes']='Chọn tối thiểu một dịch vụ';
+            return json_encode($mes);    
+        }else{
+            foreach($arr as  $k => $v) 
+            {       
+                $arr['id_service_service']=$v;
+                $arr['id_service_packet']=$id->id;
+                DB::table('tbl_service_packet_detail')->insert($arr); 
+            }
+        }
+    }
 
 
     

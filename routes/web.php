@@ -105,11 +105,22 @@ Route::get('/order-billing-detail/{id}','BillingController@order_billing_detail'
 Route::get('/cancel-bill/{id}','BillingController@cancel_bill');
 Route::get('/add-appointment','BillingController@add_appointment');
 Route::get('/update-billing-date-time','BillingController@update_billing_date_time');
+
 // Acctually
 
- 
+Route::post('/save-billing-actually','BillingController@save_billing_acctually');
+
+//Account admin
+Route::get('/all-account-admin','AccountAdminController@all_account_admin');
+Route::get('/disable-account-admin/{id}','AccountAdminController@disable_account_admin');
+Route::get('/enable-account-admin/{id}','AccountAdminController@enable_account_admin');
+Route::get('/account-admin-detail/{id}','AccountAdminController@account_admin_detail');
+
+Route::get('/list-account-permission','AccountAdminController@list_account_permission');
+
+Route::post('/save-account-authorize','AccountAdminController@save_account_authorize');
 
 //test
-Route::get('/socket-io',function (){
-	return view('admin.testsocket');
+Route::get('/test',function (){
+	return view('admin.filetest');
 });

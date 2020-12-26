@@ -59,7 +59,7 @@
                      <div class="hr-line-dashed"></div>
                      <div class="form-group">
                         <label class="col-sm-2 control-label">Giá</label>
-                        <div class="col-sm-10"><input type="text" id="price" class="form-control"></div>
+                        <div class="col-sm-10"><input type="number" id="price" class="form-control"></div>
                      </div>
                      <div class="hr-line-dashed"></div>
                      <div class="form-group">

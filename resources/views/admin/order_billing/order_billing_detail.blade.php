@@ -152,9 +152,9 @@
 </dialog>
 
                                     @if($v->billing_status==5)
-                                    @if($v->billing_status==4)
+                                    @elseif($v->billing_status==4)
                                     @else
-                                    <h3 style="float:right;width:50%;""><center><tr>
+                                    <h3 style="float:right;width:50%;"><center><tr>
                                     <td>
                                      <button id="edit_time"  class="btn btn-primary btn-sm"> Chọn lại thời gian</button>
                                     </td>
@@ -163,8 +163,7 @@
                                     <button id="cancel_bill"  class="btn btn-primary btn-sm">Hủy đơn</button>
                                     </td>
                                     <td><button id="confirm_bill" class="btn btn-primary btn-sm" >Xác nhận</button></td>
-                                    </tr></center></h3>
-                                    @endif
+                                    </tr></center></h3>                                 
                                     @endif
                                 </div>
                             </div>

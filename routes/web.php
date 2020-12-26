@@ -119,7 +119,7 @@ Route::get('/account-admin-detail/{id}','AccountAdminController@account_admin_de
 Route::get('/list-account-permission','AccountAdminController@list_account_permission');
 
 Route::post('/save-account-authorize','AccountAdminController@save_account_authorize');
-
+Route::post('/reset-password-admin','AccountAdminController@reset_password_admin');
 //test
 Route::get('/test',function (){
 	return view('admin.filetest');

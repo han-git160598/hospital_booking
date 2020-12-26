@@ -44,15 +44,14 @@
                </form>
               </div>
               <div class="modal-footer">
-               <button type="button" data-dismiss="modal"  id="insert_service" onClick="add_permission({{$data[0]->id}})" class="btn btn-success">Thêm dịch vụ</button>
+               
                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               </div>
              </div>
             </div>
         </div>
             {{--  ////////////////////////model/////////////////////////  --}}
-
-
+          
         <div id="detail">
         <div class="row">
             <div class="col-lg-12">
@@ -109,7 +108,6 @@
                               
                                 <td class="project-actions">
                                     <button onClick="account_admin_detail({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết</button>
-                                    <button onClick="edit_account_customer({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
                                     <button onClick="delete_account_customer({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
                                 </td>
                             </tr>
@@ -170,7 +168,6 @@ function disable_account_admin(id)
                 </td>
                 <td class="project-actions">
                     <button onClick="account_admin_detail(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết</button>
-                    <button onClick="edit_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
                     <button onClick="delete_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
                 </td>
                 
@@ -238,7 +235,8 @@ function enable_account_admin(id)
 }
 function account_admin_detail(id)
 { 
-    console.log(id);
+    //console.log(id);
+    $('.modal-footer').html('<button type="button" data-dismiss="modal"  onClick="add_permission('+id+')" class="btn btn-success">Thêm dịch vụ</button>');
 $.ajax({
     url: '{{URL::to('/account-admin-detail')}}'+'/'+id,
     type: 'GET',
@@ -249,6 +247,31 @@ $.ajax({
         $('#detail').html(''); 
         response.forEach(function (item) {
         output+=`
+       
+           
+            <dialog id="favDialog">
+            <form method="dialog">
+                <p><label>Mật khẩu:
+                </label></p>
+                <input type="password" minlength="6"  id="pass_admin">
+                <p><label>Nhập lại mật khẩu:
+                </label></p>
+                <input type="password" minlength="6"  id="pass_admin_again">
+                <p><label>
+                <smal id="erro_pass"></smal>
+                </label></p>
+                 <menu>
+                <button>Hủy</button>
+                <button type="button" onClick="update_password_admin(${item.id})">Xác nhận</button>
+                </menu>
+            </form>
+            </dialog>
+
+        
+            
+         
+
+
         <div class="row">
             <div class="col-lg-9">
                 <div class="animated fadeInUp">
@@ -257,7 +280,7 @@ $.ajax({
                         <div class="row">
                             <div class="col-lg-12">
                             <div class="m-b-md">
-                                <a href="#" class="btn btn-white btn-xs pull-right">Cập nhật</a>
+                                <button onClick="update_account_admin(${item.id})" class="btn btn-white btn-xs pull-right">Cập nhật</button>
                                 <h2>Thông tin nhân viên</h2>
                             </div>
                             <dl class="dl-horizontal">
@@ -270,24 +293,25 @@ $.ajax({
                             <div class="col-lg-5">
                             <dl class="dl-horizontal" >
                                 <dt>Họ & Tên:</dt>
-                                <dd><input value="${item.full_name}" type="text" id="full_name_admin"></dd>
+                                <dd><input value="${item.full_name}" type="text" id="full_name_admin_ud"></dd>
                                 <dt>Tên đăng nhập:</dt>
-                                <dd><input value="${item.username}" type="text" id="username_admin"></dd>
+                                <dd><input value="${item.username}" type="text" id="username_admin_ud"></dd>
                                 <dt>Email:</dt>
-                                <dd><input value="${item.email}" type="text" id="email_admin"></dd>
+                                <dd><input value="${item.email}" type="text" id="email_admin_ud"></dd>
                             </dl>
                             </div>
                             <div class="col-lg-7" id="cluster_info">
                             <dl class="dl-horizontal" >
                                 <dt>Loại tài khoản :</dt>
                                 <dd><select>
-                                <option >Chọn</option>
+                                <option id="account_type">Chọn</option>
                                 <option value="1">Quản lý nhân viên</option>
                                 <option value="2">Quản lý khách hàng</option>
                                 </select></dd>
                                 <dt></dt>
-                                <dd><button class="btn btn-sm btn-primary">Đặt lại mật khẩu</button></dd>
+                                <dd><button onClick="resetpass_admin(${item.id})" type="button" class="btn btn-sm btn-primary">Đặt lại mật khẩu</button>
                                 
+                                </dd>
                                 
                             </dl>
                             </div>
@@ -299,7 +323,7 @@ $.ajax({
                                 <div class="panel-heading">
                                     <div class="panel-options">
                                         <ul class="nav nav-tabs tab-border-top-danger">
-                                        <li class="active"><a onClick="list_permission(${item.id})" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning">Phân Quyền<img src="{{asset ('backend/icon/add.svg')}}"></a></li>
+                                        <li class="active"><a onClick="list_permission()" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning">Phân Quyền<img src="{{asset ('backend/icon/add.svg')}}"></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -310,7 +334,7 @@ $.ajax({
                                         <div class="feed-activity-list">
                                             <div class="feed-element">
                                                 <div class="media-body ">
-                                                    <strong>Mark Kyleson</strong> posted message on <strong>Monica Mendoza</strong> site. <br>
+                                                    <strong>${item.description}</strong> posted message on <strong>Monica Mendoza</strong> site. <br>
                                                 </div>
                                             </div>
                                         </div>
@@ -328,7 +352,7 @@ $.ajax({
             <div class="col-lg-3">
                 <div class="project-manager">
                 <h4>Project description</h4>
-                <img src="http://placeholdit.imgix.net/~text?txtsize=40&txt=200x71&w=200&h=71" class="img-responsive">
+                <img src="#" class="img-responsive">
                 <p class="small">
                     There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look
                     even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing
@@ -362,9 +386,9 @@ $.ajax({
     }
     });
 }
-function list_permission(id)
+function list_permission()
 {
-  console.log(id);  
+  //console.log(id);  
   $.ajax({
     url: '{{URL::to('/list-account-permission')}}',
     type: 'GET',
@@ -415,9 +439,43 @@ function add_permission(id)
         console.log(response);
     }
     });
-
-
 }
+/// dat mat khau
 
+function resetpass_admin(id)
+{
+    console.log(id);
+    favDialog.showModal(id);
+}
+function update_password_admin(id)
+{
+    $('#erro_pass').html('');
+    var pass_admin1= $('#pass_admin').val();
+    var pass_admin_again1= $('#pass_admin_again').val();
+    if(pass_admin_again1 !=pass_admin1){
+    $('#erro_pass').html('Mật khẩu không trùng khớp');
+    }else{
+        $.ajax({
+        url: '{{URL::to('/reset-password-admin')}}',
+        type: 'POST',
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        data: {pass_admin:pass_admin1 , id_admin:id},
+        dataType: 'json',
+        success: function (response) 
+        {
+            alert(response['mes']);    
+        }
+        });   
+        //favDialog.closedModal();
+    }
+}
+function update_account_admin(id)
+{
+    var full_name = $('#full_name_admin_ud').val();
+    var username = $('#username_admin_ud').val(); 
+    var email= $('#email_admin_ud').val();
+    var account_type= $('#account_type').val();
+    console.log(account_type);
+}
 </script>
 @endsection

@@ -91,8 +91,8 @@ class AccountCustomerController extends Controller
     public function detail_order_customer($id)
     {
        $data = DB::table('tbl_billing_billing')    
-       // ->join('tbl_billing_detail','tbl_billing_detail.id_billing','=','tbl_billing_billing.id')
-        ->join('tbl_billing_document','tbl_billing_document.id_billing','=','tbl_billing_billing.id')
+         ->join('tbl_billing_detail','tbl_billing_detail.id_billing','=','tbl_billing_billing.id')
+        // ->join('tbl_billing_document','tbl_billing_document.id_billing','=','tbl_billing_billing.id')
         //->join('tbl_service_service','tbl_service_service.id','=','tbl_billing_detail.id_service')
        // ->join('tbl_billing_actually','tbl_billing_actually.id_billing','=','tbl_billing_billing.id')
        // ->join('tbl_service_service','tbl_service_service.id','=','tbl_billing_actually.id_service')

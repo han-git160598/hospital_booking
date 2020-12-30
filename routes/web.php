@@ -120,6 +120,12 @@ Route::get('/list-account-permission','AccountAdminController@list_account_permi
 
 Route::post('/save-account-authorize','AccountAdminController@save_account_authorize');
 Route::post('/reset-password-admin','AccountAdminController@reset_password_admin');
+Route::post('/remove-authorize-admin','AccountAdminController@remove_authorize_admin');
+Route::get('/list-account-type','AccountAdminController@list_account_type');
+
+Route::post('/save-account-admin','AccountAdminController@save_account_admin');
+
+
 //test
 Route::get('/test',function (){
 	return view('admin.filetest');

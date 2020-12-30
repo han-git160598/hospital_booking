@@ -36,19 +36,39 @@ class AccountAdminController extends Controller
         return json_encode($alldata);
     }
     public function account_admin_detail($id)
-    {
-        $admin['premission_ad']=DB::table('tbl_account_permission')
+    {   
+        $permission_item = array( 
+            '0'=>DB::table('tbl_account_admin')
+                ->join('tbl_account_type','tbl_account_type.id','=','tbl_account_admin.id_type')
+                ->where('tbl_account_admin.id',$id)->get()->toArray(),
+        ); 
+        
+        $account_type = DB::table('tbl_account_type')->get();
+        $permission=DB::table('tbl_account_permission')
         ->leftjoin('tbl_account_authorize','tbl_account_authorize.grant_permission','=','tbl_account_permission.id')
         ->leftjoin('tbl_account_admin','tbl_account_admin.id','=','tbl_account_authorize.id_admin')
         ->where('tbl_account_admin.id',$id)
-        ->select('tbl_account_permission.id','description')->get();
-        $admin=DB::table('tbl_account_admin')->get();
-        return json_encode($admin);
+        ->select('tbl_account_permission.id','description')
+        ->get()->toArray();
+        array_push($permission_item['0'],$permission,$account_type);
+      //  array_push($permission_item['1'],$account_type);
+       
+        return json_encode($permission_item);
     }
-    public function list_account_permission()
+    public function list_account_permission(Request $request)
     {
-        $data = DB::table('tbl_account_permission')->get();
-        return json_encode($data);
+        $arr =array();
+        foreach($request->arr_author1 as $v)
+        {
+            array_push($arr, $v);
+        }
+        $data = DB::table('tbl_account_permission')
+        ->join('tbl_account_authorize','tbl_account_authorize.grant_permission','=','tbl_account_permission.id')
+        ->leftjoin('tbl_account_admin','tbl_account_admin.id','=','tbl_account_authorize.id_admin')
+        ->where('tbl_account_authorize.id_admin',$request->id)
+        ->whereNotIn('tbl_account_authorize.grant_permission',$arr)
+        ->select('tbl_account_permission.id','description')->get();
+        return json_encode($arr);
     }
     public function save_account_authorize(Request $request)
     {
@@ -57,24 +77,21 @@ class AccountAdminController extends Controller
         $alldata=DB::table('tbl_account_permission')
         ->join('tbl_account_authorize','tbl_account_authorize.grant_permission','=','tbl_account_permission.id')
         ->leftjoin('tbl_account_admin','tbl_account_admin.id','=','tbl_account_authorize.id_admin')
-        ->where('tbl_account_admin.id',$request->id_acc_admin)->select('tbl_account_permission.id','description')->get();
+        ->where('tbl_account_admin.id',$request->id_acc_admin)
+        ->select('tbl_account_permission.id','description')
+        ->get();
         $flag = 0;
-        // foreach($arraypermission as $v ) {  3 4 5 6 
-        //     foreach($alldata as $value)   3 4 5 6 7
-        //     {
-        //         if($value->id == $v){ 
-        //             $flag ==1;
-        //             break;
-        //         }
-        //         if($flag == 0)
-        //         {
-        //             $data['id_admin']=$request->id_acc_admin;
-        //             $data['grant_permission']=$v;
-        //             DB::table('tbl_account_authorize')->insert($data); 
-        //         }  
-        //     }
-        // }
-      
+        foreach ($arraypermission as $v)
+        {
+           $check =  DB::table('tbl_account_authorize')->where('id_admin',$request->id_acc_admin)
+            ->where('grant_permission',$v)->get();
+            if($check == null)
+            {
+                $data['id_admin']=$request->id_acc_admin;
+                $data['grant_permission']=$v;
+                DB::table('tbl_account_authorize')->update($data);        
+            }
+        }
         return json_encode($alldata);
     }
     public function reset_password_admin(Request $request)
@@ -96,5 +113,44 @@ class AccountAdminController extends Controller
         $mes['mes']='Thay đổi mật khẩu thành công !';
         return json_encode($mes);     
     }
+    public function remove_authorize_admin(Request $request)
+    {
+        DB::table('tbl_account_authorize')
+        ->where('id_admin',$request->id_admin1)
+        ->where('grant_permission',$request->id_pre1)->delete();
 
+        $alldata=DB::table('tbl_account_permission')
+        ->join('tbl_account_authorize','tbl_account_authorize.grant_permission','=','tbl_account_permission.id')
+        ->leftjoin('tbl_account_admin','tbl_account_admin.id','=','tbl_account_authorize.id_admin')
+        ->where('tbl_account_admin.id',$request->id_admin1)
+        ->select('tbl_account_permission.id','description','tbl_account_authorize.id_admin')
+        ->get();
+        return json_encode($alldata);
+    }
+    public function list_account_type()
+    {
+        $data = DB::table('tbl_account_type')->get();
+        return json_encode($data);
+    }
+    public function save_account_admin(Request $request)
+    {  
+    
+        if($request->full_name == '')
+        {
+        $mes['mes']='Vui lòng điền đủ trường !';
+        return json_encode($mes);
+        }
+        $data = array();
+        $data['full_name']= $request->full_name;
+        $data['username']= $request->username;
+        $data['email']= $request->email;
+        $data['id_type']= $request->account_type;
+        $data['password']= $request->password_admin;
+        $data['phone_number']=$request->phone_number;
+        $data['status']='Y';
+        $data['force_sign_out']='0';	
+        DB::table('tbl_account_admin')->insert($data);
+        $mes['mes']='Tạo tài khoản thành công !';
+        return json_encode($mes);
+    }
 }

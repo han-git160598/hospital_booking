@@ -59,7 +59,7 @@
                 <div class="inqbox-title">
                     <h5>All projects assigned to this account</h5>
                     <div class="inqbox-tools">
-                        <button id="create_account_customer" class="btn btn-primary btn-xs">Thêm người dùng</button>
+                        <button id="create_account_admin" class="btn btn-primary btn-xs">Thêm người dùng</button>
                     </div>
                 </div>
                 <div class="inqbox-content">
@@ -233,19 +233,23 @@ function enable_account_admin(id)
         }
     });       
 }
+var arr_author = [];
 function account_admin_detail(id)
 { 
+    
     //console.log(id);
-    $('.modal-footer').html('<button type="button" data-dismiss="modal"  onClick="add_permission('+id+')" class="btn btn-success">Thêm dịch vụ</button>');
+    $('.modal-footer').html('<button type="button" data-dismiss="modal"  onClick="add_permission('+id+')" class="btn btn-success">Tạo quyền</button>');
 $.ajax({
     url: '{{URL::to('/account-admin-detail')}}'+'/'+id,
     type: 'GET',
     dataType: 'json',
     success: function (response) 
     {
+        console.log(response);
         var output=``;
         $('#detail').html(''); 
         response.forEach(function (item) {
+           // console.log(item);                          
         output+=`
        
            
@@ -262,14 +266,12 @@ $.ajax({
                 </label></p>
                  <menu>
                 <button>Hủy</button>
-                <button type="button" onClick="update_password_admin(${item.id})">Xác nhận</button>
+                <button type="button" onClick="update_password_admin(${item[0].id})">Xác nhận</button>
                 </menu>
             </form>
             </dialog>
 
         
-            
-         
 
 
         <div class="row">
@@ -280,12 +282,22 @@ $.ajax({
                         <div class="row">
                             <div class="col-lg-12">
                             <div class="m-b-md">
-                                <button onClick="update_account_admin(${item.id})" class="btn btn-white btn-xs pull-right">Cập nhật</button>
+                                <button onClick="update_account_admin(${item[0].id})" class="btn btn-white btn-xs pull-right">Cập nhật</button>
                                 <h2>Thông tin nhân viên</h2>
                             </div>
                             <dl class="dl-horizontal">
                                 <dt>Trạng thái:</dt>
-                                <dd><span class="label label-primary">Active</span></dd>
+                                <dd>
+                                <div class="switch">
+                                 <div class="onoffswitch">
+                                 <input type="checkbox" checked class="onoffswitch-checkbox" id="example1">
+                                 <label class="onoffswitch-label" for="example1">
+                                 <span class="onoffswitch-inner"></span>
+                                 <span class="onoffswitch-switch"></span>
+                                 </label>
+                                 </div>
+                                </div>
+                                </dd>
                             </dl>
                             </div>
                         </div>
@@ -293,23 +305,32 @@ $.ajax({
                             <div class="col-lg-5">
                             <dl class="dl-horizontal" >
                                 <dt>Họ & Tên:</dt>
-                                <dd><input value="${item.full_name}" type="text" id="full_name_admin_ud"></dd>
+                                <dd><input value="${item[0].full_name}" type="text" id="full_name_admin_ud"></dd>
                                 <dt>Tên đăng nhập:</dt>
-                                <dd><input value="${item.username}" type="text" id="username_admin_ud"></dd>
+                                <dd><input value="${item[0].username}" type="text" id="username_admin_ud"></dd>
                                 <dt>Email:</dt>
-                                <dd><input value="${item.email}" type="text" id="email_admin_ud"></dd>
+                                <dd><input value="${item[0].email}" type="text" id="email_admin_ud"></dd>
                             </dl>
                             </div>
                             <div class="col-lg-7" id="cluster_info">
                             <dl class="dl-horizontal" >
                                 <dt>Loại tài khoản :</dt>
-                                <dd><select>
-                                <option id="account_type">Chọn</option>
-                                <option value="1">Quản lý nhân viên</option>
-                                <option value="2">Quản lý khách hàng</option>
+                                <dd>
+                                ${item[0].type_account}
+                                </dd>
+                                <dt>Chọn lại :</dt>
+                                <dd>
+                                <select id="account_type">
+                                <option >Chọn</option>`;
+                                item[2].forEach(function (va) {
+                           
+                                output+=`
+                                <option value="${va.id}">${va.type_account}</option>`;
+                                });
+                                output+=`
                                 </select></dd>
                                 <dt></dt>
-                                <dd><button onClick="resetpass_admin(${item.id})" type="button" class="btn btn-sm btn-primary">Đặt lại mật khẩu</button>
+                                <dd><button onClick="resetpass_admin(${item[0].id})" type="button" class="btn btn-sm btn-primary">Đặt lại mật khẩu</button>
                                 
                                 </dd>
                                 
@@ -323,24 +344,12 @@ $.ajax({
                                 <div class="panel-heading">
                                     <div class="panel-options">
                                         <ul class="nav nav-tabs tab-border-top-danger">
-                                        <li class="active"><a onClick="list_permission()" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning">Phân Quyền<img src="{{asset ('backend/icon/add.svg')}}"></a></li>
+                                        <li class="active"></li>
                                         </ul>
                                     </div>
                                 </div>
 
-                                <div class="panel-body">
-                                    <div class="tab-content">
-                                        <div class="tab-pane active" id="tab-1">
-                                        <div class="feed-activity-list">
-                                            <div class="feed-element">
-                                                <div class="media-body ">
-                                                    <strong>${item.description}</strong> posted message on <strong>Monica Mendoza</strong> site. <br>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                
 
                             </div>
                             </div>
@@ -351,29 +360,18 @@ $.ajax({
             </div>
             <div class="col-lg-3">
                 <div class="project-manager">
-                <h4>Project description</h4>
-                <img src="#" class="img-responsive">
-                <p class="small">
-                    There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look
-                    even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing
-                </p>
-                <p class="small font-bold">
-                    <span><i class="fa fa-circle text-warning"></i> High priority</span>
-                </p>
-                <h5>Project tag</h5>
-                <ul class="tag-list">
-                    <li><a href="#"><i class="fa fa-tag"></i> PHP</a></li>
-                    <li><a href="#"><i class="fa fa-tag"></i> Lorem ipsum</a></li>
-                    <li><a href="#"><i class="fa fa-tag"></i> Passages</a></li>
-                    <li><a href="#"><i class="fa fa-tag"></i> Variations</a></li>
-                </ul>
-                <h5>Project files</h5>
-                <ul class="list-unstyled project-files">
-                    <li><a href="#"><i class="fa fa-file"></i> Project_document.docx</a></li>
-                    <li><a href="#"><i class="fa fa-file-picture-o"></i> Logo_ABC_company.jpg</a></li>
-                    <li><a href="#"><i class="fa fa-stack-exchange"></i> Email_from_Alex.mln</a></li>
-                    <li><a href="#"><i class="fa fa-file"></i> Contract_20_11_2015.docx</a></li>
-                </ul>
+                <h3><a onClick="list_permission(${item[0].id})" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning">Phân Quyền<img src="{{asset ('backend/icon/add.svg')}}"></a></h3>`;
+                output+=`   <div id="list_premission">`;
+               
+                item[1].forEach(function (v) {
+                output+=`
+                <p><span><button onClick="remove_authorize(${v.id},${item[0].id})" class="label label-primary" ><i class="fa fa-remove"></i></button> ${v.description}</span></p>
+                `;
+                arr_author.push(v.id);
+                });
+                
+                output+=`  </div>`;
+                output+=`
                 <div class="text-center m-t-md">
                     <a href="#" class="btn btn-xs btn-primary">Add files</a>
                     <a href="#" class="btn btn-xs btn-primary">Report contact</a>
@@ -384,18 +382,22 @@ $.ajax({
         });
         $('#detail').html(output); 
     }
+
     });
 }
-function list_permission()
+
+function list_permission(id)
 {
-  //console.log(id);  
+  console.log(arr_author);
+  
   $.ajax({
     url: '{{URL::to('/list-account-permission')}}',
     type: 'GET',
     dataType: 'json',
+    data: {id:id, arr_author1:arr_author},
     success: function (response) 
     {
-       // console.log(response)
+       console.log(response)
     var output=`
     <tr> 
         <th style="width:30px;"></th>
@@ -406,6 +408,7 @@ function list_permission()
     $('#permission').html('');
     response.forEach(function (item) {
         //console.log(item);
+
     output+=`
     <tr>
         <td style="width:30px;"></td>
@@ -476,6 +479,163 @@ function update_account_admin(id)
     var email= $('#email_admin_ud').val();
     var account_type= $('#account_type').val();
     console.log(account_type);
+}
+function remove_authorize(id_pre,id_admin)
+{
+$.ajax({
+    url: '{{URL::to('/remove-authorize-admin')}}',
+    type: 'POST',
+    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+    data: {id_pre1:id_pre , id_admin1:id_admin},
+    dataType: 'json',
+    success: function (response) 
+    {
+        console.log(response);
+        output=``;
+        $('#list_premission').html('');
+        response.forEach(function (item) {
+        output+=`
+        <p><span><button onClick="remove_authorize(${item.id},${item.id_admin})" class="label label-primary" ><i class="fa fa-remove"></i></button> ${item.description}</span></p>
+        `;
+        });   
+        $('#list_premission').html(output); 
+    }
+    });
+    
+}
+$('#create_account_admin').click(function(){
+    var output=``;
+    $('#detail').html(''); 
+    $.ajax({
+    url: '{{URL::to('/list-account-type')}}',
+    type: 'GET',
+    dataType: 'json',
+    success: function (response) 
+    {
+    output+=` <div class="row">
+            <div class="col-lg-9">
+                <div class="animated fadeInUp">
+                <div class="inqbox">
+                    <div class="inqbox-content">
+                        <div class="row">
+                            <div class="col-lg-12">
+                            <div class="m-b-md">
+                                <button onClick="save_account_admin()"  class="btn btn-white btn-xs pull-right"> Lưu </button>
+                                <h2>Thông tin nhân viên</h2>
+                            </div>
+                            <dl class="dl-horizontal">
+                                <dt>Trạng thái:</dt>
+                                <dd>
+                                <div class="switch">
+                                 <div class="onoffswitch">
+                                 <input type="checkbox" checked class="onoffswitch-checkbox" id="example1">
+                                 <label class="onoffswitch-label" for="example1">
+                                 <span class="onoffswitch-inner"></span>
+                                 <span class="onoffswitch-switch"></span>
+                                 </label>
+                                 </div>
+                                </div>
+                                </dd>
+                            </dl>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5">
+                            <dl class="dl-horizontal" >
+                                <dt>Họ & Tên:</dt>
+                                <dd><input  type="text" id="full_name_admin"></dd>
+                                <dt>Tên đăng nhập:</dt>
+                                <dd><input type="text" id="username_admin"></dd>
+                                <dt>Số điện thoại:</dt>
+                                <dd>
+                                <input type="text" id="phone_number" >
+                                </dd>
+                            </dl>
+                            </div>
+                            <div class="col-lg-7" id="cluster_info">
+                            <dl class="dl-horizontal" >
+                                
+                                <dt>Email:</dt>
+                                <dd><input type="email" id="email_admin"></dd>
+                                <dt>Mật khẩu:</dt>
+                                <dd>
+                                <input type="password" id="password_admin" >
+                                </dd>
+                                <dt>Loại tài khoản :</dt>
+                                <dd>
+                                <select id="account_type1">
+                                <option >Chọn</option>`;
+                                response.forEach(function (item) {
+                           
+                                output+=`
+                                <option value="${item.id}">${item.type_account}</option>`;
+                                });
+                                output+=`
+                                </select></dd>
+                              
+                                
+                            </dl>
+                            </div>
+                        </div>
+                    
+                        <div class="row m-t-sm">
+                            <div class="col-lg-12">
+                            <div class="panel blank-panel">
+                                <div class="panel-heading">
+                                    <div class="panel-options">
+                                        <ul class="nav nav-tabs tab-border-top-danger">
+                                        <li class="active"></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="project-manager">
+                <h3><a data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning">Phân Quyền<img src="{{asset ('backend/icon/add.svg')}}"></a></h3>
+             
+            <div id="list_premission">
+                <p><span><button class="label label-primary" >Xóa</button> </span></p>
+            </div>
+      
+                <div class="text-center m-t-md">
+                    <a href="#" class="btn btn-xs btn-primary">Add files</a>
+                    <a href="#" class="btn btn-xs btn-primary">Report contact</a>
+                </div>
+                </div>
+            </div>
+        </div> `;
+     $('#detail').html(output); 
+    }
+    });
+});
+function save_account_admin()
+{
+    var full_name1 = $('#full_name_admin').val();
+    var username1 = $('#username_admin').val(); 
+    var email1= $('#email_admin').val();
+    var account_type1= $('#account_type1').val();
+    var password_admin1= $('#password_admin').val();
+    var phone_number1= $('#phone_number').val();
+
+
+    $.ajax({
+    url: '{{URL::to('/save-account-admin')}}',
+    type: 'POST',
+    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+    data: {phone_number:phone_number1, full_name:full_name1, email:email1, username:username1
+            ,password_admin:password_admin1, account_type:account_type1},
+    dataType: 'json',
+    success: function (response) 
+    {
+       alert(response['mes']);
+    }
+    });
 }
 </script>
 @endsection

@@ -108,7 +108,7 @@
                               
                                 <td class="project-actions">
                                     <button onClick="account_admin_detail({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết</button>
-                                    <button onClick="delete_account_customer({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
+                                    <button onClick="delete_account_admin({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
                                 </td>
                             </tr>
                             @endforeach
@@ -168,7 +168,7 @@ function disable_account_admin(id)
                 </td>
                 <td class="project-actions">
                     <button onClick="account_admin_detail(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết</button>
-                    <button onClick="delete_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
+                    <button onClick="delete_account_admin(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
                 </td>
                 
                 
@@ -223,7 +223,7 @@ function enable_account_admin(id)
                 <td class="project-actions">
                     <button onClick="account_admin_detail(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết</button>
                     <button onClick="edit_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
-                    <button onClick="delete_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
+                    <button onClick="delete_account_admin(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
                 </td>
                 
                 
@@ -238,7 +238,7 @@ function account_admin_detail(id)
 { 
     
     //console.log(id);
-    $('.modal-footer').html('<button type="button" data-dismiss="modal"  onClick="add_permission('+id+')" class="btn btn-success">Tạo quyền</button>');
+    $('.modal-footer').html('<button type="button" data-dismiss="modal"  onClick="add_permission('+id+')" class="btn btn-success">Thêm quyền</button>');
 $.ajax({
     url: '{{URL::to('/account-admin-detail')}}'+'/'+id,
     type: 'GET',
@@ -288,15 +288,7 @@ $.ajax({
                             <dl class="dl-horizontal">
                                 <dt>Trạng thái:</dt>
                                 <dd>
-                                <div class="switch">
-                                 <div class="onoffswitch">
-                                 <input type="checkbox" checked class="onoffswitch-checkbox" id="example1">
-                                 <label class="onoffswitch-label" for="example1">
-                                 <span class="onoffswitch-inner"></span>
-                                 <span class="onoffswitch-switch"></span>
-                                 </label>
-                                 </div>
-                                </div>
+                                active
                                 </dd>
                             </dl>
                             </div>
@@ -323,7 +315,6 @@ $.ajax({
                                 <select id="account_type">
                                 <option >Chọn</option>`;
                                 item[2].forEach(function (va) {
-                           
                                 output+=`
                                 <option value="${va.id}">${va.type_account}</option>`;
                                 });
@@ -362,8 +353,10 @@ $.ajax({
                 <div class="project-manager">
                 <h3><a onClick="list_permission(${item[0].id})" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning">Phân Quyền<img src="{{asset ('backend/icon/add.svg')}}"></a></h3>`;
                 output+=`   <div id="list_premission">`;
-               
+               console.log(item[1]);
+                console.log(item[0]);
                 item[1].forEach(function (v) {
+
                 output+=`
                 <p><span><button onClick="remove_authorize(${v.id},${item[0].id})" class="label label-primary" ><i class="fa fa-remove"></i></button> ${v.description}</span></p>
                 `;
@@ -430,7 +423,7 @@ function add_permission(id)
     $(':checkbox:checked').each(function(i){
        arr.push($(this).val());
     });
-    //console.log(arr);
+   // console.log(arr);
     $.ajax({
     url: '{{URL::to('/save-account-authorize')}}',
     type: 'POST',
@@ -439,8 +432,14 @@ function add_permission(id)
     dataType: 'json',
     success: function (response) 
     {
-        console.log(response);
-    }
+        output=``;
+        $('#list_premission').html('');
+        response.forEach(function (item) {
+        output+=`
+        <p><span><button onClick="remove_authorize(${item.id},${item.id_admin})" class="label label-primary" ><i class="fa fa-remove"></i></button> ${item.description}</span></p>
+        `;
+        });   
+        $('#list_premission').html(output);    }
     });
 }
 /// dat mat khau
@@ -526,15 +525,7 @@ $('#create_account_admin').click(function(){
                             <dl class="dl-horizontal">
                                 <dt>Trạng thái:</dt>
                                 <dd>
-                                <div class="switch">
-                                 <div class="onoffswitch">
-                                 <input type="checkbox" checked class="onoffswitch-checkbox" id="example1">
-                                 <label class="onoffswitch-label" for="example1">
-                                 <span class="onoffswitch-inner"></span>
-                                 <span class="onoffswitch-switch"></span>
-                                 </label>
-                                 </div>
-                                </div>
+                               active
                                 </dd>
                             </dl>
                             </div>
@@ -634,6 +625,59 @@ function save_account_admin()
     success: function (response) 
     {
        alert(response['mes']);
+    }
+    });
+}
+function delete_account_admin(id)
+{
+    $.ajax({
+    url: '{{URL::to('/delete-account-admin')}}',
+    type: 'POST',
+    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+    data: {id:id},
+    dataType: 'json',
+    success: function (response) 
+    {
+        output=`<tr> 
+                    <th style="width:30px;"></th>
+                    <th>Họ & Tên</th>
+                    <th>Số điện thoại</th>
+                    <th>Chức vụ</th>
+                    <th style="width:30px;"></th>
+                </tr>`;
+        $('tbody').html('');
+        response.forEach(function (item) {
+        output+=`
+        <tr>`;
+        if(item.status == 'Y')
+        output+=`
+            <td class="project-status">
+                <button id="status_account" class="label label-primary" onClick="disable_account_admin(${item.id})" >Disable</button>
+            </td>`;
+        else
+        output+=`
+            <td class="project-status">
+                <button id="status_account" class="label label-primary" onClick="enable_account_admin(${item.id})" >Enable</button>
+            </td>`;
+        output+=`
+        <td class="project-title">
+            <p>${item.full_name}</p>  
+        </td>
+        <td class="project-title">
+            <p> ${item.phone_number}</p> 
+        </td>
+        <td class="project-title">
+            <p> ${item.type_account}</p> 
+        </td>
+      
+        <td class="project-actions">
+            <button onClick="account_admin_detail(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết</button>
+            <button onClick="delete_account_admin(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
+        </td>
+        </tr>`;
+
+        });
+      $('tbody').html(output);
     }
     });
 }

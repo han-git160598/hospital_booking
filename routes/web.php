@@ -42,6 +42,7 @@ Route::get('/select-list-service','ServicePacketController@select_list');
 
 Route::get('/save-service-packet','ServicePacketController@save_service_packet');
 Route::get('/edit-service-packet/{id}','ServicePacketController@edit_service_packet');
+Route::post('/delete-service-packet','ServicePacketController@delete_service_packet');
 // QL bài đăng---------------------------------------------------------------------
 Route::get('/news',function()
 {
@@ -124,6 +125,7 @@ Route::post('/remove-authorize-admin','AccountAdminController@remove_authorize_a
 Route::get('/list-account-type','AccountAdminController@list_account_type');
 
 Route::post('/save-account-admin','AccountAdminController@save_account_admin');
+Route::post('/delete-account-admin','AccountAdminController@delete_account_admin');
 
 
 //test

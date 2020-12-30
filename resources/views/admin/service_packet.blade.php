@@ -67,8 +67,8 @@
 
                                 <td class="project-actions">
                                     <a href="#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> View </a>
-                                    <button onClick="edit_service({{$tam[$i]['id']}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
-                                    <button onClick="delete_service({{$tam[$i]['id']}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
+                                    <button onClick="edit_service({{$tam[$i]['id']}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                                    <button onClick="delete_service_packet({{$tam[$i]['id']}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                                 </td>
 
                             </tr>
@@ -174,7 +174,7 @@ function save_service_packet()
    $(':checkbox:checked').each(function(i) {
        arr.push($(this).val());
     });
-   console.log(arr);
+  // console.log(arr);
     var packet_service1=$('#packet_service').val();
     var packet_content1=$('#packet_content').val();
    $.ajax({
@@ -238,5 +238,47 @@ function edit_service(id)
         }
     });   
 }
+function delete_service_packet(id)
+{
+    console.log(id);
+    $.ajax({
+        url: '{{URL::to('/delete-service-packet')}}',
+        type: 'POST',
+        data: {id:id},
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        dataType: 'json',
+        success: function (response) 
+        {
+        var output=`
+        <tr> 
+            <th>Tên dịch vụ</th>
+            <th>Giá tiền</th>
+            <th style="width:30px;"></th>
+        </tr>`;
+        $('tbody').html('');  
+        response.forEach(function (item) {
+        output+=`
+        <tr>
+            <td class="project-title">
+                <p>${item.name}</p>  
+            </td>
+            <td class="project-title">
+                <p> ${item.total} VND</p> 
+            </td>
+
+            <td class="project-actions">
+                <a href="#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> View </a>
+                <button onClick="edit_service(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                <button onClick="delete_service_packet(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
+            </td>
+
+        </tr>`;
+        });
+         $('tbody').html(output);  
+        }
+    });
+
+}
+
 
 </script>

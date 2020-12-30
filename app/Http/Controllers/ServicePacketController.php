@@ -107,4 +107,38 @@ class ServicePacketController extends Controller
         ->where('tbl_service_packet_detail.id_service_packet',$id)->get();
         return json_encode($data);     
     }
+    public function delete_service_packet(Request $request)
+    {
+       $count= DB::table('tbl_service_packet_detail')->where('id_service_packet',$request->id)->count();
+       if($count > 0)
+       {
+         DB::table('tbl_service_packet_detail')->where('id_service_packet',$request->id)->delete();
+       }
+         DB::table('tbl_service_packet')->where('id',$request->id)->delete();
+
+         $all_service_packet_detail= DB::table('tbl_service_packet_detail')
+        ->join('tbl_service_packet','tbl_service_packet.id','=','tbl_service_packet_detail.id_service_packet')
+        ->join('tbl_service_service','tbl_service_service.id','=','tbl_service_packet_detail.id_service_packet')->get();
+        $all_service_packet = DB::table('tbl_service_packet')->get();  
+        $tam=array();
+
+        foreach($all_service_packet as $packet)
+        {
+            $sum = 0;
+            foreach($all_service_packet_detail as $detail)
+            {
+                if($packet->id == $detail->id_service_packet)
+                {
+                   $sum +=$detail->price;
+                  
+                }
+                
+            }
+            array_push($tam,["id"=>$packet->id,"name"=>$packet->packet_service,"total"=>$sum]);
+            
+
+        }
+        return json_encode($tam);
+    }
+
 }

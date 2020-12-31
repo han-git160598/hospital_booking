@@ -131,17 +131,34 @@ class AccountAdminController extends Controller
     }
     public function list_account_type()
     {
-        $data = DB::table('tbl_account_type')->get();
-        return json_encode($data);
+        $permission = array(
+            '0'=>DB::table('tbl_account_permission')->get()->toArray());
+        $data = DB::table('tbl_account_type')->get()->toArray();
+        array_push($permission,$data);
+
+        return json_encode($permission);
     }
     public function save_account_admin(Request $request)
     {  
-    
-        if($request->full_name == '')
+        $check_user= DB::table('tbl_account_admin')->where('username',$request->username)->count();
+        $check_phone= DB::table('tbl_account_admin')->where('phone_number',$request->phone_number)->count();
+        if($check_user > 0 || $check_phone > 0)
+        {
+        $mes['mes']='Tài khoản hoặc số điện thoại đã được đăng ký !';
+        return json_encode($mes);    
+        }
+        $per = $request->arr_per1;
+        if($request->full_name == '' || $request->username=='' || $request->email==''
+            || $request->account_type==''||$request->password_admin=='' || $request->phone_number=='' )
         {
         $mes['mes']='Vui lòng điền đủ trường !';
         return json_encode($mes);
         }
+        if(empty($per))
+        {
+        $mes['mes']='Bạn chưa phân quyền !';
+        return json_encode($mes);   
+        }else{
         $data = array();
         $data['full_name']= $request->full_name;
         $data['username']= $request->username;
@@ -152,8 +169,17 @@ class AccountAdminController extends Controller
         $data['status']='Y';
         $data['force_sign_out']='0';	
         DB::table('tbl_account_admin')->insert($data);
+        $id_admin= DB::table('tbl_account_admin')->orderby('id','desc')->get();
+        $id_admin[0]->id;
+        $authorize = array();
+        foreach($per as $v)
+        {
+        $authorize['id_admin']=$id_admin[0]->id;
+        $authorize['grant_permission']=$v;
+        DB::table('tbl_account_authorize')->insert($authorize);
+        }
         $mes['mes']='Tạo tài khoản thành công !';
-        return json_encode($mes);
+        return json_encode($mes);}
     }
     public function delete_account_admin(Request $request)
     {
@@ -162,8 +188,39 @@ class AccountAdminController extends Controller
         $data = DB::table('tbl_account_admin') 
         ->join('tbl_account_type','tbl_account_type.id','=','tbl_account_admin.id_type')
         ->select('tbl_account_admin.id', 'full_name', 'phone_number','status','type_account')
+        ->orderby('tbl_account_admin.id','desc')
         ->get(); 
         return json_encode($data);
-
+    }
+    public function update_account_admin(Request $request)
+    {
+        if($request->full_name == '' || $request->username=='' || $request->email==''|| $request->phone_number=='' )
+        {
+        $mes['mes']='Vui lòng điền đủ trường !';
+        return json_encode($mes);
+        }
+        if($request->account_type==0)
+        {
+        $data = array();
+        $data['full_name']= $request->full_name;
+        $data['username']= $request->username;
+        $data['email']= $request->email;
+        $data['phone_number']=$request->phone_number;	
+        DB::table('tbl_account_admin')->where('id',$request->id)->update($data);
+        $mes['mes']='Cập nhật trạng thái thành công !';
+        return json_encode($mes);
+        }else{
+        $data = array();
+        $data['full_name']= $request->full_name;
+        $data['username']= $request->username;
+        $data['email']= $request->email;
+        $data['id_type']= $request->account_type;
+        $data['phone_number']=$request->phone_number;
+    //    $data['status']='Y';
+    //    $data['force_sign_out']='0';	
+        DB::table('tbl_account_admin')->where('id',$request->id)->update($data);
+        $mes['mes']='Cập nhật trạng thái thành công !';
+        return json_encode($mes);
+        }
     }
 }

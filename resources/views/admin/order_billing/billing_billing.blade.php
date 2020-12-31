@@ -143,7 +143,7 @@ function stt_billing()
                 else if (item.billing_status==4)
             output+=`<td>Hoàn tất</td>`;
                 else if (item.billing_status==5)
-            output+=`<td>Đã hủys</td>`;
+            output+=`<td>Đã hủy</td>`;
              output+=`
                 <td class="project-actions">
                     <a href="{{URL::to('/order-billing-detail')}}/{{$v->id}}"  class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết </a>

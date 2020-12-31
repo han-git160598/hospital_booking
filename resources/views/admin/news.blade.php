@@ -38,7 +38,7 @@
                             <button type="button" id="loading-example-btn" class="btn btn-white btn-sm" ><i class="fa fa-refresh"></i> Refresh</button>
                         </div>
                         <div class="col-md-11">
-                            <div class="input-group"><input type="text" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
+                            <div class="input-group"><input type="text" id="search_news" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
                             <button type="button" class="btn btn-sm btn-primary"> Go!</button> </span>
                             </div>
                         </div>
@@ -358,5 +358,59 @@ function enable_news(id)
         }
     });       
 }
+$('#search_news').keyup(function(){
+    var result= $('#search_news').val();
+    $.ajax({
+        type:"POST",
+        url:'{{URL::to('/search-news')}}',
+        data: { result:result},
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        dataType:"json",
+        success: function(response)
+        {
+         var output=`
+            <tr> 
+                <th style="width:30px;"></th>
+                <th>Tên bài viêt</th>
+                <th>Nội dung</th>
+                <th>Hình ảnh</th>
+                <th style="width:30px;"></th>
+            </tr>`;
+            $('tbody').html('');
+            response.forEach(function (item) {
+               
+            output+=`
+            <tr>`;
+            if(item.home_action == 'Y')
+            output+=` 
+                <td class="project-status">
+                     <button class="label label-primary" onClick="disable_news(${item.id})" >Disable</button>
+                </td>`;
+            else
+            output+=`  
+                <td class="project-status">
+                     <button class="label label-primary" onClick="enable_news(${item.id}))" >Enable</button>
+                </td>`;  
+            output+=`
+                <td class="project-title">
+                    <p>${item.title}<p>
+                </td>
+                <td class="project-title">
+                    <p>${item.content}<p>
+
+                </td>
+                <td class="project-people">
+                    <img alt="" height="100" width="100" src="{{ asset('backend/img/demo.PNG')}}">
+                </td>
+                <td class="project-actions">
+                    <button onClick="edit_news(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
+                    <button onClick="delete_news(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
+                </td>
+            </tr>`;    
+            });
+            $('tbody').html(output);     
+        }
+    });
+});
 </script>
 @endsection

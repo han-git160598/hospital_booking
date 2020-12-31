@@ -65,4 +65,16 @@ class AccountPermissionController extends Controller
         return json_encode($data);
 
     }
+    public function search_account_permission(Request $request)
+    {
+        $keywork = $request->result;
+        if($keywork =='')
+        {
+            $data = DB::table('tbl_account_permission')->orderby('id','desc')->get();
+            return json_encode($data);
+        }else{
+            $data = DB::table('tbl_account_permission')->where('permission', 'LIKE', "%{$keywork}%")->get();
+            return json_encode($data);
+        }
+    }
 }   

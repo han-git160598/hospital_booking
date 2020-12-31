@@ -38,7 +38,7 @@
                             <button type="button" id="loading-example-btn" class="btn btn-white btn-sm" ><i class="fa fa-refresh"></i> Refresh</button>
                         </div>
                         <div class="col-md-11">
-                            <div class="input-group"><input type="text" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
+                            <div class="input-group"><input type="text" id="search_account_permission" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
                             <button type="button" class="btn btn-sm btn-primary"> Go!</button> </span>
                             </div>
                         </div>
@@ -223,5 +223,45 @@ function update_account_permission(id)
         }
     });
 }
+$('#search_account_permission').keyup(function(){
+    var result = $('#search_account_permission').val();
+   // console.log(result);
+    $.ajax({
+        type:"POST",
+        url:'{{URL::to('/search-account-permission')}}',
+        data: { result:result},
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        dataType:"json",
+        success: function(response)
+        {
+            var output=`
+            <tr> 
+                <th style="width:30px;"></th>
+                <th>Tên Module(*)</th>
+                <th>Mô tả</th>
+                
+            </tr>`;
+            $('tbody').html('');
+            response.forEach(function (item) {
+            output+=`
+            <tr>
+                <td style="width:30px;"></td>
+                <td class="project-title">
+                    <p>${item.permission}</p>  
+                </td>
+                <td class="project-title">
+                    <p> ${item.description} VND</p> 
+                </td>
+
+                <td class="project-actions">
+                    <button onClick="edit_account_permission(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
+                    <button onClick="delete_account_permission(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
+                </td>
+            </tr>`;    
+            });
+            $('tbody').html(output);   
+        }
+    });
+});
 </script>
 @endsection

@@ -57,6 +57,7 @@ Route::get('/update-news/{id}','NewsController@update_news');
 Route::get('/disable-news/{id}','NewsController@disable_news');
 Route::get('/enable-news/{id}','NewsController@enable_news');
 
+Route::post('/search-news','NewsController@search_news');
 // QL khách hàng---------------------------------------------------------------------
 Route::get('/all-account-customer','AccountCustomerController@all_account_customer');
 Route::get('/save-account-customer','AccountCustomerController@save_account_customer');
@@ -96,6 +97,7 @@ Route::get('/delete-account-permission/{id}','AccountPermissionController@delete
 Route::get('/edit-account-permission/{id}','AccountPermissionController@edit_account_permission');
 Route::get('/update-account-permission/{id}','AccountPermissionController@update_account_permission');
 
+Route::POST('/search-account-permission','AccountPermissionController@search_account_permission');
 
 // QL bill
 Route::get('/all-billing','BillingController@all_billing');
@@ -111,7 +113,7 @@ Route::get('/update-billing-date-time','BillingController@update_billing_date_ti
 
 Route::post('/save-billing-actually','BillingController@save_billing_acctually');
 
-//Account admin
+//Account admin///////////////////////////////////////////
 Route::get('/all-account-admin','AccountAdminController@all_account_admin');
 Route::get('/disable-account-admin/{id}','AccountAdminController@disable_account_admin');
 Route::get('/enable-account-admin/{id}','AccountAdminController@enable_account_admin');
@@ -126,6 +128,8 @@ Route::get('/list-account-type','AccountAdminController@list_account_type');
 
 Route::post('/save-account-admin','AccountAdminController@save_account_admin');
 Route::post('/delete-account-admin','AccountAdminController@delete_account_admin');
+
+Route::post('/update-account-admin','AccountAdminController@update_account_admin');
 
 
 //test

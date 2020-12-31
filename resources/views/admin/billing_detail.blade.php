@@ -79,7 +79,7 @@
                                             @elseif ($v->billing_status==4)
                                             <td>Hoàn tất</td>
                                             @else
-                                            <td> Hủy bỏ</td>
+                                            <td>Hủy bỏ</td>
                                             @endif
 
                                             <td ><img alt="image" src="#"> </td>
@@ -313,7 +313,7 @@ function billing_detail(id)
                 else if (item.billing_status==4)
             output+=`<td>Hoàn tất</td>`;
                 else
-            output+=`<td> Hủy bỏ</td>`;
+            output+=`<td>Hủy bỏ</td>`;
             output+=`
                 <td class="project-title">
                     <p><img  src="${item.image_upload}"><p>

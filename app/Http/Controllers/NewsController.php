@@ -55,4 +55,16 @@ class NewsController extends Controller
         $alldata= DB::table('tbl_news')->orderby('id','desc')->get();
         return json_encode($alldata);
     }
+    public function search_news(Request $request)
+    {
+        $keywork = $request->result;
+        if($keywork =='')
+        {
+            $data = DB::table('tbl_news')->orderby('id','desc')->get();
+            return json_encode($data);
+        }else{
+            $data = DB::table('tbl_news')->where('title', 'LIKE', "%{$keywork}%")->get();
+            return json_encode($data);
+        }   
+    }
 }

@@ -237,7 +237,7 @@ function account_admin_detail(id)
 { 
     
     //console.log(id);
-    $('.modal-footer').html('<button type="button" data-dismiss="modal"  onClick="add_permission('+id+')" class="btn btn-success">Thêm quyền</button>');
+$('.modal-footer').html('<button type="button" data-dismiss="modal"  onClick="add_permission('+id+')" class="btn btn-success">Thêm quyền</button>');
 $.ajax({
     url: '{{URL::to('/account-admin-detail')}}'+'/'+id,
     type: 'GET',
@@ -488,7 +488,7 @@ function update_account_admin(id)
         dataType: 'json',
         success: function (response) 
         {
-            alert(response['mes']);    
+        alert(response['mes']);    
         }
     });
     

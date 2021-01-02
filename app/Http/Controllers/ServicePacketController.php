@@ -39,8 +39,17 @@ class ServicePacketController extends Controller
        //dd($tam);
         return view('admin.service_packet',compact('tam'));
     }
+    public function list_service_packet_detail(Request $request) // edit service packet
+    {
+       $data= DB::table('tbl_service_packet_detail')
+        ->leftjoin('tbl_service_service','tbl_service_service.id','=','tbl_service_packet_detail.id_service_service')
+        ->leftjoin('tbl_service_packet','tbl_service_packet.id','=','tbl_service_packet_detail.id_service_packet')
+        ->where('tbl_service_packet_detail.id_service_packet',$request->id)->get();
+        return json_encode($data);
+    }
     public function listservice_service()
     {
+
         $stt ='Y';
         $data= DB::table('tbl_service_service')
          ->where('status_service',$stt)->get();
@@ -101,11 +110,17 @@ class ServicePacketController extends Controller
     }
     public function edit_service_packet($id)
     {
-        $data= DB::table('tbl_service_packet_detail')
-        ->join('tbl_service_packet','tbl_service_packet.id','=','tbl_service_packet_detail.id_service_packet')
-        ->rightjoin('tbl_service_service','tbl_service_service.id','=','tbl_service_packet_detail.id_service_packet')
-        ->where('tbl_service_packet_detail.id_service_packet',$id)->get();
-        return json_encode($data);     
+
+    $data= DB::table('tbl_service_packet')->where('id',$id)->get();
+
+    $data['service'] =DB::table('tbl_service_packet_detail')
+    ->join('tbl_service_packet','tbl_service_packet.id','=','tbl_service_packet_detail.id_service_packet')
+    ->join('tbl_service_service','tbl_service_service.id','=','tbl_service_packet_detail.id_service_packet')
+    ->where('tbl_service_packet_detail.id_service_packet',$id)
+    ->select('tbl_service_packet_detail.id_service_service','service', 'price')
+    ->get();
+  //  array_push($data,$service_packet);
+    return json_encode($data);     
     }
     public function delete_service_packet(Request $request)
     {
@@ -139,6 +154,22 @@ class ServicePacketController extends Controller
 
         }
         return json_encode($tam);
+    }
+    public function remove_service_packet_detail(Request $request)// xóa detail
+    {
+        DB::table('tbl_service_packet_detail')
+        ->where('id_service_packet',$request->id_packet)
+        ->where('id_service_service',$request->id_ser)->delete();  
+
+        $data= DB::table('tbl_service_packet_detail')
+        ->leftjoin('tbl_service_service','tbl_service_service.id','=','tbl_service_packet_detail.id_service_service')
+        ->leftjoin('tbl_service_packet','tbl_service_packet.id','=','tbl_service_packet_detail.id_service_packet')
+        ->where('tbl_service_packet_detail.id_service_packet',$request->id_packet)
+        ->select('tbl_service_packet_detail.id_service_packet', 'service', 'price','tbl_service_packet_detail.id_service_service')
+        ->get();
+     
+        return json_encode($data);
+
     }
 
 }

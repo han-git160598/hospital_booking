@@ -67,7 +67,7 @@
 
                                 <td class="project-actions">
                                     <a href="#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> View </a>
-                                    <button onClick="edit_service({{$tam[$i]['id']}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                                    <button onClick="edit_service_packet({{$tam[$i]['id']}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
                                     <button onClick="delete_service_packet({{$tam[$i]['id']}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                                 </td>
 
@@ -96,16 +96,16 @@
               <div class="modal-body">
                <form method="post" id="insert_form">
            
-               <div id="permission">    
+               <div id="list_service_in_packet">    
                
                </div>
-          
+
                 
                </form>
               </div>
-              <div class="modal-footer">
+              <div class="modal-footer"> .  
                
-               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+               <button type="button" onClick="update_service_packet_detail()" class="btn btn-default" data-dismiss="modal">Thêm dịch vụ</button>
               </div>
              </div>
             </div>
@@ -216,7 +216,7 @@ function save_service_packet()
     });
 
 }
-function edit_service(id)
+function edit_service_packet(id)
 {
     $.ajax({
         url: '{{URL::to('/edit-service-packet')}}'+'/'+id,
@@ -244,8 +244,8 @@ function edit_service(id)
             <div class="form-group">
             <label class="col-sm-2 control-label">Danh sách </label>
             <div class="col-sm-10"><button class="btn btn-white btn-sm" type="btn" onClick="list_service_packet_detail(${response[0].id})"><i class="fa fa-folder"></i> </button>
-            
-            <a onClick="" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning">Thêm dịch vụ<img src="{{asset ('backend/icon/add.svg')}}"></a>
+            <input type="text" id="id_packet" in value="${response[0].id}" > 
+            <a onClick="list_service_in_packet(${response[0].id})" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning">Thêm dịch vụ<img src="{{asset ('backend/icon/add.svg')}}"></a>
             </div>
             </div>
 
@@ -269,58 +269,83 @@ function edit_service(id)
         }
     });   
 }
-function update_service_packet(id)
-{
-    var arr=[];
-   $(':checkbox:checked').each(function(i) {
-       arr.push($(this).val());
-    });
-  // console.log(arr);
-    var packet_service1=$('#packet_service_ud').val();
-    var packet_content1=$('#packet_content_ud').val();
-    console.log(id);
-}
-function delete_service_packet(id)
-{
+function list_service_in_packet(id) {
     console.log(id);
     $.ajax({
-        url: '{{URL::to('/delete-service-packet')}}',
+        url: '{{URL::to('/list-service-in-packet')}}',
         type: 'POST',
-        data: {id:id},
+        data: {id_packet:id},
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         dataType: 'json',
         success: function (response) 
         {
-        var output=`
-        <tr> 
+            var output=`<tr> 
             <th>Tên dịch vụ</th>
             <th>Giá tiền</th>
             <th style="width:30px;"></th>
-        </tr>`;
-        $('tbody').html('');  
-        response.forEach(function (item) {
-        output+=`
-        <tr>
-            <td class="project-title">
-                <p>${item.name}</p>  
-            </td>
-            <td class="project-title">
-                <p> ${item.total} VND</p> 
-            </td>
-
-            <td class="project-actions">
-                <a href="#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> View </a>
-                <button onClick="edit_service(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
-                <button onClick="delete_service_packet(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
-            </td>
-
-        </tr>`;
-        });
-         $('tbody').html(output);  
+            </tr>`;
+            $('#list_service_in_packet').html('');
+            response.forEach(function (item) {
+            // console.log(item);
+                output+=`
+                <tr>
+                    <td class="project-title">
+                        <p>${item.service}</p>  
+                    </td>
+                    <td class="project-title">
+                        <p> ${item.price}</p> 
+                    </td>
+                    <td class="project-actions">
+                    <input type="checkbox" value="${item.id}">
+                    </td>
+                </tr>
+                `;
+                
+            });
+            $('#list_service_in_packet').append(output); 
         }
     });
 
 }
+function update_service_packet(id)
+{
+    var packet_service1=$('#packet_service_ud').val();
+    var packet_content1=$('#packet_content_ud').val();
+    console.log(id);
+    $.ajax({
+        url: '{{URL::to('/update-service-packet')}}',
+        type: 'POST',
+        data: {packet_service:packet_service1, packet_content:packet_content1, id:id},
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        dataType: 'json',
+        success: function (response) 
+        {
+            console.log(response);
+        }
+    });
+}
+function update_service_packet_detail() {
+    var arr=[];
+   $(':checkbox:checked').each(function(i) {
+       arr.push($(this).val());
+    });
+    var id = $('#id_packet').val();
+    console.log(id);
+    console.log(arr);
+    $.ajax({
+        url: '{{URL::to('/update-service-packet-detail')}}',
+        type: 'POST',
+        data: {id_packet:id, arr_service:arr},
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        dataType: 'json',
+        success: function (response) 
+        {
+            console.log(response);
+        }
+    });
+}
+
+/// view edit service packet
 function list_service_packet_detail(id)
 {
  console.log(id);
@@ -399,6 +424,47 @@ function remove_service(id_ser,id_packet)//remove service trong packet
         $('#show_list_edit').append(output); 
         }
     });
+}
+function delete_service_packet(id)
+{
+    console.log(id);
+    $.ajax({
+        url: '{{URL::to('/delete-service-packet')}}',
+        type: 'POST',
+        data: {id:id},
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        dataType: 'json',
+        success: function (response) 
+        {
+        var output=`
+        <tr> 
+            <th>Tên dịch vụ</th>
+            <th>Giá tiền</th>
+            <th style="width:30px;"></th>
+        </tr>`;
+        $('tbody').html('');  
+        response.forEach(function (item) {
+        output+=`
+        <tr>
+            <td class="project-title">
+                <p>${item.name}</p>  
+            </td>
+            <td class="project-title">
+                <p> ${item.total} VND</p> 
+            </td>
+
+            <td class="project-actions">
+                <a href="#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> View </a>
+                <button onClick="edit_service_packet(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                <button onClick="delete_service_packet(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
+            </td>
+
+        </tr>`;
+        });
+         $('tbody').html(output);  
+        }
+    });
+
 }
 
 </script>

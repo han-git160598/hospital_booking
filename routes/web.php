@@ -43,9 +43,13 @@ Route::get('/select-list-service','ServicePacketController@select_list');
 Route::post('/list-service-packet-detail','ServicePacketController@list_service_packet_detail');
 Route::get('/save-service-packet','ServicePacketController@save_service_packet');
 Route::get('/edit-service-packet/{id}','ServicePacketController@edit_service_packet');
+Route::post('update-service-packet','ServicePacketController@update_service_packet');
 Route::post('/delete-service-packet','ServicePacketController@delete_service_packet');
 
 Route::post('/remove-service-packet-detail','ServicePacketController@remove_service_packet_detail');
+Route::post('/list-service-in-packet','ServicePacketController@list_service_in_packet');
+// update service_packet_detail
+Route::post('/update-service-packet-detail','ServicePacketController@update_service_packet_detail');
 
 // QL bài đăng---------------------------------------------------------------------
 Route::get('/news',function()

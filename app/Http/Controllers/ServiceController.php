@@ -9,7 +9,8 @@ class ServiceController extends Controller
     public function allservice_service()
     {
         $stt = 'Y';
-        $allservice_service = DB::table('tbl_service_service')->where('status_service',$stt)->orderby('id','desc')->get();
+        $allservice_service = DB::table('tbl_service_service')->where('status_service',$stt)
+        ->orderby('id','desc')->get();
        // dd($allservice_service);
        return view('admin.service_service',compact('allservice_service'));
         //return view('admin.service_service')->with('allservice_service',$allservice_service);
@@ -92,10 +93,10 @@ class ServiceController extends Controller
         $keywork = $request->service;
         if($keywork =='')
         {
-            $data = DB::table('tbl_service_service')->orderby('id','desc')->get();
+            $data = DB::table('tbl_service_service')->where('status_service','Y')->orderby('id','desc')->get();
             return json_encode($data);
         }else{
-            $data = DB::table('tbl_service_service')->where('service', 'LIKE', "%{$keywork}%")->get();
+            $data = DB::table('tbl_service_service')->where('status_service','Y')->where('service', 'LIKE', "%{$keywork}%")->get();
             return json_encode($data);
         }
       

@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use App\AuthModel;
 class ServiceController extends Controller
 {
     public function allservice_service()
     {
+        $model = new AuthModel;
+        $model->AuthLogin();
         $stt = 'Y';
         $allservice_service = DB::table('tbl_service_service')->where('status_service',$stt)
         ->orderby('id','desc')->get();
@@ -84,6 +87,8 @@ class ServiceController extends Controller
     }
     public function all_disable_service()
     {
+        $model = new AuthModel;
+        $model->AuthLogin();
         $stt = 'N';
         $disable_service = DB::table('tbl_service_service')->where('status_service',$stt)->orderby('id','desc')->get();
         return view('admin.disable_service',compact('disable_service'));

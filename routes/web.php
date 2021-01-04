@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\AuthModel;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,16 +13,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    Session::put('full_name',null);
+    Session::put('email',null);
+    Session::put('id',null);
+    return view('login');
+});
+Route::get('/login-admin','LoginController@login_admin');
+Route::get('/logout-admin','LoginController@logout_admin');
 Route::get('/dashboard',function()
 {
-    return view('dashboard');
+    $model = new AuthModel;
+    $model->AuthLogin();
+    return view('/dashboard');
 });
 //  QL service_service---------------------------------------------------------------------
 Route::get('/all-service-service','ServiceController@allservice_service');
 Route::get('/add-service-service',function() {
+    $model = new AuthModel;
+    $model->AuthLogin();
     return view('admin.addservice_service');
 });
 Route::get('/save-service-service','ServiceController@saveservice_service');
@@ -54,9 +63,14 @@ Route::post('/update-service-packet-detail','ServicePacketController@update_serv
 // QL bài đăng---------------------------------------------------------------------
 Route::get('/news',function()
 {
+    $id_admin = Session::get('id');
+    if($id_admin){
     $stt = 'Y';
     $all_news = DB::table('tbl_news')->orderby('id','desc')->get();
-    return view('admin.news',compact('all_news'));
+    return view('admin.news',compact('all_news'));}
+    else{
+    return Redirect::to('/login-admin');
+}
 });
 Route::get('/save-news','NewsController@save_news');
 Route::get('/delete-news/{id}','NewsController@delte_news');
@@ -138,7 +152,24 @@ Route::post('/save-account-admin','AccountAdminController@save_account_admin');
 Route::post('/delete-account-admin','AccountAdminController@delete_account_admin');
 
 Route::post('/update-account-admin','AccountAdminController@update_account_admin');
-
+//// /force-sign-out
+Route::get('/force-sign-out',function(){
+    $id = Session::get('id');
+    $permission = DB::table('tbl_account_admin')
+    ->join('tbl_account_type','tbl_account_type.id','=','tbl_account_admin.id_type')
+    ->where('tbl_account_admin.id',$id)
+    ->select('tbl_account_admin.id','type_account')
+    ->get();
+    if($permission[0]->type_account == 'Admin')
+    {
+        return view('admin.force_sign_out');
+    }else{
+        $mes['mes']='Bạn không có quyền nè!';
+        return Redirect::to('/dashboard');
+    }   
+});
+Route::post('/force-sign-out-staff','ForceSignOutController@force_sign_out_staff');
+Route::post('/force-sign-out-customer','ForceSignOutController@force_sign_out_customer');
 
 //test
 Route::get('/test',function (){

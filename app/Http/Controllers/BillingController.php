@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use App\AuthModel;
 class BillingController extends Controller
 {
     public function all_billing()
     {
+        $model = new AuthModel;
+        $model->AuthLogin();
         $all_bill = DB::table('tbl_billing_billing')->orderby('id','desc')->get();
         //dd($all_bill);
         return view('admin.order_billing.billing_billing',compact('all_bill'));
@@ -27,6 +30,9 @@ class BillingController extends Controller
     }
     public function order_billing_detail($id)
     {
+
+        $model = new AuthModel;
+        $model->AuthLogin();
          $data = DB::table('tbl_billing_billing')    
       //  ->join('tbl_billing_document','tbl_billing_document.id_billing','=','tbl_billing_billing.id')
         ->where('tbl_billing_billing.id',$id)

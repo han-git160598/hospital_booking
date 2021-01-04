@@ -320,7 +320,7 @@ function update_service_packet(id)
         dataType: 'json',
         success: function (response) 
         {
-            console.log(response);
+             alert(response['mes']);
         }
     });
 }

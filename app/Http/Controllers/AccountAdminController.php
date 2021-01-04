@@ -4,10 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Redirect;
+use App\AuthModel;
 class AccountAdminController extends Controller  
 {
     public function all_account_admin()
     {
+    $model = new AuthModel;
+    $model->AuthLogin();
     $data = DB::table('tbl_account_admin') 
     ->join('tbl_account_type','tbl_account_type.id','=','tbl_account_admin.id_type')
     ->select('tbl_account_admin.id', 'full_name', 'phone_number','status','type_account')

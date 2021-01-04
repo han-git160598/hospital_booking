@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use App\AuthModel;
 class AccountCustomerController extends Controller  
 {
     public function all_account_customer()
     {
+        $model = new AuthModel;
+        $model->AuthLogin();
        // dd(123);
         $all_account_customer = DB::table('tbl_account_customer')
         //->join('tbl_billing_billing','tbl_billing_billing.id_customer','=','tbl_account_customer.id')
@@ -90,7 +93,9 @@ class AccountCustomerController extends Controller
     }
     public function detail_order_customer($id)
     {
-       $data = DB::table('tbl_billing_billing')    
+        $model = new AuthModel;
+        $model->AuthLogin();
+        $data = DB::table('tbl_billing_billing')    
          ->join('tbl_billing_detail','tbl_billing_detail.id_billing','=','tbl_billing_billing.id')
         // ->join('tbl_billing_document','tbl_billing_document.id_billing','=','tbl_billing_billing.id')
         //->join('tbl_service_service','tbl_service_service.id','=','tbl_billing_detail.id_service')

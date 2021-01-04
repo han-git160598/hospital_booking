@@ -44,7 +44,9 @@
                                     </a>
                                 </div>
                                 <div class="media-body profile-name" style="white-space: nowrap;">
-                                    <h4 class="media-heading">Rhian Santos <a data-toggle="collapse" data-target="#loguserinfo" class="pull-right"><i class="fa fa-angle-down"></i></a></h4>
+                                    <h4 class="media-heading">
+                                   
+                                    <a data-toggle="collapse" data-target="#loguserinfo" class="pull-right"><i class="fa fa-angle-down"></i></a></h4>
                                     <span>Software Engineer</span>
                                 </div>
                             </div>
@@ -85,40 +87,42 @@
                                 <div class="nano-content">
                                     <ul class="nav nav-pills nav-stacked nav-inq">
                                         <li class="active">
-                                            <a href="index.html"><i class="fa fa-home"></i> <span class="nav-label">Dashboards</span></a>
+                                            <a href="index.html"><i class="fa fa-home"></i> <span class="nav-label"> Dashboards </span></a>
                                         </li>
                                         <li class="nav-parent">
    
-                                            <a href="#"><i><img src="{{asset ('backend/icon/product management.svg')}}"></i> <span class="nav-label">Quản lý sản phẩm</span></a>
+                                            <a href="#"><i><img src="{{asset ('backend/icon/product management.svg')}}"></i> <span class="nav-label"> Quản lý sản phẩm</span></a>
                                             <ul class="children nav">
-                                                <li><a href="{{URL::to('/all-service-service')}}">Danh sách dịch vụ khám</a></li>
-                                                <li><a href="{{URL::to('/all-service-packet')}}">Danh sách gói khám</a></li>
-                                                <li><a href="{{URL::to('/disable-service-service')}}">Dịch vụ bị vô hiệu hóa</a></li>
+                                                <li><a href="{{URL::to('/all-service-service')}}"> Danh sách dịch vụ khám</a></li>
+                                                <li><a href="{{URL::to('/all-service-packet')}}"> Danh sách gói khám</a></li>
+                                                <li><a href="{{URL::to('/disable-service-service')}}"> Dịch vụ bị vô hiệu hóa</a></li>
                                             </ul>
                                         </li>
                                         <li>
                                              
-                                            <a href="{{URL::to('/news')}}"><i><img src="{{asset ('backend/icon/Post management.svg')}}"></i><span class="nav-label">Quản lý bài viết</span></a>                                           
+                                            <a href="{{URL::to('/news')}}"><i><img src="{{asset ('backend/icon/Post management.svg')}}"></i><span class="nav-label"> Quản lý bài viết</span></a>                                           
                                         </li>
                                         <li class="nav-parent">
-                                            <a href="#"><i><img src="{{asset ('backend/icon/employee management.svg')}}"></i></i> <span class="nav-label">Quản lý nhân viên</span></a>
+                                            <a href="#"><i><img src="{{asset ('backend/icon/employee management.svg')}}"></i></i> <span class="nav-label"> Quản lý nhân viên</span></a>
                                             <ul class="children nav">
-                                                <li><a href="{{URL::to('/all-account-admin')}}">Danh sách tài khoản</a></li>
-                                                <li><a href="{{URL::to('/all-account-permission')}}">Quản lý quyền hạn module</a></li>
-                                                <li><a href="{{URL::to('/all-account-type')}}">Quản lý loại tài khoản</a></li>
+                                                <li><a href="{{URL::to('/all-account-admin')}}"> Danh sách tài khoản</a></li>
+                                                <li><a href="{{URL::to('/all-account-permission')}}"> Quản lý quyền hạn module</a></li>
+                                                <li><a href="{{URL::to('/all-account-type')}}"> Quản lý loại tài khoản</a></li>
                                             </ul>
                                         </li>
                                         <li >
-                                            <a href="{{URL::to('/all-billing')}}"><i><img src="{{asset ('backend/icon/order management.svg')}}"></i> <span class="nav-label">Quản lý đơn khám</span></a>
+                                            <a href="{{URL::to('/all-billing')}}"><i><img src="{{asset ('backend/icon/order management.svg')}}"></i> <span class="nav-label"> Quản lý đơn khám</span></a>
                                   
                                         </li>
                                         <li >
-                                            <a href="{{URL::to('/all-slide')}}"><i><img src="{{asset ('backend/icon/slide management.svg')}}"></i> <span class="nav-label">Quản lý slide</span></a>
+                                            <a href="{{URL::to('/all-slide')}}"><i><img src="{{asset ('backend/icon/slide management.svg')}}"></i> <span class="nav-label"> Quản lý slide</span></a>
                                           
                                         </li>
                                         <li >
-                                            <a href="{{URL::to('/all-account-customer')}}"><i><img src="{{asset ('backend/icon/customer manager.svg')}}"></i> <span class="nav-label">Quản lý khách hàng</span></a>
-                                            
+                                            <a href="{{URL::to('/all-account-customer')}}"><i><img src="{{asset ('backend/icon/customer manager.svg')}}"></i> <span class="nav-label"> Quản lý khách hàng</span></a>
+                                        </li>
+                                        <li >
+                                            <a href="{{URL::to('/force-sign-out')}}"><i><img src="{{asset ('backend/icon/force sign out.svg')}}"></i> <span class="nav-label">Cưỡng chế logout</span></a>
                                         </li>
                                      
                                         
@@ -185,7 +189,15 @@
                             </li>
                             <li class="dropdown pull-right">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-                                    <span class="pl15"> Rhian Santos </span>
+                                    <span class="pl15">  <?php
+                                        $full_name = Session::get('full_name');
+                                        $id =Session::get('id');
+                                        if($id)
+                                        {
+                                            echo $full_name." ";
+                                            echo $id;
+                                        }
+                                    ?>  </span>
                                     <span class="caret caret-tp"></span>
                                 </a>
                                 <ul class="dropdown-menu animated m-t-xs">
@@ -193,7 +205,7 @@
                                     <li><a href="contacts.html" class="animated animated-short fadeInUp"><i class="fa fa-group"></i> Contacts</a></li>
                                     <li><a href="mailbox.html" class="animated animated-short fadeInUp"><i class="fa fa-inbox"></i> Mailbox</a></li>
                                     <li class="divider"></li>
-                                    <li><a href="login.html" class="animated animated-short fadeInUp"><i class="fa fa-sign-out"></i> Logout</a></li>
+                                    <li><a href="{{URL::to('/logout-admin')}}" class="animated animated-short fadeInUp"><i class="fa fa-sign-out"></i> Đăng xuất </a></li>
                                 </ul>
                             </li>
                         </ul>

@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
     
 use Illuminate\Http\Request;
 use DB;
+use App\AuthModel;
 class AccountTypeController extends Controller
 {
     public function all_account_type()
     {
+        $model = new AuthModel;
+        $model->AuthLogin();
         $all_account_type=DB::table('tbl_account_type')->orderby('id','desc')->get();
         return view('admin.account_type',compact('all_account_type'));
     }

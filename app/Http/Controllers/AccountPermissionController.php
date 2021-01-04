@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use App\AuthModel;
 class AccountPermissionController extends Controller
 {
     public function all_account_permission()
     {
+        $model = new AuthModel;
+        $model->AuthLogin();
         $all_account_premission = DB::table('tbl_account_permission')->orderby('id','desc')->get();
        // dd($all_account_premission);
         return view('admin.account_premission',compact('all_account_premission'));

@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use App\AuthModel;
 class SlideController extends Controller
 {
     public function all_slide()
     {
+        $model = new AuthModel;
+        $model->AuthLogin();
         $all_slide=DB::table('tbl_slide')->orderby('id','desc')->get();
         return view('admin.slide',compact('all_slide'));
     }

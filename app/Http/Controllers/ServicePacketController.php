@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use App\AuthModel;
 class ServicePacketController extends Controller
 {
     public function all_service_packet()
     {
+        $model = new AuthModel;
+        $model->AuthLogin();
         $all_service_packet_detail= DB::table('tbl_service_packet_detail')
         ->join('tbl_service_packet','tbl_service_packet.id','=','tbl_service_packet_detail.id_service_packet')
         ->join('tbl_service_service','tbl_service_service.id','=','tbl_service_packet_detail.id_service_packet')
@@ -194,9 +197,9 @@ class ServicePacketController extends Controller
         $data=array();
         foreach ($array_service as $v)
         {
-        $data['id_service']=$request->id_packet; 
-        $data['packet_content']=$v;
-        DB::table('tbl_service_packet_detail')->insert($data);
+        $data['id_service_packet']=$request->id_packet; 
+        $data['id_service_service']=$v;
+        DB::table('tbl_service_packet_detail')->insert($data); 
         }
         $list_service= DB::table('tbl_service_packet_detail')
         ->leftjoin('tbl_service_service','tbl_service_service.id','=','tbl_service_packet_detail.id_service_service')

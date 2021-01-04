@@ -60,6 +60,18 @@ class AccountCustomerController extends Controller
         $data=DB::table('tbl_account_customer')->where('id',$id)->get();
         return json_encode($data);
     }
+    public function search_account_custome(Request $request)
+    {
+        $keywork = $request->result;
+        if($keywork =='')
+        {
+            $data = DB::table('tbl_account_customer')->orderby('id','desc')->get();
+            return json_encode($data);
+        }else{
+            $data = DB::table('tbl_account_customer')->where('full_name', 'LIKE', "%{$keywork}%")->get();
+            return json_encode($data);
+        }
+    }
     public function update_account_customer(Request $request, $id)
     {
         if($request->allFiles()=='')

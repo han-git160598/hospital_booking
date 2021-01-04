@@ -38,7 +38,7 @@
                             <button type="button" id="loading-example-btn" class="btn btn-white btn-sm" ><i class="fa fa-refresh"></i> Refresh</button>
                         </div>
                         <div class="col-md-11">
-                            <div class="input-group"><input type="text" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
+                            <div class="input-group"><input type="text" id="search_bill" onkeyup="search_bill()" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
                             <button type="button" class="btn btn-sm btn-primary"> Go!</button> </span>
                             </div>
                         </div>
@@ -155,6 +155,62 @@ function stt_billing()
         }
     }); 
 }
-
+function search_bill()
+{
+    var result = $('#search_bill').val();
+   
+    $.ajax({
+        url: '{{URL::to('/search-bill')}}',
+        type: 'POST',
+        data: {result:result},
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        dataType: 'json',
+        success: function (response) 
+        {
+            var output=`
+            <tr> 
+                <th style="width:30px;"></th>
+                <th>Mã đơn</th>
+                <th>Thời gian</th>
+                <th>Trạng thái</th>
+                <th>Lọc :
+                <select onChange="stt_billing()" id="stt">
+                <option value="6">Chọn</option>
+                <option value="1">Chờ xác nhận</option>
+                <option value="2">Đã đặt lịch</option>
+                <option value="3">Đã chuyển khoản</option>
+                <option value="4">Hoàn tất</option>
+                <option value="5">Đã hủy</option>
+                </select>
+                </th>  
+            </tr>`;
+            $('tbody').html('');
+            response.forEach(function (item) {
+            output+=`
+             <tr>
+                <td style="width:30px;"></td>
+                <td>${item.billing_code}</td>
+                <td>${item.billing_date}-${item.billing_time}</td>`;
+                if(item.billing_status ==1)
+            output+=`<td>Chờ xác nhận</td>`;
+                else if (item.billing_status==2)
+            output+=`<td>Đã đặt lịch</td>`;
+                else if (item.billing_status==3)
+            output+=`<td>Đã chuyển khoản</td>`;
+                else if (item.billing_status==4)
+            output+=`<td>Hoàn tất</td>`;
+                else if (item.billing_status==5)
+            output+=`<td>Đã hủy</td>`;
+             output+=`
+                <td class="project-actions">
+                    <a href="{{URL::to('/order-billing-detail')}}/{{$v->id}}"  class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết </a>
+                </td>
+            </tr>
+            `;
+            });    
+             $('tbody').html(output);  
+        }
+    });
+}
 </script>
 @endsection

@@ -16,7 +16,7 @@ class LoginController extends Controller
     	$password=md5($request->password);
     	$result = DB::table('tbl_account_admin')->where('username',$username)->where('password',$password)->first();
        // dd($result);
-    	if($result)
+    	if($result && $result->status == 'Y')
     	{
             $data = array();
             $data['force_sign_out']='1';

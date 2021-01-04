@@ -87,6 +87,9 @@ Route::get('/delete-account-customer/{id}','AccountCustomerController@delete_acc
 Route::get('/edit-account-customer/{id}','AccountCustomerController@edit_account_customer');
 Route::get('/update-account-customer/{id}','AccountCustomerController@update_account_customer');
 
+Route::post('/search-account-customer','AccountCustomerController@search_account_custome');
+
+
 Route::get('/history-account-customer/{id}','AccountCustomerController@all_history_account_customer');
 Route::get('/detail-order-customer/{id}','AccountCustomerController@detail_order_customer');
 Route::get('/service-detail/{id}','AccountCustomerController@service_detail');
@@ -124,7 +127,7 @@ Route::POST('/search-account-permission','AccountPermissionController@search_acc
 // QL bill
 Route::get('/all-billing','BillingController@all_billing');
 
-
+Route::post('/search-bill','BillingController@search_bill');
 Route::get('/status-filter-billing','BillingController@status_filter_billing');
 Route::get('/order-billing-detail/{id}','BillingController@order_billing_detail');
 Route::get('/cancel-bill/{id}','BillingController@cancel_bill');

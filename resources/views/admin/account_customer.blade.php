@@ -22,7 +22,7 @@
                 </div>
                 </div>
             </div>
-        </div>
+        </div> 
         <div class="row">
             <div class="col-lg-12">
                 <div class="inqbox">
@@ -38,7 +38,7 @@
                             <button type="button" id="loading-example-btn" class="btn btn-white btn-sm" ><i class="fa fa-refresh"></i> Refresh</button>
                         </div>
                         <div class="col-md-11">
-                            <div class="input-group"><input type="text" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
+                            <div class="input-group"><input type="text" id="search_customer" onkeyup="search_customer()" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
                             <button type="button" class="btn btn-sm btn-primary"> Go!</button> </span>
                             </div>
                         </div>
@@ -370,6 +370,52 @@ function history_account_customer(id)
         }
     });
 }
+function search_customer()
+{
+    var result = $('#search_customer').val();
+   
+    $.ajax({
+        url: '{{URL::to('/search-account-customer')}}',
+        type: 'POST',
+        data: {result:result},
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        dataType: 'json',
+        success: function (response) 
+        { 
+            var output=`
+            <tr> 
+                <th style="width:30px;"></th>
+                <th>Tên khách hàng</th>
+                <th>Số điện thoại</th>
+                <th>Địa chỉ</th>
+                <th style="width:30px;"></th>   
+            </tr>`;
+            $('tbody').html('');
+            response.forEach(function (item) {
+               
+            output+=`
+            <tr>
+                <td style="width:30px;"></td>
+                <td class="project-title">
+                    <p>${item.full_name}</p>  
+                </td>
+                <td class="project-title">
+                    <p> ${item.phone_active} VND</p> 
+                </td>
+                <td class="project-title">
+                    <p>${item.address} VND</p> 
+                </td>
 
+                <td class="project-actions">
+                <button onClick="history_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i>Lịch sử đơn</button>
+                    <button onClick="edit_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
+                    <button onClick="delete_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
+                </td>
+            </tr>`;    
+            });
+            $('tbody').html(output);    
+        }
+    });
+}
 </script>
 @endsection

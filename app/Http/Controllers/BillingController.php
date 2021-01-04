@@ -95,19 +95,41 @@ class BillingController extends Controller
     }
     public function save_billing_acctually(Request $request)
     {
+        $data=array();
         $arr = $request->arrayservice;
-        $dem = count($arr);
-        if($dem==0)
+        if($arr=='')
         {
             $mes['mes']='Chọn tối thiểu một dịch vụ';
             return json_encode($mes);    
         }else{
             foreach($arr as  $k => $v) 
-            {       
-                $arr['id_service_service']=$v;
-                $arr['id_service_packet']=$id->id;
-                DB::table('tbl_service_packet_detail')->insert($arr); 
+            {   
+                $price = DB::table('tbl_service_service')->where('id',$v)->get();
+                $data['id_service']=$v;
+                $data['id_billing']=$request->id_billing;
+                $data['billing_price']=$price[0]->price;
+                DB::table('tbl_billing_actually')->insert($data); 
             }
+            $param = DB::table('tbl_billing_actually')    
+            ->join('tbl_billing_billing','tbl_billing_billing.id','=','tbl_billing_actually.id_billing')
+            ->join('tbl_service_service','tbl_service_service.id','=','tbl_billing_actually.id_service')
+            ->where('tbl_billing_actually.id_billing',$request->id_billing)
+            ->select('service','price','billing_quantity','id_billing','id_service')
+            ->get();
+          
+            return json_encode($param);    
+        }
+    }
+    public function search_bill(Request $request)
+    {
+        $keywork = $request->result;
+        if($keywork =='')
+        {
+            $data = DB::table('tbl_billing_billing')->orderby('id','desc')->get();
+            return json_encode($data);
+        }else{
+            $data = DB::table('tbl_billing_billing')->where('billing_code', 'LIKE', "%{$keywork}%")->get();
+            return json_encode($data);
         }
     }
 

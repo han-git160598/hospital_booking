@@ -83,7 +83,7 @@
                </form>
               </div>
               <div class="modal-footer">
-               <button type="button"  id="insert_service" onClick="insert_service({{$data[0]->id}})" class="btn btn-success">Thêm dịch vụ</button>
+               <button type="button" data-dismiss="modal" id="insert_service" onClick="insert_service({{$data[0]->id}})" class="btn btn-success">Thêm dịch vụ</button>
                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               </div>
              </div>
@@ -659,7 +659,7 @@ function insert_service(id)
    
     
     console.log(arr);
-    console.log(bill_quantity1);
+ //   console.log(bill_quantity1);
     $.ajax({
         url: '{{URL::to('/save-billing-actually')}}',
         type: 'POST',
@@ -668,7 +668,45 @@ function insert_service(id)
         dataType: 'json',
         success: function (response) 
         {
-            alert(response['mes']);
+           // alert(response['mes']);
+            console.log(response);
+            var output=`
+            <tr> 
+                <th style="width:30px;"></th>
+                <th>Tên dịch vụ</th>
+                <th>Đơn giá</th>
+                <th>Số lượng</th>
+                
+                <th style="width:30px;"></th>
+                <th>
+                <button type="button" onClick="list_service1()" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning"><img src="{{asset ('backend/icon/add.svg')}}"></button>
+                </th>
+            </tr>`;
+            $('tbody').html('');
+            response.forEach(function (item) {
+                //console.log(item);
+            output+=`
+            <tr>
+                <td style="width:30px;"></td>
+                <td class="project-title">
+                    <p>${item.service}<p>
+                </td>
+                <td class="project-title">
+                    <p>${item.price}<p>
+                </td>
+                <td class="project-title">
+                    <p>${item.billing_quantity}<p>
+                </td>
+                <td class="project-title">
+                    <p><button>remove</button><p>
+                </td>
+           
+                <td style="width:30px;"></td>
+            </tr>`;    
+            });
+      
+            $('tbody').html(output); 
+            
         }
     });
 }

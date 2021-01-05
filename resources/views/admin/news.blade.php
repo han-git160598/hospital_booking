@@ -145,6 +145,9 @@ function save_news()
 }
 function delete_news(id)
 {
+    var r=confirm('Waring! Bạn có muốn xóa không !!');
+    if(r==true)
+    {
     $.ajax({
         url: '{{URL::to('/delete-news')}}'+'/'+id,
         type: 'GET',
@@ -194,6 +197,9 @@ function delete_news(id)
             $('tbody').html(output);   
         }
     }); 
+    }else{
+        
+    }
 }
 function edit_news(id)
 {

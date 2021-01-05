@@ -13,12 +13,13 @@ class AccountAdminController extends Controller
     {
     $model = new AuthModel;
     $model->AuthLogin();
+    $permission=$model->permission();
     $data = DB::table('tbl_account_admin') 
     ->join('tbl_account_type','tbl_account_type.id','=','tbl_account_admin.id_type')
     ->select('tbl_account_admin.id', 'full_name', 'phone_number','status','type_account')
     ->orderby('tbl_account_admin.id','desc')->get(); 
     //dd($data); 
-    return view('admin.account_admin',compact('data'));
+    return view('admin.account_admin',compact('data','permission'));
     }
     public function disable_account_admin($id) 
     {
@@ -227,5 +228,28 @@ class AccountAdminController extends Controller
         $mes['mes']='Cập nhật trạng thái thành công !';
         return json_encode($mes);
         }
+    }
+    public function search_account_admin(Request $request)
+    {
+        $keywork = $request->result;
+       
+        if($keywork =='')
+        {
+            $data = DB::table('tbl_account_admin')->orderby('id','desc')
+            ->join('tbl_account_type','tbl_account_type.id','=','tbl_account_admin.id_type')
+            ->select('tbl_account_admin.id', 'full_name', 'phone_number','status','type_account')
+            ->get();
+            return json_encode($data);
+        }else{
+            $data = DB::table('tbl_account_admin')
+            ->join('tbl_account_type','tbl_account_type.id','=','tbl_account_admin.id_type')
+            ->where('full_name', 'LIKE', "%{$keywork}%")
+            ->orWhere('phone_number', 'LIKE', "%{$keywork}%")
+            ->orWhere('type_account', 'LIKE', "%{$keywork}%")
+            ->select('tbl_account_admin.id', 'full_name', 'phone_number', 'status','type_account')
+            ->get();
+            return json_encode($data);
+        }
+
     }
 }

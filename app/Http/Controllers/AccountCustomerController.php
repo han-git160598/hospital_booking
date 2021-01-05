@@ -12,6 +12,7 @@ class AccountCustomerController extends Controller
         $model = new AuthModel;
         $model->AuthLogin();
        // dd(123);
+       $permission=$model->permission();
         $all_account_customer = DB::table('tbl_account_customer')
         //->join('tbl_billing_billing','tbl_billing_billing.id_customer','=','tbl_account_customer.id')
         //->select(DB::raw('count(*) as total, id_customer'))
@@ -19,7 +20,7 @@ class AccountCustomerController extends Controller
        // ->groupBy('id_customer')
         ->get();
          //dd($all_account_customer);    
-        return view('admin.account_customer',compact('all_account_customer'));
+        return view('admin.account_customer',compact('all_account_customer','permission'));
     }
     public function save_account_customer(Request $request)
     {  
@@ -68,7 +69,11 @@ class AccountCustomerController extends Controller
             $data = DB::table('tbl_account_customer')->orderby('id','desc')->get();
             return json_encode($data);
         }else{
-            $data = DB::table('tbl_account_customer')->where('full_name', 'LIKE', "%{$keywork}%")->get();
+            $data = DB::table('tbl_account_customer')
+            ->where('full_name', 'LIKE', "%{$keywork}%")
+            ->orWhere('phone_active', 'LIKE', "%{$keywork}%")
+            ->orWhere('address', 'LIKE', "%{$keywork}%")
+            ->get();
             return json_encode($data);
         }
     }

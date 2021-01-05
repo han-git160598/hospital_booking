@@ -427,6 +427,9 @@ function remove_service(id_ser,id_packet)//remove service trong packet
 }
 function delete_service_packet(id)
 {
+    var r=confirm('Waring! Bạn có muốn xóa không !!');
+    if(r==true)
+    {
     console.log(id);
     $.ajax({
         url: '{{URL::to('/delete-service-packet')}}',
@@ -464,6 +467,9 @@ function delete_service_packet(id)
          $('tbody').html(output);  
         }
     });
+    }else{
+        
+    }
 
 }
 

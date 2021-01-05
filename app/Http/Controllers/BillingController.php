@@ -11,9 +11,10 @@ class BillingController extends Controller
     {
         $model = new AuthModel;
         $model->AuthLogin();
+        $permission=$model->permission();
         $all_bill = DB::table('tbl_billing_billing')->orderby('id','desc')->get();
         //dd($all_bill);
-        return view('admin.order_billing.billing_billing',compact('all_bill'));
+        return view('admin.order_billing.billing_billing',compact('all_bill','permission'));
     }
     public function status_filter_billing(Request $request)
     {

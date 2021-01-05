@@ -11,8 +11,9 @@ class AccountTypeController extends Controller
     {
         $model = new AuthModel;
         $model->AuthLogin();
+        $permission=$model->permission();
         $all_account_type=DB::table('tbl_account_type')->orderby('id','desc')->get();
-        return view('admin.account_type',compact('all_account_type'));
+        return view('admin.account_type',compact('all_account_type','permission'));
     }
     public function save_account_type(Request $request)
     {

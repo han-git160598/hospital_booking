@@ -130,7 +130,9 @@ function save_account_type()
 }
 function delete_account_type(id)
 {
-    console.log(id);
+    var r=confirm('Waring! Bạn có muốn xóa không !!');
+    if(r==true)
+    {
     $.ajax({
         url: '{{URL::to('/delete-account-type')}}'+'/'+id,
         type: 'GET',
@@ -165,6 +167,9 @@ function delete_account_type(id)
             $('tbody').html(output);  
         }
     }); 
+    }else{
+        
+    }
 }
 function edit_account_type(id)
 {

@@ -183,7 +183,9 @@ function save_account_customer()
 }
 function delete_account_customer(id)
 {
-    console.log(id);
+    var r=confirm('Waring! Bạn có muốn xóa không !!');
+    if(r==true)
+    {
      $.ajax({
         type:"GET",
         url:'{{URL::to('/delete-account-customer')}}'+'/'+id,
@@ -225,6 +227,9 @@ function delete_account_customer(id)
             
         }
     });
+    }else{
+        
+    }
 }
 function edit_account_customer(id)
 {

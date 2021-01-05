@@ -85,6 +85,9 @@
 <script>
 function delete_service(id)
 {
+    var r=confirm('Waring! Bạn có muốn xóa không !!');
+    if(r==true)
+    {
     console.log(id)
     $.ajax({
         url: '{{URL::to('/delete-service-service')}}'+'/'+id,
@@ -122,6 +125,9 @@ function delete_service(id)
             $('tbody').html(output); 
         }
     });
+    }else{
+        
+    }
 }
 function edit_service(id)
 {

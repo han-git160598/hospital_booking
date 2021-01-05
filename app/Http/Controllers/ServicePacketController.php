@@ -11,6 +11,7 @@ class ServicePacketController extends Controller
     {
         $model = new AuthModel;
         $model->AuthLogin();
+        $permission=$model->permission();
         $all_service_packet_detail= DB::table('tbl_service_packet_detail')
         ->join('tbl_service_packet','tbl_service_packet.id','=','tbl_service_packet_detail.id_service_packet')
         ->join('tbl_service_service','tbl_service_service.id','=','tbl_service_packet_detail.id_service_packet')
@@ -41,7 +42,7 @@ class ServicePacketController extends Controller
                             // print_r($tam);
                             // echo ("</pre>");
        //dd($tam);
-        return view('admin.service_packet',compact('tam'));
+        return view('admin.service_packet',compact('tam','permission'));
     }
     public function list_service_packet_detail(Request $request) // edit service packet
     {

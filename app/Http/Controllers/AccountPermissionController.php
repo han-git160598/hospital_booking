@@ -11,9 +11,10 @@ class AccountPermissionController extends Controller
     {
         $model = new AuthModel;
         $model->AuthLogin();
+        $permission=$model->permission();
         $all_account_premission = DB::table('tbl_account_permission')->orderby('id','desc')->get();
        // dd($all_account_premission);
-        return view('admin.account_premission',compact('all_account_premission'));
+        return view('admin.account_premission',compact('all_account_premission','permission'));
     }
     public function save_account_permission(Request $request)
     {
@@ -76,8 +77,11 @@ class AccountPermissionController extends Controller
             $data = DB::table('tbl_account_permission')->orderby('id','desc')->get();
             return json_encode($data);
         }else{
-            $data = DB::table('tbl_account_permission')->where('permission', 'LIKE', "%{$keywork}%")->get();
+            $data = DB::table('tbl_account_permission')->where('permission', 'LIKE', "%{$keywork}%")
+            ->orWhere('description', 'LIKE', "%{$keywork}%")
+            ->get();
             return json_encode($data);
         }
+
     }
 }   

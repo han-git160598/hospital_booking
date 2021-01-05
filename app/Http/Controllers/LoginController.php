@@ -42,4 +42,16 @@ class LoginController extends Controller
         Session::put('id',null);
     	return view('login');
     }
+    // public function permission()
+    // {
+    //     $id = Session::get('id');
+    //     $permission=DB::table('tbl_account_permission')
+    //     ->leftjoin('tbl_account_authorize','tbl_account_authorize.grant_permission','=','tbl_account_permission.id')
+    //     ->leftjoin('tbl_account_admin','tbl_account_admin.id','=','tbl_account_authorize.id_admin')
+    //     ->where('tbl_account_authorize.id_admin',$id)
+    //    // ->select('tbl_account_permission.id','description', 'tbl_account_authorize.admin')
+    //     ->get();
+        
+
+    // }
 }

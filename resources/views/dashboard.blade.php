@@ -87,10 +87,12 @@
                                 <div class="nano-content">
                                     <ul class="nav nav-pills nav-stacked nav-inq">
                                         <li class="active">
-                                            <a href="index.html"><i class="fa fa-home"></i> <span class="nav-label"> Dashboards </span></a>
+                                            <a href="#"><i class="fa fa-home"></i> <span class="nav-label"> Dashboards </span></a>
                                         </li>
+                                       
+                                        @foreach($permission as $key=> $v)
+                                        @if($v->permission == 'account_service')
                                         <li class="nav-parent">
-   
                                             <a href="#"><i><img src="{{asset ('backend/icon/product management.svg')}}"></i> <span class="nav-label"> Quản lý sản phẩm</span></a>
                                             <ul class="children nav">
                                                 <li><a href="{{URL::to('/all-service-service')}}"> Danh sách dịch vụ khám</a></li>
@@ -98,33 +100,41 @@
                                                 <li><a href="{{URL::to('/disable-service-service')}}"> Dịch vụ bị vô hiệu hóa</a></li>
                                             </ul>
                                         </li>
+                                        @endif
+                                        @if($v->permission == 'account_news')
                                         <li>
-                                             
                                             <a href="{{URL::to('/news')}}"><i><img src="{{asset ('backend/icon/Post management.svg')}}"></i><span class="nav-label"> Quản lý bài viết</span></a>                                           
                                         </li>
                                         <li class="nav-parent">
-                                            <a href="#"><i><img src="{{asset ('backend/icon/employee management.svg')}}"></i></i> <span class="nav-label"> Quản lý nhân viên</span></a>
+                                            <a href="#"><i><img src="{{asset ('backend/icon/employee management.svg')}}"></i> <span class="nav-label"> Quản lý nhân viên</span></a>
                                             <ul class="children nav">
                                                 <li><a href="{{URL::to('/all-account-admin')}}"> Danh sách tài khoản</a></li>
                                                 <li><a href="{{URL::to('/all-account-permission')}}"> Quản lý quyền hạn module</a></li>
                                                 <li><a href="{{URL::to('/all-account-type')}}"> Quản lý loại tài khoản</a></li>
                                             </ul>
                                         </li>
+                                        @endif
+                                         @if($v->permission == 'account_orders')
                                         <li >
                                             <a href="{{URL::to('/all-billing')}}"><i><img src="{{asset ('backend/icon/order management.svg')}}"></i> <span class="nav-label"> Quản lý đơn khám</span></a>
-                                  
                                         </li>
+                                        @endif
+                                         @if($v->permission == 'account_slide')
                                         <li >
                                             <a href="{{URL::to('/all-slide')}}"><i><img src="{{asset ('backend/icon/slide management.svg')}}"></i> <span class="nav-label"> Quản lý slide</span></a>
-                                          
                                         </li>
-                                        <li >
+                                        @endif
+                                        @if($v->permission == 'account_customer')
+                                        <li>
                                             <a href="{{URL::to('/all-account-customer')}}"><i><img src="{{asset ('backend/icon/customer manager.svg')}}"></i> <span class="nav-label"> Quản lý khách hàng</span></a>
                                         </li>
+                                        @endif
+                                        @if($v->permission == 'account_force_signout')
                                         <li >
                                             <a href="{{URL::to('/force-sign-out')}}"><i><img src="{{asset ('backend/icon/force sign out.svg')}}"></i> <span class="nav-label">Cưỡng chế logout</span></a>
                                         </li>
-                                     
+                                        @endif
+                                     @endforeach
                                         
                                     </ul>
                                 </div>

@@ -68,7 +68,7 @@
                             <button type="button" id="loading-example-btn" class="btn btn-white btn-sm" ><i class="fa fa-refresh"></i> Refresh</button>
                         </div>
                         <div class="col-md-11">
-                            <div class="input-group"><input type="text" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
+                            <div class="input-group"><input type="text" onkeyup="search_account_admin()" id="search_account_admin" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
                             <button type="button" class="btn btn-sm btn-primary"> Go!</button> </span>
                             </div>
                         </div>
@@ -654,6 +654,9 @@ function save_account_admin()
 
 function delete_account_admin(id)
 {
+    var r=confirm('Waring! Bạn có muốn xóa không !!');
+    if(r==true)
+    {
     $.ajax({
     url: '{{URL::to('/delete-account-admin')}}',
     type: 'POST',
@@ -705,6 +708,64 @@ function delete_account_admin(id)
       $('tbody').html(output);
     }
     });
+    }else{
+        
+    }
+}
+function search_account_admin()
+{
+    var result = $('#search_account_admin').val();
+     $.ajax({
+        url: '{{URL::to('/search-account-admin')}}',
+        type: 'POST',
+        data: {result:result},
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        dataType: 'json',
+        success: function (response) 
+        {
+            output=`
+            <tr> 
+                <th style="width:30px;"></th>
+                <th>Họ & Tên</th>
+                <th>Số điện thoại</th>
+                <th>Chức vụ</th>
+                <th style="width:30px;"></th>
+            </tr>`;
+            $('tbody').html('');
+            response.forEach(function (item) {
+            output+=`
+            <tr>`;
+            if(item.status == 'Y')
+            output+=`
+                <td class="project-status">
+                    <button id="status_account" class="label label-primary" onClick="disable_account_admin(${item.id})" >Disable</button>
+                </td>`;
+            else
+            output+=`
+                <td class="project-status">
+                    <button id="status_account" class="label label-primary" onClick="enable_account_admin(${item.id})" >Enable</button>
+                </td>`;
+            output+=`
+            <td class="project-title">
+                <p>${item.full_name}</p>  
+            </td>
+            <td class="project-title">
+                <p> ${item.phone_number}</p> 
+            </td>
+            <td class="project-title">
+                <p> ${item.type_account}</p> 
+            </td>
+        
+            <td class="project-actions">
+                <button onClick="account_admin_detail(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết</button>
+                <button onClick="delete_account_admin(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
+            </td>
+            </tr>`;
+
+            });
+        $('tbody').html(output);
+        }
+     });
 }
 </script>
 @endsection

@@ -114,7 +114,7 @@ function save_Slide()
     //console.log(image_upload_slide1);
   // var image_upload_slide1 = $('#image_upload_slide').prop('files');
    var image_upload_slide1 = $('#image_upload_slide')[0].files[0];
-   // console.log(image_upload_slide1);
+    console.log(image_upload_slide1);
     $.ajax({
         url: '{{URL::to('/save-slide')}}',
        type: 'GET',
@@ -128,7 +128,10 @@ function save_Slide()
 }
 function delete_slide(id)
 {
-    console.log(id);
+    var r=confirm('Waring! Bạn có muốn xóa không !!');
+    if(r==true)
+    {
+    
     $.ajax({
         url: '{{URL::to('/delete-slide')}}'+'/'+id,
         type: 'GET',
@@ -163,6 +166,9 @@ function delete_slide(id)
             $('tbody').html(output);   
         }
     }); 
+    }elseP{
+        
+    }
 }
 function edit_slide(id)
 {
@@ -204,7 +210,7 @@ function update_Slide(id)
 {
     var order_slide1 = $('#order_slide_ud').val();
     var image_upload_slide1 = $('#image_upload_slide_ud').val();
-   
+   console.log(image_upload_slide1);
     $.ajax({
         url: '{{URL::to('/update-slide')}}'+'/'+id,
         type: 'GET',

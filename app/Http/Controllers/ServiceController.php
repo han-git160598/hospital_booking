@@ -45,6 +45,15 @@ class ServiceController extends Controller
     }
     public function deleteservice_service($id)
     {
+       
+        $check = DB::table('tbl_billing_detail')->where('id_service',$id)->count();
+        if($check >0)
+        {
+            $mes['mes']='Dịch vụ này không thể xóa';
+            $mes['sucsses']='Cannot';
+            return json_encode($mes);     
+        }
+        DB::table('tbl_service_packet_detail')->where('id_service_service',$id)->delete();
         DB::table('tbl_service_service')->where('id',$id)->delete();
         $data = DB::table('tbl_service_service')->orderby('id','desc')->get();
         return json_decode($data);

@@ -52,7 +52,8 @@
                                 <th>Tên khách hàng</th>
                                 <th>Số điện thoại</th>
                                 <th>Địa chỉ</th>
-                                <th>Số dịch vụ</th>
+                       
+                                <th style="width:30px;"></th>
                                 <th style="width:30px;"></th>
                             </tr>
                             @foreach($all_account_customer as $key=> $value)
@@ -67,13 +68,13 @@
                                 <td class="project-title">
                                     <p> {{$value->address}} VND</p> 
                                 </td>
-                                <td class="project-title">
-                                    <p> {{$value->address}} VND</p> 
-                                </td>
+                               
                                 <td class="project-actions">
                                     <button onClick="history_account_customer({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i>Lịch sử đơn</button>
-                                    <button onClick="edit_account_customer({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
-                                    <button onClick="delete_account_customer({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
+                                </td>
+                                <td class="project-actions">
+                                    <button onClick="edit_account_customer({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                                    <button onClick="delete_account_customer({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                                 </td>
                             </tr>
                             @endforeach
@@ -393,6 +394,7 @@ function search_customer()
                 <th>Tên khách hàng</th>
                 <th>Số điện thoại</th>
                 <th>Địa chỉ</th>
+                <th style="width:30px;"></th> 
                 <th style="width:30px;"></th>   
             </tr>`;
             $('tbody').html('');
@@ -412,7 +414,9 @@ function search_customer()
                 </td>
 
                 <td class="project-actions">
-                <button onClick="history_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i>Lịch sử đơn</button>
+                    <button onClick="history_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i>Lịch sử đơn</button>
+                </td>
+                <td class="project-actions">
                     <button onClick="edit_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
                     <button onClick="delete_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
                 </td>

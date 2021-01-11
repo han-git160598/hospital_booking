@@ -100,11 +100,11 @@ Route::post('/search-account-customer','AccountCustomerController@search_account
 
 Route::get('/history-account-customer/{id}','AccountCustomerController@all_history_account_customer');
 Route::get('/detail-order-customer/{id}','AccountCustomerController@detail_order_customer');
-Route::get('/service-detail/{id}','AccountCustomerController@service_detail');
+Route::post('/service-detail','AccountCustomerController@service_detail');
 Route::get('/customer-detail/{id}','AccountCustomerController@customer_detail');
-Route::get('/actually-detail/{id}','AccountCustomerController@actually_detail');
-Route::get('/billing-detail/{id}','AccountCustomerController@billing_detail');
-Route::get('/appointment-detail/{id}','AccountCustomerController@appointment_detail');
+Route::post('/actually-detail','AccountCustomerController@actually_detail');
+Route::post('/billing-detail','AccountCustomerController@billing_detail');
+
 
 
 
@@ -139,9 +139,12 @@ Route::post('/search-bill','BillingController@search_bill');
 Route::get('/status-filter-billing','BillingController@status_filter_billing');
 Route::get('/order-billing-detail/{id}','BillingController@order_billing_detail');
 Route::get('/cancel-bill/{id}','BillingController@cancel_bill');
-Route::get('/add-appointment','BillingController@add_appointment');
+Route::post('/add-appointment','BillingController@add_appointment');
 Route::get('/update-billing-date-time','BillingController@update_billing_date_time');
-
+Route::post('/update-status-bill','BillingController@update_status_bill');
+Route::post('/remove-service-actually','BillingController@remove_service_actually');
+// appointment
+Route::post('/appointment-detail','BillingController@appointment_detail');
 // Acctually
 
 Route::post('/save-billing-actually','BillingController@save_billing_acctually');

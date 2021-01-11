@@ -276,8 +276,8 @@ $.ajax({
                 <smal id="erro_pass"></smal>
                 </label></p>
                  <menu>
-                <button>Hủy</button>
-                <button onClick="update_password_admin(${item[0].id})">Xác nhận</button>
+                <button type="submit">Hủy</button>
+                <button type="submit" onClick="update_password_admin(${item[0].id})">Xác nhận</button>
                 </menu>
             </form>
             </dialog>
@@ -378,7 +378,7 @@ $.ajax({
                 item[1].forEach(function (v) {
 
                 output+=`
-                <p><span><button onClick="popup_remove_authorize(${v.id},${item[0].id})" class="label label-primary" ><i class="fa fa-remove"></i></button> ${v.description}</span></p>
+                <p><span><button onClick="remove_authorize(${v.id},${item[0].id})" class="label label-primary" ><i class="fa fa-remove"></i></button> ${v.description}</span></p>
                 `;
                 arr_author.push(v.id);
                 });
@@ -455,7 +455,7 @@ function add_permission(id)
         $('#list_premission').html('');
         response.forEach(function (item) {
         output+=`
-        <p><span><button onClick="popup_remove_authorize(${item.id},${item.id_admin})" class="label label-primary" ><i class="fa fa-remove"></i></button> ${item.description}</span></p>
+        <p><span><button onClick="remove_authorize(${item.id},${item.id_admin})" class="label label-primary" ><i class="fa fa-remove"></i></button> ${item.description}</span></p>
         `;
         });   
         $('#list_premission').html(output);    }
@@ -470,12 +470,14 @@ function resetpass_admin(id)
 }
 function update_password_admin(id)
 {
+
     $('#erro_pass').html('');
     var pass_admin1= $('#pass_admin').val();
     var pass_admin_again1= $('#pass_admin_again').val();
     if(pass_admin_again1 !=pass_admin1){
     $('#erro_pass').html('Mật khẩu không trùng khớp');
     }else{
+
         $.ajax({
         url: '{{URL::to('/reset-password-admin')}}',
         type: 'POST',
@@ -522,26 +524,30 @@ function popup_remove_authorize(id_pre,id_admin)
 function remove_authorize(id_pre,id_admin)
 {
     console.log(id_pre);console.log(id_admin);
-$.ajax({
-    url: '{{URL::to('/remove-authorize-admin')}}',
-    type: 'POST',
-    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-    data: {id_pre1:id_pre , id_admin1:id_admin},
-    dataType: 'json',
-    success: function (response) 
-    {
-        console.log(response);
-        output=``;
-        $('#list_premission').html('');
-        response.forEach(function (item) {
-        output+=`
-        <p><span><button onClick="remove_authorize(${item.id},${item.id_admin})" class="label label-primary" ><i class="fa fa-remove"></i></button> ${item.description}</span></p>
-        `;
-        });   
-        $('#list_premission').html(output); 
-    }
-    });
-     location.reload();
+var r=confirm('Waring! Bạn có muốn xóa không !!');
+if(r==true)
+{
+    $.ajax({
+        url: '{{URL::to('/remove-authorize-admin')}}',
+        type: 'POST',
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        data: {id_pre1:id_pre , id_admin1:id_admin},
+        dataType: 'json',
+        success: function (response) 
+        {
+            console.log(response);
+            output=``;
+            $('#list_premission').html('');
+            response.forEach(function (item) {
+            output+=`
+            <p><span><button onClick="remove_authorize(${item.id},${item.id_admin})" class="label label-primary" ><i class="fa fa-remove"></i></button> ${item.description}</span></p>
+            `;
+            });   
+            $('#list_premission').html(output); 
+        }
+        });
+        location.reload();
+}else{  }
     
 }
 $('#create_account_admin').click(function(){

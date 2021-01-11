@@ -29,10 +29,10 @@
                         <li>
                             <div class="logopanel" style="margin-left: 0px; z-index: 99999">
                                 <div class="profile-element">
-                                    <h2><a href="index.html">InQ Admin</a></h2>
+                                    <h2><a href="#">Trang Admin</a></h2>
                                 </div>
                                 <div class="logo-element">
-                                    InQ
+                                  
                                 </div>
                             </div>
                         </li>
@@ -47,7 +47,7 @@
                                     <h4 class="media-heading">
                                    
                                     <a data-toggle="collapse" data-target="#loguserinfo" class="pull-right"><i class="fa fa-angle-down"></i></a></h4>
-                                    <span>Software Engineer</span>
+                                    <span>username</span>
                                 </div>
                             </div>
                             <div class="leftpanel-userinfo collapse" id="loguserinfo" style="position: absolute; background: #3b4354!important">

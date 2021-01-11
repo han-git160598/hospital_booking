@@ -126,12 +126,15 @@ class AccountCustomerController extends Controller
             
 
     }
-    public function service_detail($id)
+    public function service_detail(Request $request)
     {
         $data = DB::table('tbl_billing_billing')    
         ->join('tbl_billing_detail','tbl_billing_detail.id_billing','=','tbl_billing_billing.id')    
         ->join('tbl_service_service','tbl_service_service.id','=','tbl_billing_detail.id_service')
-        ->where('tbl_billing_detail.id_billing',$id)->get();
+       // ->join('tbl_billing_appointment','tbl_billing_appointment.id_billing','=','tbl_billing_billing.id')
+        ->where('tbl_billing_detail.id_billing',$request->id)
+    //    ->select('id_service','service','tbl_billing_billing.id_billing','tbl_service_service.id')
+        ->get();
       //  dd($data);
         return json_encode($data);
     }
@@ -143,24 +146,37 @@ class AccountCustomerController extends Controller
         ->get();   
         return json_encode($data); 
     }
-    public function actually_detail($id)
+    public function actually_detail(Request $request)
     {
-        $data = DB::table('tbl_billing_actually')    
-        ->join('tbl_billing_billing','tbl_billing_billing.id','=','tbl_billing_actually.id_billing')
+      
+        // $total =  DB::table('tbl_billing_actually')
+        // ->where('id_billing',$request->id_billing)
+        // ->groupby('billing_price')->sum('billing_price') ->select('id_billing');
+
+            $data['service'] = DB::table('tbl_billing_actually')    
+            ->join('tbl_billing_billing','tbl_billing_billing.id','=','tbl_billing_actually.id_billing')
         ->join('tbl_service_service','tbl_service_service.id','=','tbl_billing_actually.id_service')
-        ->where('tbl_billing_actually.id_billing',$id)
+        ->where('tbl_billing_actually.id_billing',$request->id)
         ->get();
+        $data['total'] = DB::table('tbl_billing_actually')->where('id_billing',$request->id)
+        ->select([DB::raw("SUM(billing_price) as total_actually")])
+        ->groupBy('id_billing')
+        ->get();
+
+        
         return json_encode($data);
+            
     }
-    public function billing_detail($id)
+    public function billing_detail(Request $request)
     {
         $data = DB::table('tbl_billing_billing')    
       //  ->join('tbl_billing_document','tbl_billing_document.id_billing','=','tbl_billing_billing.id')    
-        ->where('tbl_billing_billing.id',$id)
+        ->where('tbl_billing_billing.id',$request->id)
         ->get();   
-      //  dd($data);
+     
         return json_encode($data);     
     }
+    
 
     
     

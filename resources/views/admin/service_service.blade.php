@@ -95,6 +95,10 @@ function delete_service(id)
         dataType: 'json',
         success: function (response) 
         {
+        if (response['mes'])
+        {
+            alert(response['mes']);
+        }else{
          var output=`
              <tr> 
                 <th>Tên dịch vụ</th>
@@ -123,6 +127,7 @@ function delete_service(id)
             </tr>`;    
             });
             $('tbody').html(output); 
+        }   
         }
     });
     }else{

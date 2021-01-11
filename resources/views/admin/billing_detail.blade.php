@@ -139,11 +139,15 @@ function service_detail(id)
 {
    // console.log(id);
     $.ajax({
-        url: '{{URL::to('/service-detail')}}'+'/'+id,
-        type: 'GET',
+        url: '{{URL::to('/service-detail')}}',
+        type: 'POST',
+        data: {id:id},
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         dataType: 'json',
         success: function (response) 
-        {   var dem = 1;
+        {   
+            console.log(response);
+            var dem = 1;
             var output=`
             <tr>
                 <th style="width:30px;"></th>
@@ -232,12 +236,15 @@ function customer_detail(id)
 function actually_detail(id)
 {
    // console.log(id);
-     $.ajax({
-        url: '{{URL::to('/actually-detail')}}'+'/'+id,
-        type: 'GET',
+   $.ajax({
+        url: '{{URL::to('/actually-detail')}}',
+        type: 'POST',
+        data: {id:id},
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         dataType: 'json',
         success: function (response) 
         {
+            console.log(response);
             var output=`
             <tr> 
                 <th style="width:30px;"></th>
@@ -248,8 +255,7 @@ function actually_detail(id)
                 <th style="width:30px;"></th>
             </tr>`;
             $('tbody').html('');
-            response.forEach(function (item) {
-                //console.log(item);
+            response.service.forEach(function (item) {
             output+=`
             <tr>
                 <td style="width:30px;"></td>
@@ -270,19 +276,27 @@ function actually_detail(id)
                 
             </tr>`;    
             });
+            output+=`
+            <tr> <td style="width:30px;"></td><td>Tổng tiền:</td>
+            <td></td><td></td>
+            <td>${response.total[0].total_actually}</td></tr>`;
+
             $('tbody').html(output); 
-        
         }
      });
 }
 function billing_detail(id)
 {
+    console.log(id);
     $.ajax({
-        url: '{{URL::to('/billing-detail')}}'+'/'+id,
-        type: 'GET',
+        url: '{{URL::to('/billing-detail')}}',
+        type: 'POST',
+        data: {id:id},
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         dataType: 'json',
         success: function (response) 
         {
+            console.log(response);
         var output=`
             <tr> 
                 <th style="width:30px;"></th>

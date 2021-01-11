@@ -49,23 +49,30 @@
                             <tbody>      
                             <tr> 
                                 <th style="width:30px;"></th>
+                                <th style="width:30px;"></th>
                                 <th>Số thứ tự</th>
                                 <th>Hình ảnh</th>
+                                <th style="width:30px;"></th>
+                                <th style="width:30px;"></th>
                                 <th style="width:30px;"></th>
                             </tr>
                             @foreach($all_slide as $key=> $value)
                             <tr>
                                 <td style="width:30px;"></td>
+                                <td style="width:30px;"></td>
                                 <td class="project-title">
                                     <p>{{$value->order_slide}}<p>
                                 </td>
                                  <td class="project-people">
-                                <img   src="{{$value->image_upload}}">
+                                    <img  atl src="#">
                                 </td>
                                 <td class="project-actions">
-                                    <button onClick="edit_slide({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
-                                    <button onClick="delete_slide({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
+                                    <button onClick="edit_slide({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                                </td>                               
+                                <td class="project-actions">       
+                                    <button onClick="delete_slide({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                                 </td>
+                                <td style="width:30px;"></td>
                             </tr>
                             @endforeach
                             </tbody>
@@ -86,10 +93,11 @@ $("#create_slide").click( function(){
     output+=`
     <div class="inqbox-content">
     <div  class="form-horizontal">
- 
+    <form id="insert_category_form" enctype="multipart/form-data">
+         
         <div class="form-group">
         <label class="col-sm-2 control-label">Số thứ tự</label>
-        <div class="col-sm-10"><input type="text"  id="order_slide" class="form-control"></div>
+        <div class="col-sm-10"><input type="text" name="order_slide"  id="order_slide" class="form-control"></div>
         </div>
         <div class="hr-line-dashed"></div>
         
@@ -100,7 +108,7 @@ $("#create_slide").click( function(){
         <div class="hr-line-dashed"></div>  
         <div class="form-group">
         <div class="col-sm-6 col-sm-offset-2">
-            <button class="btn btn-primary" onClick="save_Slide()"  type="btn" id="save_Slide">Thêm</button>
+            <button class="btn btn-primary" onClick="save_Slide()"  type="submit" >Thêm</button>
         </div>
         </div>
     </form>
@@ -112,21 +120,25 @@ $("#create_slide").click( function(){
 
 function save_Slide()
 {
-    var order_slide1 = $('#order_slide').val();
-   //var image_upload_slide1 = $('#image_upload_slide').val();
-    //console.log(image_upload_slide1);
-  // var image_upload_slide1 = $('#image_upload_slide').prop('files');
-   var image_upload_slide1 = $('#image_upload_slide')[0].files[0];
-    console.log(image_upload_slide1);
+//     var order_slide1 = $('#order_slide').val();
+//    //var image_upload_slide1 = $('#image_upload_slide').val();
+//     //console.log(image_upload_slide1);
+//   // var image_upload_slide1 = $('#image_upload_slide').prop('files');
+//    var image_upload_slide1 = $('#image_upload_slide')[0].files[0];
+  //  console.log(image_upload_slide1);
     $.ajax({
         url: '{{URL::to('/save-slide')}}',
-       type: 'GET',
-       data: {order_slide: order_slide1, image_upload_slide: image_upload_slide1 },
-       dataType: 'json',
-       success: function (response) 
-       {
-          alert(response['mes']);
-       }
+        type: 'POST',
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        data: {formdata:$('#insert_category_form').serialize()},
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (response) 
+        {
+            console.log(response);
+            //alert(response['mes']);
+        }
     }); 
 }
 function delete_slide(id)

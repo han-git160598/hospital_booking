@@ -26,7 +26,7 @@ class ServicePacketController extends Controller
             {
                 if($packet->id == $detail->id_service_packet)
                 {
-                   $sum +=$detail->price;
+                   $sum += $detail->price;
                   
                 }
                 

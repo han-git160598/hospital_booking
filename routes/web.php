@@ -111,7 +111,7 @@ Route::get('/appointment-detail/{id}','AccountCustomerController@appointment_det
 
 // QL Slide
 Route::get('/all-slide','SlideController@all_slide');
-Route::get('/save-slide','SlideController@save_slide');
+Route::post('/save-slide','SlideController@save_slide');
 Route::get('/delete-slide/{id}','SlideController@delete_slide');
 Route::get('/edit-slide/{id}','SlideController@edit_slide');
 Route::get('/update-slide/{id}','SlideController@update_slide');

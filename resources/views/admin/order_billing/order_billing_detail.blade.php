@@ -492,6 +492,9 @@ $('#confirm_bill').click(function(){
 });
 function cancel_order(id)
 {
+    var r=confirm('Waring! Bạn có muốn xóa không !!');
+    if(r==true)
+    {
     var comment = $('#bill_comment').val();
     console.log(comment);
     console.log(id);
@@ -505,6 +508,11 @@ function cancel_order(id)
              alert(response['mes']);
         }
     });
+    location.reload();
+    }else{
+
+    }
+   
 
   
 

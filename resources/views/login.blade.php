@@ -13,19 +13,7 @@
       <div class="loginColumns animated fadeInDown">
          <div class="row">
             <div class="col-md-6">
-               <h2 class="font-bold">Welcome to QTC</h2>
-               <p>
-                  Perfectly designed and precisely prepared admin theme with over 50 pages with extra new web app views.
-               </p>
-               <p>
-                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s.
-               </p>
-               <p>
-                  When an unknown printer took a galley of type and scrambled it to make a type specimen book.
-               </p>
-               <p>
-                  <small>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</small>
-               </p>
+              <img  alt="" height="320px" width="320px" src="{{ asset('backend/img/logo.png')}}">
             </div>
             <div class="col-md-6">
                <div class="inqbox-content">
@@ -60,14 +48,7 @@
             </div>
          </div>
          <hr/>
-         <div class="row">
-            <div class="col-md-6">
-               Copyright Your Company
-            </div>
-            <div class="col-md-6 text-right">
-               <small>© 2015-2016</small>
-            </div>
-         </div>
+      
       </div>
    </body>
 </html>

@@ -34,13 +34,14 @@ class BillingController extends Controller
 
         $model = new AuthModel;
         $model->AuthLogin();
+        $permission=$model->permission();
          $data = DB::table('tbl_billing_billing')    
       //  ->join('tbl_billing_document','tbl_billing_document.id_billing','=','tbl_billing_billing.id')
         ->where('tbl_billing_billing.id',$id)
         ->get();
       //  dd($data);
        // return json_encode($data); 
-        return view('admin.order_billing.order_billing_detail',compact('data'));
+        return view('admin.order_billing.order_billing_detail',compact('data','permission'));
     }
     public function cancel_bill($id,Request $request)
     {  

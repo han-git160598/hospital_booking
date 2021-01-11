@@ -50,8 +50,8 @@
                           
                         <center><i><img src="{{asset ('backend/icon/Group 4784.png')}}"></i><center>
               
-                        <button class="btn btn-primary" id="staff"><i><img src="{{asset ('backend/icon/out staff.svg')}}"></i></button>
-                        <button class="btn btn-primary" id="customer"><i><img src="{{asset ('backend/icon/out customer.svg ')}}"></i></button>
+                       <a id="staff"><i><img src="{{asset ('backend/icon/out staff.svg')}}"></i></a>
+                        <a id="customer"><i><img src="{{asset ('backend/icon/out customer.svg ')}}"></i></a>
                       
                     </div>
                 </div>

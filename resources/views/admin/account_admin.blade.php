@@ -7,7 +7,7 @@
             <div class="col-lg-12">
                 <div class="inqbox float-e-margins">
                 <div class="inqbox-content">
-                    <h2>Project list</h2>
+                    <h2>Tài khoản nhân viên</h2>
                     <ol class="breadcrumb">
                         <li>
                             <a href="index.html">Home</a>
@@ -16,7 +16,7 @@
                             <a>Apps</a>
                         </li>
                         <li class="active">
-                            <strong>Project list</strong>
+                            <strong>Tài khoản nhân viên</strong>
                         </li>
                     </ol>
                 </div>
@@ -250,8 +250,20 @@ $.ajax({
         response.forEach(function (item) {
            // console.log(item);                          
         output+=`
-       
-           
+        <dialog id="confirm_password">
+            <form method="dialog">
+                <p><label>Mật khẩu:
+                </label></p>
+                
+                Bạn có muốn xóa không
+                </label></p>
+                 <menu>
+                <button>Hủy</button>
+                <button onClick="remove_authorize(id_pre,id_admin)">Xác nhận</button>
+                </menu>
+            </form>
+            </dialog>
+
             <dialog id="favDialog">
             <form method="dialog">
                 <p><label>Mật khẩu:
@@ -265,7 +277,7 @@ $.ajax({
                 </label></p>
                  <menu>
                 <button>Hủy</button>
-                <button type="button" onClick="update_password_admin(${item[0].id})">Xác nhận</button>
+                <button onClick="update_password_admin(${item[0].id})">Xác nhận</button>
                 </menu>
             </form>
             </dialog>
@@ -285,10 +297,18 @@ $.ajax({
                                 <h2>Thông tin nhân viên</h2>
                             </div>
                             <dl class="dl-horizontal">
-                                <dt>Trạng thái:</dt>
+                                <dt>Trạng thái:</dt>`;
+                            if (item[0].status=='Y')
+                            output+=`
                                 <dd>
-                                active
-                                </dd>
+                                Đang kích hoạt
+                                </dd>`;
+                            else
+                            output+=`
+                                <dd>
+                                Đã tạm khóa
+                                </dd>`;
+                            output+=`
                             </dl>
                             </div>
                         </div>
@@ -342,7 +362,6 @@ $.ajax({
                                 </div>
 
                                 
-
                             </div>
                             </div>
                         </div>
@@ -352,14 +371,14 @@ $.ajax({
             </div>
             <div class="col-lg-3">
                 <div class="project-manager">
-                <h3><a onClick="list_permission(${item[0].id})" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning">Phân Quyền<img src="{{asset ('backend/icon/add.svg')}}"></a></h3>`;
+                <h2>Phân Quyền</h2>`;
                 output+=`   <div id="list_premission">`;
               // console.log(item[1]);
                 //console.log(item[0]);
                 item[1].forEach(function (v) {
 
                 output+=`
-                <p><span><button onClick="remove_authorize(${v.id},${item[0].id})" class="label label-primary" ><i class="fa fa-remove"></i></button> ${v.description}</span></p>
+                <p><span><button onClick="popup_remove_authorize(${v.id},${item[0].id})" class="label label-primary" ><i class="fa fa-remove"></i></button> ${v.description}</span></p>
                 `;
                 arr_author.push(v.id);
                 });
@@ -367,8 +386,7 @@ $.ajax({
                 output+=`  </div>`;
                 output+=`
                 <div class="text-center m-t-md">
-                    <a href="#" class="btn btn-xs btn-primary">Add files</a>
-                    <a href="#" class="btn btn-xs btn-primary">Report contact</a>
+                    <a onClick="list_permission(${item[0].id})" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning">Thêm quyền</a>
                 </div>
                 </div>
             </div>
@@ -437,7 +455,7 @@ function add_permission(id)
         $('#list_premission').html('');
         response.forEach(function (item) {
         output+=`
-        <p><span><button onClick="remove_authorize(${item.id},${item.id_admin})" class="label label-primary" ><i class="fa fa-remove"></i></button> ${item.description}</span></p>
+        <p><span><button onClick="popup_remove_authorize(${item.id},${item.id_admin})" class="label label-primary" ><i class="fa fa-remove"></i></button> ${item.description}</span></p>
         `;
         });   
         $('#list_premission').html(output);    }
@@ -467,9 +485,10 @@ function update_password_admin(id)
         success: function (response) 
         {
             alert(response['mes']);    
+
         }
         });   
-        //favDialog.closedModal();
+       
     }
 }
 function update_account_admin(id)
@@ -493,8 +512,16 @@ function update_account_admin(id)
     });
     
 }
+function popup_remove_authorize(id_pre,id_admin)
+{
+    
+    console.log(id_pre);console.log(id_admin);
+    confirm_password.showModal();
+}
+
 function remove_authorize(id_pre,id_admin)
 {
+    console.log(id_pre);console.log(id_admin);
 $.ajax({
     url: '{{URL::to('/remove-authorize-admin')}}',
     type: 'POST',
@@ -514,6 +541,8 @@ $.ajax({
         $('#list_premission').html(output); 
     }
     });
+     location.reload();
+    
 }
 $('#create_account_admin').click(function(){
     var output=``;
@@ -714,6 +743,10 @@ function delete_account_admin(id)
 }
 function search_account_admin()
 {
+   
+     setInterval(function() {
+       
+
     var result = $('#search_account_admin').val();
      $.ajax({
         url: '{{URL::to('/search-account-admin')}}',
@@ -766,6 +799,8 @@ function search_account_admin()
         $('tbody').html(output);
         }
      });
+       }, 500); //5 seconds
+         
 }
 </script>
 @endsection

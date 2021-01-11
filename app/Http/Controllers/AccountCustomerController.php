@@ -112,6 +112,8 @@ class AccountCustomerController extends Controller
     {
         $model = new AuthModel;
         $model->AuthLogin();
+        $permission=$model->permission();
+      
         $data = DB::table('tbl_billing_billing')    
          ->join('tbl_billing_detail','tbl_billing_detail.id_billing','=','tbl_billing_billing.id')
         // ->join('tbl_billing_document','tbl_billing_document.id_billing','=','tbl_billing_billing.id')
@@ -120,7 +122,7 @@ class AccountCustomerController extends Controller
        // ->join('tbl_service_service','tbl_service_service.id','=','tbl_billing_actually.id_service')
         ->where('tbl_billing_billing.id',$id)->get();     
        //dd($data);
-       return view('admin.billing_detail',compact('data'));
+       return view('admin.billing_detail',compact('data','permission'));
             
 
     }

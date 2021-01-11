@@ -11,7 +11,7 @@ class AuthModel extends Model
     public function AuthLogin(){
         $id_admin = Session::get('id');
         $force = DB::table('tbl_account_admin')->where('id',$id_admin)->get();
-        if($id_admin && $force[0]->force_sign_out == '1'){
+        if($id_admin && $force[0]->force_sign_out == '0' && $force[0]->status == 'Y'){
             return Redirect::to('/dashboard');
         }else{
             return Redirect::to('/login-admin')->send();

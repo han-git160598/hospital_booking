@@ -19,7 +19,7 @@ class LoginController extends Controller
     	if($result && $result->status == 'Y')
     	{
             $data = array();
-            $data['force_sign_out']='1';
+            $data['force_sign_out']='0';
             DB::table('tbl_account_admin')->where('id',$result->id)->update($data);
     		Session::put('full_name',$result->full_name);
             Session::put('email',$result->email);
@@ -35,7 +35,7 @@ class LoginController extends Controller
     {
         $id = Session::get('id');
         $data = array();
-        $data['force_sign_out']='0';
+        $data['force_sign_out']='1';
         DB::table('tbl_account_admin')->where('id',$id)->update($data);
         Session::put('full_name',null);
         Session::put('email',null);

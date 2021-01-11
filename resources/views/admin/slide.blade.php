@@ -81,12 +81,12 @@
 <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
 <script>
 $("#create_slide").click( function(){
-    
     var output=``;
     $('tbody').html('');  
     output+=`
     <div class="inqbox-content">
     <div  class="form-horizontal">
+ 
         <div class="form-group">
         <label class="col-sm-2 control-label">Số thứ tự</label>
         <div class="col-sm-10"><input type="text"  id="order_slide" class="form-control"></div>
@@ -100,13 +100,16 @@ $("#create_slide").click( function(){
         <div class="hr-line-dashed"></div>  
         <div class="form-group">
         <div class="col-sm-6 col-sm-offset-2">
-            <button class="btn btn-primary" onClick="save_Slide()"" type="btn" id="save_Slide">Thêm</button>
+            <button class="btn btn-primary" onClick="save_Slide()"  type="btn" id="save_Slide">Thêm</button>
         </div>
         </div>
+    </form>
     </div>
     </div> `;
-    $('tbody').html(output);       
+    $('tbody').html(output);    
+
 });
+
 function save_Slide()
 {
     var order_slide1 = $('#order_slide').val();
@@ -166,7 +169,7 @@ function delete_slide(id)
             $('tbody').html(output);   
         }
     }); 
-    }elseP{
+    }else{
         
     }
 }

@@ -17,30 +17,34 @@ class SlideController extends Controller
     }
     public function save_slide(Request $request)
     {
-        if($request->order_slide =='' || $request->image_upload_slide=='')
-        {
-        $mes['mes']='Vui lòng điền đủ trường!';
-        return json_encode($mes);    
-        }
-        $checkslide= DB::table('tbl_slide')->where('order_slide',$request->order_slide)->count();
-        if($checkslide>0)
-        {
-        $mes['mes']='Trường này đã có';
-        return json_encode($mes);      
-        }
-       
-       
-   
-            $data= array();
-           
-            $get_img= $request->image_upload_slide;
-            $new_image=rand(0,99).'.'.$get_img->getClientOriginalExtension();
-            $get_img->move('public/backend/img',$new_image);
-            $data['order_slide']=$request->order_slide;
-            $data['image_upload']=$new_image;
-            DB::table('tbl_slide')->insert($data);
-            $mes['mes']='Thêm thành công!';
-            return json_encode($mes); 
+        // $validation = Validator::make($request->all(), [
+        //     'select_file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+        //     ]);
+        // // if($request->order_slide =='' || $request->file('select_file')=='')
+        // // {
+        // // $mes['mes']='Vui lòng điền đủ trường!';
+        // // return json_encode($mes);    
+        // // }
+        // $checkslide= DB::table('tbl_slide')->where('order_slide',$request->order_slide)->count();
+        // if($checkslide>0)
+        // {
+        // $mes['mes']='Trường này đã có';
+        // return json_encode($mes);      
+        // }
+
+        
+        
+        // $image = $request->file('select_file');
+        
+        // $new_name = rand(0,99) . '.' . $image->getClientOriginalExtension();
+        // $image->move('public/backend/img',$new_name);
+
+
+        // $data['order_slide']=$request->order_slide;
+        // $data['image_upload']=$new_name;
+        // DB::table('tbl_slide')->insert($data);
+        $mes['mes']='Thêm thành công!';
+        return json_encode($mes); 
 
         
     }

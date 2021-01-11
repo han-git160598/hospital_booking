@@ -47,7 +47,7 @@ class AccountAdminController extends Controller
             '0'=>DB::table('tbl_account_admin')
                 ->join('tbl_account_type','tbl_account_type.id','=','tbl_account_admin.id_type')
                 ->where('tbl_account_admin.id',$id)
-                ->select('tbl_account_admin.id','email','full_name','phone_number','type_account','username','description')
+                ->select('tbl_account_admin.id','email','full_name','phone_number','type_account','username','description','status')
                 ->get()->toArray(),
         ); 
         $account_type = DB::table('tbl_account_type')->get();
@@ -173,7 +173,7 @@ class AccountAdminController extends Controller
         $data['password']= $request->password_admin;
         $data['phone_number']=$request->phone_number;
         $data['status']='Y';
-        $data['force_sign_out']='0';	
+        $data['force_sign_out']='1';	
         DB::table('tbl_account_admin')->insert($data);
         $id_admin= DB::table('tbl_account_admin')->orderby('id','desc')->get();
         $id_admin[0]->id;

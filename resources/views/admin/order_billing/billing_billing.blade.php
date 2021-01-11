@@ -110,6 +110,7 @@ function stt_billing()
         dataType: 'json',
         success: function (response) 
         {
+           
         var output=`
             <tr> 
                 <th style="width:30px;"></th>
@@ -129,6 +130,7 @@ function stt_billing()
             </tr>`;
             $('tbody').html('');
             response.forEach(function (item) {
+                 console.log(item);;
             output+=`
              <tr>
                 <td style="width:30px;"></td>
@@ -146,7 +148,7 @@ function stt_billing()
             output+=`<td>Đã hủy</td>`;
              output+=`
                 <td class="project-actions">
-                    <a href="{{URL::to('/order-billing-detail')}}/{{$v->id}}"  class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết </a>
+                    <a href="{{URL::to('/order-billing-detail')}}/${item.id}"  class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết </a>
                 </td>
             </tr>
             `;

@@ -104,17 +104,18 @@
                                 </td>
                             @endif
                                 <td class="project-title">
-                                    <p>{{substr($value->title, 0,  50)}}...<p>
+                                    <p>{{substr($value->title, 0, 200)}} <p>
                                 </td>
                                 <td class="project-title">
-                                    <p>{{substr($value->content, 0,  100)}}...<p>
-
+                                    <p>{{substr($value->content, 0, 200)}} <p>
                                 </td>
-                                <td class="project-people">
-                                <img alt="" height="150" width="150" src="{{$value->image_upload}}">
+                                <td >
+                                <img alt="Image" height="100" width="100" src="{{$value->image_upload}}">
                                 </td>
                                 <td class="project-actions">
                                     <button onClick="edit_news({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
+                                </td>
+                                <td class="project-actions">
                                     <button onClick="delete_news({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
                                 </td>
                             </tr>
@@ -125,7 +126,7 @@
                 </div>
                 </div>
             </div>
-        </div>
+        </div> 
     </div>
     </body>
 
@@ -142,8 +143,54 @@ $( document ).ready(function() {
             contentType: false,
             cache: false,
             processData: false,
-            success: function(data) {
+            success: function(response) {
                  alert(response['mes']);
+                 console.log(response['data']);
+            if(response['data'] != 'faild')
+            {
+                 var output=`
+                <tr> 
+                    <th style="width:30px;"></th>
+                    <th>Tên bài viêt</th>
+                    <th>Nội dung</th>
+                    <th>Hình ảnh</th>
+                    <th style="width:30px;"></th>
+                </tr>`;
+                $('tbody').html('');
+                response['data'].forEach(function (item) {
+                  //  console.log(item);
+                output+=`
+                <tr>`;
+                if(item.home_action == 'Y')
+                output+=` 
+                    <td class="project-status">
+                        <button class="label label-primary" onClick="disable_news(${item.id})" >Disable</button>
+                    </td>`;
+                else
+                output+=`  
+                    <td class="project-status">
+                        <button class="label label-primary" onClick="enable_news(${item.id}))" >Enable</button>
+                    </td>`;  
+                output+=`
+                    <td class="project-title">
+                        <p>${item.title.substr(0, 200)}<p>
+                    </td>
+                    <td class="project-title">
+                        <p>${item.content.substr(0, 200)}<p>
+
+                    </td>
+                    <td class="project-people">
+                        <img alt="" height="150" width="150" src="${item.image_upload}">
+                    </td>
+                    <td class="project-actions">
+                        <button onClick="edit_news(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
+                        <button onClick="delete_news(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
+                    </td>
+                </tr>`;    
+                
+                });
+            }
+            $('tbody').html(output);   
             }
         })
     });
@@ -151,26 +198,6 @@ $( document ).ready(function() {
     
 });
 
-
-function save_news()
-{
-    var title1 = $('#title_news').val();
-    var content1 = $('#content_news').val();
-    var image_upload_news1 = $('#image_upload_news').val();
-    console.log(title1);
-    console.log(content1);
-    console.log(image_upload_news1);
-    $.ajax({
-        url: '{{URL::to('/save-news')}}',
-        type: 'GET',
-        data: {title: title1, content: content1, image_upload: image_upload_news1 },
-        dataType: 'json',
-        success: function (response) 
-        {
-            alert(response['mes']);
-        }
-    }); 
-}
 function delete_news(id)
 {
     var r=confirm('Waring! Bạn có muốn xóa không !!');
@@ -207,10 +234,10 @@ function delete_news(id)
                 </td>`;  
             output+=`
                 <td class="project-title">
-                    <p>${item.title}<p>
+                    <p>${item.title.substr(0, 200)}<p>
                 </td>
                 <td class="project-title">
-                    <p>${item.content}<p>
+                    <p>${item.content.substr(0, 200)}<p>
 
                 </td>
                 <td class="project-people">
@@ -323,10 +350,10 @@ function disable_news(id)
                 </td>`;  
             output+=`
                 <td class="project-title">
-                    <p>${item.title}</p>  
+                    <p>${item.title.substr(0, 200)}</p>  
                 </td>
                 <td class="project-title">
-                    <p> ${item.content} VND</p> 
+                    <p> ${item.content.substr(0, 200)} VND</p> 
                 </td>
                 <td class="project-people">
                      <img alt="" height="150" width="150" src="${item.image_upload}">
@@ -374,10 +401,10 @@ function enable_news(id)
                 </td>`;  
             output+=`
                 <td class="project-title">
-                    <p>${item.title}</p>  
+                    <p>${item.title.substr(0, 200)}</p>  
                 </td>
                 <td class="project-title">
-                    <p> ${item.content} VND</p> 
+                    <p> ${item.content.substr(0, 200)} VND</p> 
                 </td>
                 <td class="project-people">
                      <img alt="" height="150" width="150" src="${item.image_upload}">
@@ -427,10 +454,10 @@ $('#search_news').keyup(function(){
                 </td>`;  
             output+=`
                 <td class="project-title">
-                    <p>${item.title}<p>
+                    <p>${item.title.substr(0, 200)}<p>
                 </td>
                 <td class="project-title">
-                    <p>${item.content}<p>
+                    <p>${item.content.substr(0, 200)}<p>
 
                 </td>
                 <td class="project-people">

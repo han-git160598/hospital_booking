@@ -114,7 +114,7 @@ Route::get('/all-slide','SlideController@all_slide');
 Route::post('/save-slide','SlideController@save_slide');
 Route::get('/delete-slide/{id}','SlideController@delete_slide');
 Route::post('/edit-slide','SlideController@edit_slide');
-Route::post('/update-slide/','SlideController@update_slide');
+Route::post('/update-slide','SlideController@update_slide');
 
 //QL Account type
 Route::get('/all-account-type','AccountTypeController@all_account_type');

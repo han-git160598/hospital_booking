@@ -14,9 +14,17 @@ class NewsController extends Controller
         // $validation = Validator::make($request->all(), [
         //     'img_news' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         // ]);
-        if($request->content_news =='' )
+        $check = DB::table('tbl_news')->where('title',$request->name_news)->get();
+        if(count($check) > 0 )
         {
-        $mes['mes']='Vui lòng điền đủ trường!';
+        $mes['mes']='Tiêu đề bài viết đã tồn tại';
+        $mes['data']= 'faild';
+        return json_encode($mes); 
+        }
+        if($request->content_news ==''|| $request->name_news =='' )
+        {
+        $mes['mes']='Vui lòng điền đầy đủ thông tin';
+        $mes['data']= 'faild';
         return json_encode($mes);    
         }
         $image = $request->file('img_news');
@@ -29,7 +37,8 @@ class NewsController extends Controller
         $data['title']=$request->name_news;
         $data['image_upload']=$url;
         DB::table('tbl_news')->insert($data);
-        $mes['mes']='Thành công';
+        $mes['mes']='Thêm bài viết thành công';
+        $mes['data']= DB::table('tbl_news')->orderby('id','desc')->get();
         return json_encode($mes); 
     }
     public function delete_news($id)

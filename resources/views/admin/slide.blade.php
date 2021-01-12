@@ -53,7 +53,7 @@
                <button type="button" class="close" data-dismiss="modal">&times;</button>
                <h4 class="modal-title">Thêm Slide</h4>
               </div>
-              <div class="modal-body">
+              <div class="modal-body">  
 
             <form id="insert_category_form" enctype="multipart/form-data">
             {{ csrf_field() }}
@@ -91,6 +91,7 @@
             {{ csrf_field() }}
             <label>Số thứ tự (<font style="color: red">*</font>)</label>
             <input type="text" name="stt_slide_ud" id="stt_slide" class="form-control" />
+         
             <br/>
             <label><label> Hình ảnh (<font style="color: red">*</font>)</label>
                 <input type="file" id="img_slide"  name="img_slide_ud" class="form-control" multiple="multiple"  placeholder="Hình ảnh">
@@ -98,9 +99,9 @@
             <br/>
                 <span id="upload_ed_image"></span>
             <br/>
-          <td id="id_slide">
+          <div id="id_slide">
           
-          </td>
+          </div>
             <br/>
             <input type="submit" name="update" id="insert_category" value="Cập nhật" class="btn btn-success" />
            </form>
@@ -130,12 +131,12 @@
                                 <td class="project-title">
                                     <p>{{$value->order_slide}}<p>
                                 </td>
-                                <td >
+                                <td class="project-title">
                                 <img src="{{$value->image_upload}}" height="150" width="150" alt="Image">
                                 </td>
                                 <td class="project-actions">
                                     <button onClick="edit_slide({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
-                                    <button type="button" name="x" id="{{$value->id}}" data-toggle="modal" data-target="#update_data_Modal" class="btn btn-white btn-sm" ><i class="fa fa-remove"></i> Sửa Slide</button>
+                                    <!-- <button type="button" name="x" id="{{$value->id}}" data-toggle="modal" data-target="#update_data_Modal" class="btn btn-white btn-sm" ><i class="fa fa-remove"></i> Sửa Slide</button> -->
                                 </td>                               
                                 <td class="project-actions">       
                                     <button onClick="delete_slide({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
@@ -162,17 +163,74 @@ $( document ).ready(function() {
             url: '{{URL::to('/save-slide')}}',
             method: "POST",
             data: new FormData(this),
-            dataType: 'JSON',
+            dataType: 'JSON', 
             contentType: false,
             cache: false,
             processData: false,
             success: function(data) {
-                 alert(response['mes']);
+                alert(data['mes']);
+            if(data['data'] == 'faild')
+            {
+
+            }else{    
+                var output=`
+                <tr> 
+                    <th style="width:30px;"></th>
+                    <th style="width:30px;"></th>
+                    <th>Số thứ tựt</th>
+                    <th>Hình ảnh</th>
+                    <th style="width:30px;"></th>
+                    <th style="width:30px;"></th>
+                </tr>`;
+                $('tbody').html('');
+                data['data'].forEach(function (item) {
+                output+=`
+                <tr> <th style="width:30px;"></th>
+                    <td  style="width:30px;"></td>
+                    <td class="project-title">
+                        <p>${item.order_slide}<p>
+                    </td>
+                    <td >
+                    <img src="${item.image_upload}" height="150" width="150" alt="Image">
+                    </td>
+                    <td class="project-actions">
+                    <button onClick="edit_slide({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                </td>
+                    <td class="project-actions">
+                        <button onClick="delete_slide(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
+                    </td>
+                    
+                </tr>`;    
+                });
+                $('tbody').append(output);
+                } 
             }
         })
     });
 
-    $('#update_category_form').on('submit', function(event) {
+    
+   
+});
+function edit_slide(id)
+{
+    console.log(id);
+$.ajax({
+        url: '{{URL::to('/edit-slide')}}',
+        type: 'POST',
+        data: {id:id},
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        dataType: 'json',
+        success: function (response) 
+        {   
+            var output=`
+            <input type="text" name="id_slide" value="${id}" class="form-control" /> `;
+           $('#id_slide').html(output); 
+        }
+    });
+$('#update_data_Modal').modal('show');
+
+}  
+$('#update_category_form').on('submit', function(event) {
         event.preventDefault();
         $.ajax({
             url: '{{URL::to('/update-slide')}}',
@@ -182,13 +240,52 @@ $( document ).ready(function() {
             contentType: false,
             cache: false,
             processData: false,
-            success: function(data) {
-                 alert(response['mes']);
-            }
-        })
-    });
-});
+            success: function(data) 
+            {
+            // console.log(data);
+                    alert(data['mes']);
+                if(data['data'] == 'faild')
+                {
 
+                }else{
+                    var output=`
+                    <tr> 
+                        <th style="width:30px;"></th>
+                        <th style="width:30px;"></th>
+                        <th>Số thứ tựt</th>
+                        <th>Hình ảnh</th>
+                        <th style="width:30px;"></th>
+                        <th style="width:30px;"></th>
+                    </tr>`;
+                    $('tbody').html('');
+                    data['data'].forEach(function (item) {
+                    
+                output+=`
+                <tr> <th style="width:30px;"></th>
+                    <td  style="width:30px;"></td>
+                    <td class="project-title">
+                        <p>${item.order_slide}<p>
+                    </td>
+                    <td >
+                    <img src="${item.image_upload}" height="150" width="150" alt="Image">
+                    </td>
+                        <td class="project-actions">
+                        <button onClick="edit_slide({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                    </td>
+                    <td class="project-actions">
+                        <button onClick="delete_slide(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
+                    </td>
+                    
+                </tr>`;    
+                });
+                $('tbody').html(output);
+                location.reload();
+                }
+            }
+           
+        });
+
+    });
 
 function delete_slide(id)
 {
@@ -223,7 +320,7 @@ function delete_slide(id)
                 <img src="${item.image_upload}" height="150" width="150" alt="Image">
                 </td>
                  <td class="project-actions">
-                <button type="button" name="x" id="${item.id}" data-toggle="modal" data-target="#update_data_Modal" class="btn btn-white btn-sm" ><i class="fa fa-remove"></i> Sửa Slide</button>
+                 <button onClick="edit_slide({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
                </td>
                 <td class="project-actions">
                     <button onClick="delete_slide(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
@@ -240,107 +337,59 @@ function delete_slide(id)
         
     }
 }
-function edit_slide(id)
-{
-    console.log(id);
-$.ajax({
-        url: '{{URL::to('/edit-slide')}}',
-        type: 'POST',
-        data: {id:id},
-        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        dataType: 'json',
-        success: function (response) 
-        {
-            $('tbody').html('');  
-            var output=`
-            <div id="update_data_Modal" class="modal fade">
-            <div class="modal-dialog">
-             <div class="modal-content">
-              <div class="modal-header">
-               <button type="button" class="close" data-dismiss="modal">&times;</button>
-               <h4 class="modal-title">Sửa slide</h4>
-              </div>
-              <div class="modal-body">
-            <form id="update_category_form" enctype="multipart/form-data">
-            {{ csrf_field() }}
-            <label>Số thứ tự (<font style="color: red">*</font>)</label>
-            <input type="text" name="stt_slide_ud" id="stt_slide" class="form-control" />
-            <br/>
-            <label><label> Hình ảnh (<font style="color: red">*</font>)</label>
-                <input type="file" id="img_slide"  name="img_slide_ud" class="form-control" multiple="multiple"  placeholder="Hình ảnh">
-                </label>
-            <br/>
-                <span id="upload_ed_image"></span>
-            <br/>
-          <td id="id_slide">
-          </td>
-            <br/>
-            <input type="submit" name="update" id="insert_category" value="Cập nhật" class="btn btn-success" />
-           </form>
-              </div>
-              <div class="modal-footer">
-               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              </div>
-             </div>
-            </div>
-           </div>`;
-           $('#update_data_Modal').html(output); 
-        }
-    });
-$('#update_data_Modal').modal('show');
 
-}
-{{--  function edit_slide(id)
-{
-    console.log(id);
-    $.ajax({
-        url: '{{URL::to('/edit-slide')}}'+'/'+id,
-        type: 'GET',
-        dataType: 'json',
-        success: function (response) 
-        {
-        var output=``;
-        $('tbody').html('');  
-        output+=`
-        <div class="inqbox-content">
-        <div  class="form-horizontal">
-            <div class="form-group">
-            <label class="col-sm-2 control-label">Số thứ tự</label>
-            <div class="col-sm-10"><input type="text" value="${response[0].order_slide}"  id="order_slide_ud" class="form-control"></div>
-            </div>
-            <div class="hr-line-dashed"></div>
+// {{--  function edit_slide(id)
+// {
+//     console.log(id);
+//     $.ajax({
+//         url: '{{URL::to('/edit-slide')}}'+'/'+id,
+//         type: 'GET',
+//         dataType: 'json',
+//         success: function (response) 
+//         {
+//         var output=``;
+//         $('tbody').html('');  
+//         output+=`
+//         <div class="inqbox-content">
+//         <div  class="form-horizontal">
+//             <div class="form-group">
+//             <label class="col-sm-2 control-label">Số thứ tự</label>
+//             <div class="col-sm-10"><input type="text" value="${response[0].order_slide}"  id="order_slide_ud" class="form-control"></div>
+//             </div>
+//             <div class="hr-line-dashed"></div>
             
-            <div class="form-group">
-            <label class="col-sm-2 control-label">Hình ảnh</label>
-            <div class="col-sm-10"><input type="file" id="image_upload_slide_ud"></div>
-            </div>
-            <div class="hr-line-dashed"></div>  
-            <div class="form-group">
-            <div class="col-sm-6 col-sm-offset-2">
-                <button class="btn btn-primary" onClick="update_Slide(${response[0].id})"" type="btn" id="update_Slide">Cập nh</button>
-            </div>
-            </div>
-        </div>
-        </div> `;
-        $('tbody').html(output);     
-        }
-    });
-}  --}}
-function update_Slide(id)
-{
-    var order_slide1 = $('#order_slide_ud').val();
-    var image_upload_slide1 = $('#image_upload_slide_ud').val();
-   console.log(image_upload_slide1);
-    $.ajax({
-        url: '{{URL::to('/update-slide')}}'+'/'+id,
-        type: 'GET',
-        data: {order_slide: order_slide1, image_upload_slide: image_upload_slide1 },
-        dataType: 'json',
-        success: function (response) 
-        {
-            alert(response['mes']);    
-        }
-    });
-}
+//             <div class="form-group">
+//             <label class="col-sm-2 control-label">Hình ảnh</label>
+//             <div class="col-sm-10"><input type="file" id="image_upload_slide_ud"></div>
+//             </div>
+//             <div class="hr-line-dashed"></div>  
+//             <div class="form-group">
+//             <div class="col-sm-6 col-sm-offset-2">
+//                 <button class="btn btn-primary" onClick="update_Slide(${response[0].id})"" type="btn" id="update_Slide">Cập nh</button>
+//             </div>
+//             </div>
+//         </div>
+//         </div> `;
+//         $('tbody').html(output);     
+//         }
+//     });
+// }  --}}
+
+// function update_Slide(id)
+// {
+//     var order_slide1 = $('#order_slide_ud').val();
+//     var image_upload_slide1 = $('#image_upload_slide_ud').val();
+//    console.log(image_upload_slide1);
+//     $.ajax({
+//         url: '{{URL::to('/update-slide')}}'+'/'+id,
+//         type: 'GET',
+//         data: {order_slide: order_slide1, image_upload_slide: image_upload_slide1 },
+//         dataType: 'json',
+//         success: function (response) 
+//         {
+//             alert(response['mes']);    
+//         }
+//     });
+// }
 </script>
 @endsection

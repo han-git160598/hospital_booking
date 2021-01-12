@@ -9,16 +9,30 @@ class NewsController extends Controller
 {
     public function save_news(Request $request)
     {
+        
+        
+        // $validation = Validator::make($request->all(), [
+        //     'img_news' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+        // ]);
+        if($request->content_news =='' )
+        {
+        $mes['mes']='Vui lòng điền đủ trường!';
+        return json_encode($mes);    
+        }
+        $image = $request->file('img_news');
+        $new_name = rand() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images/slide/'), $new_name);
+        $url='images/slide/'.$new_name;
         $data = array();
-        $data['image_upload']=$request->image_upload;
-        $data['title']=$request->title;
-        $data['content']=$request->content;
-        $data['home_action']='Y';
+        $data['home_action']='N';
+        $data['content']=$request->content_news;
+        $data['title']=$request->name_news;
+        $data['image_upload']=$url;
         DB::table('tbl_news')->insert($data);
-        $mes['mes']='Thêm thành công!';
-        return json_encode($mes);  
+        $mes['mes']='Thành công';
+        return json_encode($mes); 
     }
-    public function delte_news($id)
+    public function delete_news($id)
     {
         DB::table('tbl_news')->where('id',$id)->delete();
         $data = DB::table('tbl_news')->orderby('id','desc')->get();

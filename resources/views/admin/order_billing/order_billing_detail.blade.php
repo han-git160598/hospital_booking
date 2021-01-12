@@ -154,7 +154,19 @@
     </menu>
   </form>
 </dialog>
-
+{{--  ///// Thêm tiểu sử  --}}
+<dialog id="prehistoric_model">
+  <form method="dialog">
+    <p><label>Tiểu sử
+      <textarea id="add_prehistoric_text"></textarea>
+    </label></p>
+    <menu>
+      <button>Trở lại</button>
+      <button onClick="add_prehistoric()">Xác nhận</button>
+    </menu>
+  </form>
+</dialog>
+{{--  ////////////  --}}
                                     @if($v->billing_status==5)
                                     @elseif($v->billing_status==4)
                                     @else
@@ -303,13 +315,55 @@ function customer_detail(id)
                 <td class="project-title">
                     <p>${item.billing_date}<p>
                 </td>
-                <td class="project-title">
+                <td class="project-title" >
                     <p>${item.customer_sex}<p>
+                    <input type="text" hidden id="id_customer" value="${item.id}">
                 </td>
+                
                 <td style="width:30px;"></td>    
             </tr>`;    
             });
+            output+=`
+            <tr id="Tiensu">
+            <th style="width:30px;"></th>
+            <h2><th>Tiểu sử</th></h2>
+            <td>${response[0].prehistoric}</td>
+            <td><button onClick="show_model_prehistoric(${response[0].id})">Thêm TS</button></td>
+            </tr>
+            `;
             $('tbody').html(output); 
+        }
+    });
+}
+function show_model_prehistoric(id)
+{
+    console.log(id);   
+    var favDialog = document.getElementById('prehistoric_model');
+    favDialog.showModal();
+}
+function add_prehistoric()
+{
+    
+    var content = $('#add_prehistoric_text').val();
+    var id = $('#id_customer').val();
+   // console.log(content);
+    $.ajax({
+        url: '{{URL::to('/add-prehistoric')}}',
+        type: 'POST',
+        data: {id:id,content:content},
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        dataType: 'json',
+        success: function (response) 
+        {
+            console.log(response);
+          output=`
+            <th style="width:30px;"></th>
+            <h2><th>Tiểu sử</th></h2>
+            <td>${response}</td>
+            <td><button onClick="show_model_prehistoric(`+id+`)">Thêm TS</button></td>
+            `;   
+            $('#Tiensu').html('');
+            $('#Tiensu').html(output);
         }
     });
 }

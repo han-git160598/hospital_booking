@@ -29,7 +29,7 @@
                 <div class="inqbox-title">
                     <h5>All projects assigned to this account</h5>
                     <div class="inqbox-tools">
-                        <button id="create_news" class="btn btn-primary btn-xs">Thêm bài viêt</button>
+                         <button type="button" name="x" id="x" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning">Thêm bài viết</button>
                     </div>
                 </div>
                 <div class="inqbox-content">
@@ -43,6 +43,44 @@
                             </div>
                         </div>
                     </div>
+                    {{--  Model Thêm  --}}
+                      {{--  model thêm  --}}
+    <div id="add_data_Modal" class="modal fade">
+            <div class="modal-dialog">
+             <div class="modal-content">
+              <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+               <h4 class="modal-title">Thêm sản phẩm</h4>
+              </div>
+              <div class="modal-body">
+
+            <form id="insert_news_form" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <label>Tên bài viết (<font style="color: red">*</font>)</label>
+            <input type="text" name="name_news" id="name_news" class="form-control" />
+            <br/>
+             <label>Nội dung bài viết (<font style="color: red">*</font>)</label>
+             <textarea name="content_news" id="content_news" class="form-control"></textarea>
+          
+            <br/>
+            <label><label>Hình ảnh (<font style="color: red">*</font>)</label>
+                <input type="file" id="img_news"  name="img_news" class="form-control" multiple="multiple"  placeholder="Hình ảnh">
+                </label>
+            <br/>
+                <span id="upload_ed_image"></span>
+            <br/>
+            <br/>
+            <input type="submit" name="insert" id="insert_category" value="Thêm" class="btn btn-success" />
+           </form>
+              </div>
+              <div class="modal-footer">
+               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+             </div>
+            </div>
+           </div>
+            {{--    --}}
+                    {{--  --------  --}}
                     
                     <div class="project-list">
                         <table class="table table-hover">
@@ -73,7 +111,7 @@
 
                                 </td>
                                 <td class="project-people">
-                                <img alt="" height="100" width="100" src="{{ asset('backend/img/demo.PNG')}}">
+                                <img alt="" height="150" width="150" src="{{$value->image_upload}}">
                                 </td>
                                 <td class="project-actions">
                                     <button onClick="edit_news({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
@@ -93,37 +131,27 @@
 
 <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
 <script>
-$("#create_news").click( function(){
+$( document ).ready(function() {
+    $('#insert_news_form').on('submit', function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: '{{URL::to('/save-news')}}',
+            method: "POST",
+            data: new FormData(this),
+            dataType: 'JSON',
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(data) {
+                 alert(response['mes']);
+            }
+        })
+    });
+
     
-    var output=``;
-    $('tbody').html('');  
-    output+=`
-    <div class="inqbox-content">
-    <div  class="form-horizontal">
-        <div class="form-group">
-        <label class="col-sm-2 control-label">Tên bài viêt</label>
-        <div class="col-sm-10"><input type="text"  id="title_news" class="form-control"></div>
-        </div>
-        <div class="hr-line-dashed"></div>
-        <div class="form-group">
-        <label class="col-sm-2 control-label">Nội dung</label>
-        <div class="col-sm-10"><input type="text"  id="content_news" class="form-control"></div>
-        </div>
-        <div class="hr-line-dashed"></div>
-        <div class="form-group">
-        <label class="col-sm-2 control-label">Hình ảnh</label>
-        <div class="col-sm-10"><input type="file" id="image_upload_news"></div>
-        </div>
-        <div class="hr-line-dashed"></div>  
-        <div class="form-group">
-        <div class="col-sm-6 col-sm-offset-2">
-            <button class="btn btn-primary" onClick="save_news()"" type="btn" id="save_news">Tạo bài</button>
-        </div>
-        </div>
-    </div>
-    </div> `;
-    $('tbody').html(output);       
 });
+
+
 function save_news()
 {
     var title1 = $('#title_news').val();
@@ -186,7 +214,7 @@ function delete_news(id)
 
                 </td>
                 <td class="project-people">
-                    <img alt="" height="100" width="100" src="{{ asset('backend/img/demo.PNG')}}">
+                     <img alt="" height="150" width="150" src="${item.image_upload}">
                 </td>
                 <td class="project-actions">
                     <button onClick="edit_news(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
@@ -301,7 +329,7 @@ function disable_news(id)
                     <p> ${item.content} VND</p> 
                 </td>
                 <td class="project-people">
-                <img alt="" height="100" width="100" src="{{ asset('backend/img/demo.PNG')}}">
+                     <img alt="" height="150" width="150" src="${item.image_upload}">
                 </td>
                 <td class="project-actions">
                     <button onClick="edit_news(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
@@ -352,7 +380,7 @@ function enable_news(id)
                     <p> ${item.content} VND</p> 
                 </td>
                 <td class="project-people">
-                    <img alt="" height="100" width="100" src="{{ asset('backend/img/demo.PNG')}}">
+                     <img alt="" height="150" width="150" src="${item.image_upload}">
                 </td>
                 <td class="project-actions">
                     <button onClick="edit_news(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
@@ -406,7 +434,7 @@ $('#search_news').keyup(function(){
 
                 </td>
                 <td class="project-people">
-                    <img alt="" height="100" width="100" src="{{ asset('backend/img/demo.PNG')}}">
+                     <img alt="" height="150" width="150" src="${item.image_upload}">
                 </td>
                 <td class="project-actions">
                     <button onClick="edit_news(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>

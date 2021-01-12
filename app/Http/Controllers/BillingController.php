@@ -181,4 +181,24 @@ class BillingController extends Controller
       DB::table('tbl_billing_billing')->where('id',$request->id)->update($data);
       return json_encode($a);
     }
+    public function add_prehistoric(Request $request)
+    {
+        $data = array();
+        $check = DB::table('tbl_billing_customer')->where('id',$request->id)
+        ->where('prehistoric',$request->prehistoric)
+        ->get();
+        if(count($check) > 0)
+        {
+            $data['prehistoric']=$request->content;
+            DB::table('tbl_billing_customer')->where('id',$request->id)->update($data);
+          
+        }else{
+            $data['prehistoric']=$request->content;
+            DB::table('tbl_billing_customer')->where('id',$request->id)->update($data);
+        }
+     
+        $content = $request->content;
+        return json_encode($content);
+     
+    }
 }

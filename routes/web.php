@@ -80,8 +80,8 @@ Route::get('/news',function()
     return Redirect::to('/login-admin');
 }
 });
-Route::get('/save-news','NewsController@save_news');
-Route::get('/delete-news/{id}','NewsController@delte_news');
+Route::post('/save-news','NewsController@save_news');
+Route::get('/delete-news/{id}','NewsController@delete_news');
 Route::get('/edit-news/{id}','NewsController@edit_news');
 Route::get('/update-news/{id}','NewsController@update_news');
 Route::get('/disable-news/{id}','NewsController@disable_news');
@@ -113,8 +113,8 @@ Route::post('/billing-detail','AccountCustomerController@billing_detail');
 Route::get('/all-slide','SlideController@all_slide');
 Route::post('/save-slide','SlideController@save_slide');
 Route::get('/delete-slide/{id}','SlideController@delete_slide');
-Route::get('/edit-slide/{id}','SlideController@edit_slide');
-Route::get('/update-slide/{id}','SlideController@update_slide');
+Route::post('/edit-slide','SlideController@edit_slide');
+Route::post('/update-slide/','SlideController@update_slide');
 
 //QL Account type
 Route::get('/all-account-type','AccountTypeController@all_account_type');
@@ -148,7 +148,8 @@ Route::post('/appointment-detail','BillingController@appointment_detail');
 // Acctually
 
 Route::post('/save-billing-actually','BillingController@save_billing_acctually');
-
+// billing customer
+Route::post('/add-prehistoric','BillingController@add_prehistoric');
 //Account admin///////////////////////////////////////////
 Route::get('/all-account-admin','AccountAdminController@all_account_admin');
 Route::get('/disable-account-admin/{id}','AccountAdminController@disable_account_admin');

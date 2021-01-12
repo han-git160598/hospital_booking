@@ -14,43 +14,36 @@ class SlideController extends Controller
         $model->AuthLogin();
         $permission=$model->permission();
         $all_slide=DB::table('tbl_slide')->orderby('id','desc')->get();
+      //  dd($all_slide);
         return view('admin.slide',compact('all_slide','permission'));
     }
     public function save_slide(Request $request)
     {
+      if($request->stt_slide =='')
+        {
+        $mes['mes']='Vui lòng điền đủ trường!';
+        return json_encode($mes);    
+        }
+      $checkt =  DB::table('tbl_slide')->where('order_slide',$request->stt_slide)->get();
+      if(count($checkt)>0)
+      {
+        $mes['mes']='Số thứ tự đã tồn tại';
+        return json_encode($mes);     
+      }
         $validation = Validator::make($request->all(), [
-            'image_upload_slide' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
-           ]);
-       
-           if($validation->passes())
-           {
-            $image = $request->file('image_upload_slide');
-            $new_name = rand() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('backend/img'), $new_name);
-            $mes['mes']='Thêm sdsds thành công!';
-            return json_encode($mes); 
-           }
-        // if($request->order_slide =='' )
-        // {
-        // $mes['mes']='Vui lòng điền đủ trường!';
-        // return json_encode($mes);    
-        // }
-        // $checkslide= DB::table('tbl_slide')->where('order_slide',$request->order_slide)->count();
-        // if($checkslide>0)
-        // {
-        // $mes['mes']='Trường này đã có';
-        // return json_encode($mes);      
-        // }
-
+        'img_slide' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
         
-        
-      
+        $image = $request->file('img_slide');
+        $new_name = rand() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images/slide/'), $new_name);
+        $url='images/slide/'.$new_name;
 
-        // $data['order_slide']=$request->order_slide;
-        // $data['image_upload']=$new_name;
-        // DB::table('tbl_slide')->insert($data);
-         $mes['mes']='Thêm thành công!';
-         return json_encode($mes); 
+        $data['order_slide']=$request->stt_slide;
+        $data['image_upload']=$url;
+        DB::table('tbl_slide')->insert($data);
+        $mes['mes']='Thành công';
+        return json_encode($mes); 
 
         
     }
@@ -60,9 +53,9 @@ class SlideController extends Controller
         $data = DB::table('tbl_slide')->orderby('id','desc')->get();
         return json_encode($data);
     }
-    public function edit_slide($id)
+    public function edit_slide(Request $request)
     {
-        $data = DB::table('tbl_slide')->where('id',$id)->get();
+        $data = DB::table('tbl_slide')->where('id',$request->id)->get();
         return json_encode($data);
     }
     public function update_slide(Request $request,$id)

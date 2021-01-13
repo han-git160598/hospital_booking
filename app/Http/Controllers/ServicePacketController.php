@@ -7,11 +7,8 @@ use DB;
 use App\AuthModel;
 class ServicePacketController extends Controller
 {
-    public function all_service_packet()
+    public function data_service_packet()
     {
-        $model = new AuthModel;
-        $model->AuthLogin();
-        $permission=$model->permission();
         $all_service_packet_detail= DB::table('tbl_service_packet_detail')
         ->join('tbl_service_packet','tbl_service_packet.id','=','tbl_service_packet_detail.id_service_packet')
         ->join('tbl_service_service','tbl_service_service.id','=','tbl_service_packet_detail.id_service_packet')
@@ -32,15 +29,15 @@ class ServicePacketController extends Controller
                 
             }
             array_push($tam,["id"=>$packet->id,"name"=>$packet->packet_service,"total"=>$sum]);
-            
-
         }
-        
-          // echo $tam[0]['name'];
-        
-                            // echo ("<pre>");
-                            // print_r($tam);
-                            // echo ("</pre>");
+        return $tam;
+    }
+    public function all_service_packet()
+    {
+        $model = new AuthModel;
+        $model->AuthLogin();
+        $permission=$model->permission();
+        $tam =$this->data_service_packet();
        //dd($tam);
         return view('admin.service_packet',compact('tam','permission'));
     }
@@ -232,5 +229,48 @@ class ServicePacketController extends Controller
         $mes['mes']='Cập nhật thành công';
         return json_encode($mes);
 
+    }
+    
+    public function search_packet(Request $request)
+    {
+        
+          $keyword = $request->keyword;
+       // return json_encode('sss');
+        if($keyword =='')
+        {
+            $data = $this->data_service_packet();
+            // $data = DB::table('tbl_service_packet')->orderby('id','desc')
+            // ->get();
+            return json_encode($data);
+        }else{
+            $all_service_packet_detail= DB::table('tbl_service_packet_detail')
+            ->join('tbl_service_packet','tbl_service_packet.id','=','tbl_service_packet_detail.id_service_packet')
+            ->join('tbl_service_service','tbl_service_service.id','=','tbl_service_packet_detail.id_service_packet')
+            ->where('status_service','Y')
+            ->where('packet_service', 'LIKE', "%{$keyword}%")
+            ->orWhere('packet_content', 'LIKE', "%{$keyword}%")
+            ->get();
+            $all_service_packet = DB::table('tbl_service_packet')
+            ->where('packet_service', 'LIKE', "%{$keyword}%")
+            ->orWhere('packet_content', 'LIKE', "%{$keyword}%")
+            ->get();  
+            $tam=array();
+
+            foreach($all_service_packet as $packet)
+            {
+                $sum = 0;
+                foreach($all_service_packet_detail as $detail)
+                {
+                    if($packet->id == $detail->id_service_packet)
+                    {
+                    $sum += $detail->price;
+                    
+                    }
+                    
+                }
+                array_push($tam,["id"=>$packet->id,"name"=>$packet->packet_service,"total"=>$sum]);
+            }
+            return json_encode($tam);
+        }
     }
 }

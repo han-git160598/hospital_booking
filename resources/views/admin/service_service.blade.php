@@ -27,7 +27,7 @@
             <div class="col-lg-12">
                 <div class="inqbox">
                 <div class="inqbox-title">
-                    <h5>All projects assigned to this account</h5>
+                    <h5></h5>
                     <div class="inqbox-tools">
                         <a href="{{URL::to('/add-service-service')}}" class="btn btn-primary btn-xs">Tạo sản phẩm</a>
                     </div>

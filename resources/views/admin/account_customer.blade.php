@@ -27,7 +27,7 @@
             <div class="col-lg-12">
                 <div class="inqbox">
                 <div class="inqbox-title">
-                    <h5>All projects assigned to this account</h5>
+                    <h5></h5>
                     <div class="inqbox-tools">
                         <button id="create_account_customer" class="btn btn-primary btn-xs">Thêm người dùng</button>
                     </div>
@@ -348,7 +348,7 @@ function history_account_customer(id)
                 <th style="width:30px;"></th>
                 <th>Mã đơn hàng</th>
                 <th>Ngày đặt</th>
-                <th>Số dịch vụ sử dụng</th>
+                
                 <th style="width:30px;"></th>
             </tr>`;
             $('tbody').html('');
@@ -363,10 +363,7 @@ function history_account_customer(id)
                 <td class="project-title">
                     <p> ${item.billing_date} - ${item.billing_time}</p>
                 </td>
-                <td class="project-title">
-                    <p>5</p> 
-                </td>
-
+            
                 <td class="project-actions">
                     <a href="{{URL::to('/detail-order-customer')}}/${item.id}" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết </a>
                 </td>

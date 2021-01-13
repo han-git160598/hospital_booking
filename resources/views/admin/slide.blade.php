@@ -27,7 +27,7 @@
             <div class="col-lg-12">
                 <div class="inqbox">
                 <div class="inqbox-title">
-                    <h5>All projects assigned to this account</h5>
+                    <h5></h5>
                     <div class="inqbox-tools">
                           <button type="button" name="x" id="x" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning">Thêm Slide</button>
                     </div>
@@ -223,7 +223,7 @@ $.ajax({
         success: function (response) 
         {   
             var output=`
-            <input type="text" name="id_slide" value="${id}" class="form-control" /> `;
+            <input type="hidden" name="id_slide" value="${id}" class="form-control" /> `;
            $('#id_slide').html(output); 
         }
     });
@@ -291,7 +291,7 @@ function delete_slide(id)
 {
     var r=confirm('Waring! Bạn có muốn xóa không !!');
     if(r==true)
-    {
+    { 
     $.ajax({
         url: '{{URL::to('/delete-slide')}}'+'/'+id,
         type: 'GET',

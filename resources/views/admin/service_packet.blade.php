@@ -27,7 +27,7 @@
             <div class="col-lg-12">
                 <div class="inqbox">
                 <div class="inqbox-title">
-                    <h5>All projects assigned to this account</h5>
+                    <h5></h5>
                     <div class="inqbox-tools">
                         <button type="btn" onClick="create_service_packet()" class="btn btn-primary btn-xs">Tạo gói khám</button>
                     </div>
@@ -38,7 +38,7 @@
                             <button type="button" id="loading-example-btn" class="btn btn-white btn-sm" ><i class="fa fa-refresh"></i> Refresh</button>
                         </div>
                         <div class="col-md-11">
-                            <div class="input-group"><input type="text" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
+                            <div class="input-group"><input type="text" id="search_packet" onkeyup="search_packet()" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
                             <button type="button" class="btn btn-sm btn-primary"> Go!</button> </span>
                             </div>
                         </div>
@@ -66,7 +66,7 @@
                                 </td>
 
                                 <td class="project-actions">
-                                    <a href="#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> View </a>
+                                   
                                     <button onClick="edit_service_packet({{$tam[$i]['id']}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
                                     <button onClick="delete_service_packet({{$tam[$i]['id']}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                                 </td>
@@ -243,8 +243,8 @@ function edit_service_packet(id)
             <div class="hr-line-dashed"></div>
             <div class="form-group">
             <label class="col-sm-2 control-label">Danh sách </label>
-            <div class="col-sm-10"><button class="btn btn-white btn-sm" type="btn" onClick="list_service_packet_detail(${response[0].id})"><i class="fa fa-folder"></i> </button>
-            <input type="text" id="id_packet" in value="${response[0].id}" > 
+            <div class="col-sm-10"><button class="btn btn-white btn-sm" type="btn" onClick="list_service_packet_detail(${response[0].id})" ><i class="fa fa-folder"></i> Xem dịch vụ đã có </button>
+            <input type="hidden" id="id_packet" in value="${response[0].id}" > 
             <a onClick="list_service_in_packet(${response[0].id})" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning">Thêm dịch vụ<img src="{{asset ('backend/icon/add.svg')}}"></a>
             </div>
             </div>
@@ -457,7 +457,7 @@ function delete_service_packet(id)
             </td>
 
             <td class="project-actions">
-                <a href="#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> View </a>
+                
                 <button onClick="edit_service_packet(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
                 <button onClick="delete_service_packet(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
             </td>
@@ -470,6 +470,49 @@ function delete_service_packet(id)
     }else{
         
     }
+
+}
+function search_packet()
+{
+  var keyword1 = $('#search_packet').val();
+   // console.log($keyword);
+    $.ajax({
+        url: '{{URL::to('/search-packet')}}',
+        type: 'POST',
+        data: {keyword:keyword1},
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        dataType: 'json',
+        success: function (response) 
+        {
+            console.log(response);
+            var output=`
+        <tr> 
+            <th>Tên dịch vụ</th>
+            <th>Giá tiền</th>
+            <th style="width:30px;"></th>
+        </tr>`;
+        $('tbody').html('');  
+        response.forEach(function (item) {
+        output+=`
+        <tr>
+            <td class="project-title">
+                <p>${item.name}</p>  
+            </td>
+            <td class="project-title">
+                <p> ${item.total} VND</p> 
+            </td>
+
+            <td class="project-actions">
+        
+                <button onClick="edit_service_packet(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                <button onClick="delete_service_packet(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
+            </td>
+
+        </tr>`;
+        });
+         $('tbody').html(output);  
+        }
+    });
 
 }
 

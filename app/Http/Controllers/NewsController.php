@@ -52,16 +52,17 @@ class NewsController extends Controller
         $data = DB::table('tbl_news')->where('id',$id)->get();
         return json_encode($data);
     }
-    public function update_news(Request $request,$id)
+    public function update_news(Request $request)
     {
-        $data = array();
-        $data['image_upload']=$request->image_upload;
-        $data['title']=$request->title;
-        $data['content']=$request->content;
-        $data['home_action']='Y';
-        DB::table('tbl_news')->where('id',$id)->update($data);
+        $image = $request->file('image_news_ud');
+        // $data = array(
+       //  $data['image_upload']=$image;
+        // $data['title']=$request->title;
+        // $data['content']=$request->content;
+        // $data['home_action']='Y';
+       //  DB::table('tbl_news')->where('id',$id)->update($data);
         $mes['mes']='cập nhật thành công!';
-        return json_encode($mes);
+        return json_encode($image);
     }
     public function disable_news($id)
     {

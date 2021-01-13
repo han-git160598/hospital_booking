@@ -47,7 +47,7 @@
                                     <h4 class="media-heading">
                                    
                                     <a data-toggle="collapse" data-target="#loguserinfo" class="pull-right"><i class="fa fa-angle-down"></i></a></h4>
-                                    <span>username</span>
+                                    <span></span>
                                 </div>
                             </div>
                             <div class="leftpanel-userinfo collapse" id="loguserinfo" style="position: absolute; background: #3b4354!important">

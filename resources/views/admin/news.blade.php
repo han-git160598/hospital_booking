@@ -27,7 +27,7 @@
             <div class="col-lg-12">
                 <div class="inqbox">
                 <div class="inqbox-title">
-                    <h5>All projects assigned to this account</h5>
+                    <h5></h5>
                     <div class="inqbox-tools">
                          <button type="button" name="x" id="x" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning">Thêm bài viết</button>
                     </div>
@@ -194,10 +194,89 @@ $( document ).ready(function() {
             }
         })
     });
-
-    
 });
+function edit_news(id)
+{
+     $.ajax({
+        url: '{{URL::to('/edit-news')}}'+'/'+id,
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) 
+        {
+            var output=``;
+            $('tbody').html('');  
+            response.forEach(function (item) {
+            output+=`
+            <div class="inqbox-content">
+            <div  class="form-horizontal">
+            <form id="update_news_form" enctype="multipart/form-data">
+                <div class="form-group">
+                <label class="col-sm-2 control-label">Tên bài viêt</label>
+                <div class="col-sm-10"><input type="text" value="${item.title}" name="title_news_ud"  id="title_news" class="form-control"></div>
+                </div>
+                <div class="hr-line-dashed"></div>
+                <div class="form-group">
+                <label class="col-sm-2 control-label">Nội dung</label>
+                <div class="col-sm-10"><input type="text" value="${item.content}" name="content_news_ud"  id="content_news" class="form-control"></div>
+                <input type="hidden" value="${item.id}" name="id_news"  class="form-control">
+                </div>
+                <div class="hr-line-dashed"></div>
+                <div class="form-group">
+                <label class="col-sm-2 control-label">Hình ảnh</label>
+                <div class="col-sm-10"><input type="file" id="image_news_ud"  id="image_upload_news"></div>
+                </div>
+                <div class="hr-line-dashed"></div>  
+                <div class="form-group">
+                <div class="col-sm-6 col-sm-offset-2">
+                    <button class="btn btn-primary" onclick="update_news(${item.di})" type="submit" id="save_news">Cập nhật</button>
+                </div>
+                </div>
+            </form>
+            </div>
+            </div> `;
+            $('tbody').html(output);  
+            });
+        }
+     });
+}
+function update_news(id)
+{
+        var form = $('#update_news_form').serialize();
+      var FormData = new FormData(update_news_form)
+     console.log(form);
+     console.log(FormData);
 
+    $.ajax({
+        url: '{{URL::to('/update-news')}}',
+        type: 'POST',
+        data: {form:form},
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        dataType: 'json',
+        success: function (response) 
+        {
+            console.log(response);
+            alert(response['mes']);
+        }
+    }); 
+
+}
+
+// $('#update_news_form').on('submit', function(event) {
+//         event.preventDefault();
+//         $.ajax({
+//             url: '{{URL::to('/update-news')}}',
+//             method: "POST",
+//             data: new FormData(this),
+//             dataType: 'JSON',
+//             contentType: false,
+//             cache: false,
+//             processData: false,
+//             success: function(data) 
+//             {
+//                 console.log(data);
+//             }
+//         });
+// })
 function delete_news(id)
 {
     var r=confirm('Waring! Bạn có muốn xóa không !!');
@@ -256,67 +335,8 @@ function delete_news(id)
         
     }
 }
-function edit_news(id)
-{
-     $.ajax({
-        url: '{{URL::to('/edit-news')}}'+'/'+id,
-        type: 'GET',
-        dataType: 'json',
-        success: function (response) 
-        {
-            var output=``;
-            $('tbody').html('');  
-            response.forEach(function (item) {
-            output+=`
-            <div class="inqbox-content">
-            <div  class="form-horizontal">
-                <div class="form-group">
-                <label class="col-sm-2 control-label">Tên bài viêt</label>
-                <div class="col-sm-10"><input type="text" value="${item.title}"  id="title_news" class="form-control"></div>
-                </div>
-                <div class="hr-line-dashed"></div>
-                <div class="form-group">
-                <label class="col-sm-2 control-label">Nội dung</label>
-                <div class="col-sm-10"><input type="text" value="${item.content}"  id="content_news" class="form-control"></div>
-                </div>
-                <div class="hr-line-dashed"></div>
-                <div class="form-group">
-                <label class="col-sm-2 control-label">Hình ảnh</label>
-                <div class="col-sm-10"><input type="file"  id="image_upload_news"></div>
-                </div>
-                <div class="hr-line-dashed"></div>  
-                <div class="form-group">
-                <div class="col-sm-6 col-sm-offset-2">
-                    <button class="btn btn-primary" onClick="update_news(${item.id})"" type="btn" id="save_news">Cập nhật</button>
-                </div>
-                </div>
-            </div>
-            </div> `;
-            $('tbody').html(output);  
-            });
-        }
-     });
-}
-function update_news(id)
-{
-    var title1 = $('#title_news').val();
-    var content1 = $('#content_news').val();
-    var image_upload_news1 = $('#image_upload_news').val();
-    console.log(id);
-    console.log(content1);
-    console.log(image_upload_news1);
-    $.ajax({
-        url: '{{URL::to('/update-news')}}'+'/'+id,
-        type: 'GET',
-        data: {title: title1, content: content1, image_upload: image_upload_news1 },
-        dataType: 'json',
-        success: function (response) 
-        {
-            alert(response['mes']);
-        }
-    }); 
 
-}
+
 
 function disable_news(id)
 {

@@ -65,7 +65,7 @@ Route::post('/remove-service-packet-detail','ServicePacketController@remove_serv
 Route::post('/list-service-in-packet','ServicePacketController@list_service_in_packet');
 // update service_packet_detail
 Route::post('/update-service-packet-detail','ServicePacketController@update_service_packet_detail');
-
+Route::post('/search-packet','ServicePacketController@search_packet');
 // QL bài đăng---------------------------------------------------------------------
 Route::get('/news',function()
 {
@@ -83,7 +83,7 @@ Route::get('/news',function()
 Route::post('/save-news','NewsController@save_news');
 Route::get('/delete-news/{id}','NewsController@delete_news');
 Route::get('/edit-news/{id}','NewsController@edit_news');
-Route::get('/update-news/{id}','NewsController@update_news');
+Route::post('/update-news','NewsController@update_news');
 Route::get('/disable-news/{id}','NewsController@disable_news');
 Route::get('/enable-news/{id}','NewsController@enable_news');
 

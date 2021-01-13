@@ -7,7 +7,7 @@
             <div class="col-lg-12">
                 <div class="inqbox float-e-margins">
                 <div class="inqbox-content">
-                    <h2>Project list</h2>
+                    <h2> DỊCH VỤ </h2>
                     <ol class="breadcrumb">
                         <li>
                             <a href="index.html">Home</a>
@@ -27,7 +27,7 @@
             <div class="col-lg-12">
                 <div class="inqbox">
                 <div class="inqbox-title">
-                    <h5></h5>
+                <a href="{{URL::to('all-service-service')}}" class="btn btn-white" type="btn">Quay lại danh sách</a>
                     <div class="inqbox-tools">
                         <a href="{{URL::to('/add-service-service')}}" class="btn btn-primary btn-xs">Tạo sản phẩm</a>
                     </div>
@@ -36,8 +36,8 @@
                     <div class="row m-b-sm m-t-sm">
                        
                         <div class="col-md-11">
-                            <div class="input-group"><input type="text" onkeyup="search_service()" id="search_service" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
-                            <button type="button" id="btnn"  class="btn btn-sm btn-primary"> Go!</button> </span>
+                            <div class="input-group"><input type="text" onkeyup="search_service()" id="search_service" placeholder="Tìm kiếm" class="input-sm form-control"> <span class="input-group-btn">
+                            <button type="button" id="btnn"  class="btn btn-sm btn-primary"> <i class="fa fa-search"></i></button> </span>
                             </div>
                         </div>
                     </div>
@@ -62,7 +62,6 @@
                                 </td>
 
                                 <td class="project-actions">
-                                  
                                     <button onClick="edit_service({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
                                     <button onClick="delete_service({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                                 </td>
@@ -159,16 +158,15 @@ function edit_service(id)
                      <div class="hr-line-dashed"></div>
                      <div class="form-group">
                         <label class="col-sm-2 control-label">Nội dung</label>
-                        <input type="text" hidden id="id_disable" value="${item.id}">
+                        <input type="text" hidden id="id_disable" value="${item.id}"  >
                         <div class="col-sm-10">
-                        <textarea id="content" class="form-control"> ${item.content} </textarea>
+                        <textarea id="content" rows="10" class="form-control"> ${item.content} </textarea>
                         </div>
-                        <textarea id="content" class="form-control"> ${item.content} </textarea>
+                      
                      </div>
                      <div class="hr-line-dashed"></div>  
                      <div class="form-group">
                         <div class="col-sm-6 col-sm-offset-2">
-                           <a href="{{URL::to('all-service-service')}}" class="btn btn-white" type="btn">Quay lại danh sách</a>
                            <button class="btn btn-primary" onClick="update_service(${item.id})" type="btn" value="${item.id}" id="update_service">Cập nhật</button>
                             <button onClick="disable_service(${item.id})" class="btn btn-primary" >Vô hiệu hóa</button>
                         </div>

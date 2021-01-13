@@ -7,7 +7,7 @@
             <div class="col-lg-12">
                 <div class="inqbox float-e-margins">
                 <div class="inqbox-content">
-                    <h2>Project list</h2>
+                    <h2> HÓA ĐƠN </h2>
                     <ol class="breadcrumb">
                         <li>
                             <a href="index.html">Home</a>
@@ -26,20 +26,13 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="inqbox">
-                <div class="inqbox-title">
-                 
-                    <div class="inqbox-tools">
-                        <button id="create_news" class="btn btn-primary btn-xs">Thêm bài viêt</button>
-                    </div>
-                </div>
+           
                 <div class="inqbox-content">
                     <div class="row m-b-sm m-t-sm">
-                        <div class="col-md-1">
-                            <button type="button" id="loading-example-btn" class="btn btn-white btn-sm" ><i class="fa fa-refresh"></i> Refresh</button>
-                        </div>
+                
                         <div class="col-md-11">
-                            <div class="input-group"><input type="text" id="search_bill" onkeyup="search_bill()" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
-                            <button type="button" class="btn btn-sm btn-primary"> Go!</button> </span>
+                            <div class="input-group"><input type="text" id="search_bill" onkeyup="search_bill()" placeholder="Tìm kiếm" class="input-sm form-control"> <span class="input-group-btn">
+                            <button type="button" class="btn btn-sm btn-primary"> <i class="fa fa-search"></i></button> </span>
                             </div>
                         </div>
                     </div>
@@ -52,6 +45,7 @@
                                 <th>Mã đơn</th>
                                 <th>Thời gian</th>
                                 <th>Trạng thái đơn</th>
+                                
                                 <th>Lọc :
                                 <select  onChange="stt_billing()" id="stt">
                                 <option value="6">Chọn</option>
@@ -81,10 +75,10 @@
                                 @else
                                 <td> Hủy bỏ</td>
                                 @endif
-
                                 <td class="project-actions">
                                     <a  href="{{URL::to('/order-billing-detail')}}/{{$v->id}}"  class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết </a>
                                 </td>
+                               
                             </tr>
                             @endforeach
                             </tbody>

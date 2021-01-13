@@ -7,7 +7,7 @@
             <div class="col-lg-12">
                 <div class="inqbox float-e-margins">
                 <div class="inqbox-content">
-                    <h2>Project list</h2>
+                    <h2> VÔ HIỆU HÓA DỊCH VỤ </h2>
                     <ol class="breadcrumb">
                         <li>
                             <a href="index.html">Home</a>
@@ -27,9 +27,9 @@
             <div class="col-lg-12">
                 <div class="inqbox">
                 <div class="inqbox-title">
-                    <h5>All projects assigned to this account</h5>
+                  
                     <div class="inqbox-tools">
-                        <a href="{{URL::to('/add-service-service')}}" class="btn btn-primary btn-xs">Tạo sản phẩm</a>
+                        <a href="{{URL::to('/add-service-service')}}" class="btn btn-primary">Tạo sản phẩm</a>
                     </div>
                 </div>
                 <div class="inqbox-content">
@@ -37,7 +37,7 @@
                       
                         <div class="col-md-11">
                             <div class="input-group"><input id="search_service_disable" onkeyup="search_service_disable()" type="text" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
-                            <button type="button" class="btn btn-sm btn-primary"> Go!</button> </span>
+                            <button type="button" class="btn btn-sm btn-primary"> <i class="fa fa-search"></i></button> </span>
                             </div>
                         </div>
                     </div>
@@ -101,9 +101,7 @@ function enable_service(id)
                 <td class="project-title">
                     <p> ${item.price} VND</p> 
                 </td>
-                <td class="project-title">
-                    <p> ${item.status_service} VND</p> 
-                </td>
+           
                 <td class="project-actions">
                     <button onClick="enable_service(${item.id})" class="btn btn-primary btn-sm">Phục hồi </button>
                 </td>

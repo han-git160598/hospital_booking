@@ -7,7 +7,7 @@
             <div class="col-lg-12">
                 <div class="inqbox float-e-margins">
                 <div class="inqbox-content">
-                    <h2>Tài khoản nhân viên</h2>
+                    <h2> Tài khoản nhân viên </h2>
                     <ol class="breadcrumb">
                         <li>
                             <a href="index.html">Home</a>
@@ -65,8 +65,8 @@
                 <div class="inqbox-content">
                     <div class="row m-b-sm m-t-sm">
                         <div class="col-md-11">
-                            <div class="input-group"><input type="text" onkeyup="search_account_admin()" id="search_account_admin" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
-                            <button type="button" class="btn btn-sm btn-primary"> Go!</button> </span>
+                            <div class="input-group"><input type="text" onkeyup="search_account_admin()" id="search_account_admin" placeholder="Tìm kiếm" class="input-sm form-control"> <span class="input-group-btn">
+                            <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-search"></i> </button> </span>
                             </div>
                         </div>
                     </div>
@@ -80,6 +80,7 @@
                                 <th>Số điện thoại</th>
                                 <th>Chức vụ</th>
                                 <th style="width:30px;"></th>
+                                
                             </tr>
                             @foreach($data as $key=> $value)
                             <tr>
@@ -102,11 +103,11 @@
                                 <td class="project-title">
                                     <p> {{$value->type_account}}</p> 
                                 </td>
-                              
                                 <td class="project-actions">
                                     <button onClick="account_admin_detail({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết</button>
                                     <button onClick="delete_account_admin({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                                 </td>
+                                
                             </tr>
                             @endforeach
                             </tbody>
@@ -369,7 +370,7 @@ $.ajax({
             </div>
             <div class="col-lg-3">
                 <div class="project-manager">
-                <h2>Phân Quyền</h2>`;
+                <h1 > Phân quyền </h1>`;
                 output+=`   <div id="list_premission">`;
               // console.log(item[1]);
                 //console.log(item[0]);

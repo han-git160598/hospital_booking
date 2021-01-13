@@ -7,7 +7,7 @@
             <div class="col-lg-12">
                 <div class="inqbox float-e-margins">
                 <div class="inqbox-content">
-                    <h2>Project list</h2>
+                    <h2> GÓI KHÁM </h2>
                     <ol class="breadcrumb">
                         <li>
                             <a href="index.html">Home</a>
@@ -36,8 +36,8 @@
                     <div class="row m-b-sm m-t-sm">
                         
                         <div class="col-md-11">
-                            <div class="input-group"><input type="text" id="search_packet" onkeyup="search_packet()" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
-                            <button type="button" class="btn btn-sm btn-primary"> Go!</button> </span>
+                            <div class="input-group"><input type="text" id="search_packet" onkeyup="search_packet()" placeholder="Tìm kiếm" class="input-sm form-control"> <span class="input-group-btn">
+                            <button type="button" class="btn btn-sm btn-primary"> <i class="fa fa-search"> </i></button> </span>
                             </div>
                         </div>
                     </div>

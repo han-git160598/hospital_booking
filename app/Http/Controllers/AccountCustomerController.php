@@ -18,6 +18,7 @@ class AccountCustomerController extends Controller
         //->select(DB::raw('count(*) as total, id_customer'))
         //->orderby('tbl_account_customer.id','desc')
        // ->groupBy('id_customer')
+       ->orderby('id','desc')
         ->get();
          //dd($all_account_customer);    
         return view('admin.account_customer',compact('all_account_customer','permission'));
@@ -42,6 +43,7 @@ class AccountCustomerController extends Controller
         $data['birthday']= $request->birthday;
         $data['sex']= $request->sex;
         $data['address']= $request->address;
+        $data['nationality']= $request->nationality;
         $data['phone_number']= $request->phone_number;
         $data['email']= $request->email;
         $data['password']= md5($request->password);
@@ -50,18 +52,17 @@ class AccountCustomerController extends Controller
         $mes['mes']='Thêm thành công!';
         return json_encode($mes);   
     }
-    public function delete_account_customer($id)
+    public function delete_account_customer(Request $request)
     {
-        $check = DB::table('tbl_account_customer')
-        ->join('tbl_billing_billing','tbl_billing_billing.id_customer','=','tbl_account_customer.id')
-        ->where('id',$id)->get();
+
+        $check = DB::table('tbl_billing_billing')->where('id_customer',$request->id)->get();
         if(count($check)>0)
         {
             $data['mes']='Không thể xóa khách hàng này';
             return json_encode($data);
         }
-        DB::table('tbl_account_customer')->where('id',$id)->delete();
-        $data = DB::table('tbl_account_customer')->orderby('id','desc')->get();
+        DB::table('tbl_account_customer')->where('id',$request->id)->delete();
+        $data['customer'] = DB::table('tbl_account_customer')->orderby('id','desc')->get();
         $data['mes']= 'sucsses';
         return json_encode($data);
     }
@@ -101,6 +102,7 @@ class AccountCustomerController extends Controller
         $data['phone_number']= $request->phone_number;
         $data['email']= $request->email;
         $data['password']= md5($request->password);
+        $data['nationality']= $request->nationality;
         $data['force_sign_out']= '0';
         DB::table('tbl_account_customer')->where('id',$id)->update($data);
         $mes['mes']='Cập nhật thành công!';

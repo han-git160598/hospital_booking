@@ -61,15 +61,23 @@ class BillingController extends Controller
         $mes['mes']='Hủy đơn hàng thành công !';
         return json_encode($mes);  
     }
-    public function appointment_detail(Request $request)
+    public function appointment_detail(Request $request) 
     {
         $data = DB::table('tbl_billing_billing')    
         ->join('tbl_billing_detail','tbl_billing_detail.id_billing','=','tbl_billing_billing.id')    
         ->join('tbl_service_service','tbl_service_service.id','=','tbl_billing_detail.id_service')
-       // ->join('tbl_billing_appointment','tbl_billing_appointment.id_billing','=','tbl_billing_billing.id')
         ->where('tbl_billing_billing.id',$request->id)
         ->select('service','tbl_billing_detail.id_billing','tbl_billing_detail.id_service')
         ->get();
+
+        $data = DB::table('tbl_billing_billing')    
+        ->leftjoin('tbl_billing_detail','tbl_billing_detail.id_billing','=','tbl_billing_billing.id')    
+        ->leftjoin('tbl_service_service','tbl_service_service.id','=','tbl_billing_detail.id_service')
+        ->leftjoin('tbl_billing_appointment','tbl_billing_appointment.id_billing','=','tbl_billing_billing.id')
+        ->where('tbl_billing_billing.id',$request->id)
+        ->select('service','tbl_billing_detail.id_billing','tbl_billing_detail.id_service','appointment_time')
+        ->get();
+        
       // dd($data);
         return json_encode($data);
     }

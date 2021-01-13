@@ -7,7 +7,7 @@
          <div class="col-lg-12">
             <div class="inqbox float-e-margins">
                <div class="inqbox-content">
-                  <h2>Basic Form</h2>
+                  <h2> THÊM DỊCH vụ </h2>
                   <ol class="breadcrumb">
                      <li>
                         <a href="index.html">Home</a>
@@ -29,7 +29,7 @@
          <div class="col-lg-12">
             <div class="inqbox float-e-margins">
                <div class="inqbox-title">
-                  <h5>All form elements <small>With custom checbox and radion elements.</small></h5>
+                   <a href="{{URL::to('all-service-service')}}" class="btn btn-white" type="btn">Quay lại danh sách</a> 
                   <div class="inqbox-tools">
                      <a class="collapse-link">
                      <i class="fa fa-chevron-up"></i>
@@ -64,15 +64,14 @@
                      <div class="hr-line-dashed"></div>
                      <div class="form-group">
                         <label class="col-sm-2 control-label">Nội dung</label>
-                        <div class="col-sm-10"><textarea id="content" class="form-control"> </textarea></div>
+                        <div class="col-sm-10"><textarea rows="8" id="content" class="form-control"> </textarea></div>
                      </div>
                      <div class="hr-line-dashed"></div>
 
                      
-
+   
                      <div class="form-group">
                         <div class="col-sm-4 col-sm-offset-2">
-                           <a href="{{URL::to('all-service-service')}}" class="btn btn-white" type="btn">Quay lại danh sách</a>
                            <button class="btn btn-primary" type="btn" id="save_service">Lưu nội dung</button>
                         </div>
                      </div>

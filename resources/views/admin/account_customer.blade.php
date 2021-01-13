@@ -7,7 +7,7 @@
             <div class="col-lg-12">
                 <div class="inqbox float-e-margins">
                 <div class="inqbox-content">
-                    <h2>Project list</h2>
+                    <h2> TÀI KHOẢN KHÁCH HÀNG </h2>
                     <ol class="breadcrumb">
                         <li>
                             <a href="index.html">Home</a>
@@ -20,24 +20,24 @@
                         </li>
                     </ol>
                 </div>
-                </div>
+                </div> 
             </div>
         </div> 
         <div class="row">
             <div class="col-lg-12">
                 <div class="inqbox">
                 <div class="inqbox-title">
-                    <h5></h5>
+                     <a href="{{URL::to('/all-account-customer')}}" class="btn btn-primary"> Danh sách KH </a>
                     <div class="inqbox-tools">
-                        <button id="create_account_customer" class="btn btn-primary btn-xs">Thêm người dùng</button>
+                        <button id="create_account_customer" class="btn btn-primary"> Thêm khách hàng </button>
                     </div>
                 </div>
                 <div class="inqbox-content">
                     <div class="row m-b-sm m-t-sm">
                         
                         <div class="col-md-11">
-                            <div class="input-group"><input type="text" id="search_customer" onkeyup="search_customer()" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
-                            <button type="button" class="btn btn-sm btn-primary"> Go!</button> </span>
+                            <div class="input-group"><input type="text" id="search_customer" onkeyup="search_customer()" placeholder="Tìm kiếm" class="input-sm form-control"> <span class="input-group-btn">
+                            <button type="button" class="btn btn-sm btn-primary"> <i class="fa fa-search"></i></button> </span>
                             </div>
                         </div>
                     </div>
@@ -95,7 +95,7 @@ $("#create_account_customer").click( function(){
     <div class="inqbox-content">
     <div  class="form-horizontal">
         <div class="form-group">
-        <label class="col-sm-2 control-label"><i><img src="{{asset ('backend/icon/vector.svg')}}"></i>SĐT đăng nhập</label>
+        <label class="col-sm-2 control-label"><i><img src="{{asset ('backend/icon/vector.svg')}}"></i>SĐT đăng nhập (*)</label>
         <div class="col-sm-10"><input type="text"  id="phone_active" class="form-control"></div>
         </div>
         <div class="hr-line-dashed"></div>
@@ -106,7 +106,7 @@ $("#create_account_customer").click( function(){
         <div class="hr-line-dashed"></div>
 
         <div class="form-group">
-        <label class="col-sm-2 control-label">Ngày tháng năm sinh:</label>
+        <label class="col-sm-2 control-label"> DD/MM/YY :</label>
         <div class="col-sm-10"><input type="date"  id="birthday" class="form-control"></div>
         </div>
         <div class="hr-line-dashed"></div>
@@ -129,8 +129,14 @@ $("#create_account_customer").click( function(){
         <div class="hr-line-dashed"></div>
 
         <div class="form-group">
-        <label class="col-sm-2 control-label">Số điện thoại liên hệ :</label>
+        <label class="col-sm-2 control-label"> SDT liên hệ :</label>
         <div class="col-sm-10"><input type="text"  id="phone_number" class="form-control"></div>
+        </div>
+        <div class="hr-line-dashed"></div>
+
+        <div class="form-group">
+        <label class="col-sm-2 control-label"> Quốc tịch :</label>
+        <div class="col-sm-10"><input type="text"  id="nationality" class="form-control"></div>
         </div>
         <div class="hr-line-dashed"></div>
 
@@ -167,11 +173,16 @@ function save_account_customer()
     var phone_number1 = $('#phone_number').val();
     var email1 = $('#email').val();
     var password1 = $('#password').val();
+    var nationality1 = $('#nationality').val();
     $.ajax({
-        type:"GET",
+        type:"POST",
         url:'{{URL::to('/save-account-customer')}}',
-        data: {phone_active: phone_active1, full_name: full_name1, birthday: birthday1, sex:sex1, address :address1, phone_number:phone_number1, email:email1, password:password1
+        data:{phone_active: phone_active1, full_name: full_name1, 
+            birthday: birthday1, nationality:nationality1 ,
+            sex:sex1, address :address1, phone_number:phone_number1, 
+            email:email1, password:password1
             },
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         dataType:"json",
         success: function(response)
         {
@@ -186,11 +197,14 @@ function delete_account_customer(id)
     if(r==true)
     {
      $.ajax({
-        type:"GET",
-        url:'{{URL::to('/delete-account-customer')}}'+'/'+id,
+        url:'{{URL::to('/delete-account-customer')}}',
+        type: 'POST',
+        data: {id:id},
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         dataType:"json",
         success: function(response)
         {
+            console.log(response);
         if(response['mes']=='sucsses'){
         var output=`
             <tr> 
@@ -201,7 +215,7 @@ function delete_account_customer(id)
                 <th style="width:30px;"></th>
             </tr>`;
             $('tbody').html('');
-            response.forEach(function (item) {
+            response['customer'].forEach(function (item) {
                 console.log(item);
             output+=`
             <tr>
@@ -217,7 +231,7 @@ function delete_account_customer(id)
                 </td>
 
                 <td class="project-actions">
-                <button onClick="history_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i>Lịch sử đơn</button>
+                    <button onClick="history_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i>Lịch sử đơn</button>
                     <button onClick="edit_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
                     <button onClick="delete_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                 </td>
@@ -259,7 +273,7 @@ function edit_account_customer(id)
             <div class="hr-line-dashed"></div>
 
             <div class="form-group">
-            <label class="col-sm-2 control-label">Ngày tháng năm sinh:</label>
+            <label class="col-sm-2 control-label"> DD/MM/YY :</label>
             <div class="col-sm-10"><input type="date" value="${response[0].birthday}"  id="birthday_ud" class="form-control"></div>
             </div>
             <div class="hr-line-dashed"></div>
@@ -282,8 +296,14 @@ function edit_account_customer(id)
             <div class="hr-line-dashed"></div>
 
             <div class="form-group">
-            <label class="col-sm-2 control-label">Số điện thoại liên hệ :</label>
+            <label class="col-sm-2 control-label"> SDT liên hệ :</label>
             <div class="col-sm-10"><input type="text" value="${response[0].phone_number}"  id="phone_number_ud" class="form-control"></div>
+            </div>
+            <div class="hr-line-dashed"></div>
+
+            <div class="form-group">
+            <label class="col-sm-2 control-label">Quốc tịch :</label>
+            <div class="col-sm-10"><input type="text" value="${response[0].nationality}"  id="nationality_ud" class="form-control"></div>
             </div>
             <div class="hr-line-dashed"></div>
 
@@ -295,7 +315,7 @@ function edit_account_customer(id)
 
             <div class="form-group">
             <label class="col-sm-2 control-label">Mật khẩu(*) :</label>
-            <div class="col-sm-10"><input type="text" value="${response[0].password}"  id="password_ud" class="form-control"></div>
+            <div class="col-sm-10"><input type="text"   id="password_ud" class="form-control"></div>
             </div>
             <div class="hr-line-dashed"></div>
 
@@ -322,11 +342,13 @@ function update_account_customer(id)
     var phone_number1 = $('#phone_number_ud').val();
     var email1 = $('#email_ud').val();
     var password1 = $('#password_ud').val();
+    var nationality1 = $('#nationality').val();
     console.log(id);
     $.ajax({
         type:"GET",
         url:'{{URL::to('/update-account-customer')}}'+'/'+id,
-        data: {full_name: full_name1, birthday: birthday1, sex:sex1, address :address1, phone_number:phone_number1, email:email1, password:password1
+        data: {full_name: full_name1, birthday: birthday1, sex:sex1, address :address1,
+             phone_number:phone_number1, email:email1, password:password1, nationality:nationality1
             },
         dataType:"json",
         success: function(response)

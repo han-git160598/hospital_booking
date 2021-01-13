@@ -7,7 +7,7 @@
             <div class="col-lg-12">
                 <div class="inqbox float-e-margins">
                 <div class="inqbox-content">
-                    <h2>Project list</h2>
+                    <h2> BÀI VIẾT </h2>
                     <ol class="breadcrumb">
                         <li>
                             <a href="index.html">Home</a>
@@ -36,8 +36,8 @@
                     <div class="row m-b-sm m-t-sm">
                         
                         <div class="col-md-11">
-                            <div class="input-group"><input type="text" id="search_news" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
-                            <button type="button" class="btn btn-sm btn-primary"> Go!</button> </span>
+                            <div class="input-group"><input type="text" id="search_news" placeholder="Tìm kiếm" class="input-sm form-control"> <span class="input-group-btn">
+                            <button type="button" class="btn btn-sm btn-primary"> <i class="fa fa-search"></i> </button> </span>
                             </div>
                         </div>
                     </div>
@@ -58,7 +58,7 @@
             <input type="text" name="name_news" id="name_news" class="form-control" />
             <br/>
              <label>Nội dung bài viết (<font style="color: red">*</font>)</label>
-             <textarea name="content_news" id="content_news" class="form-control"></textarea>
+             <textarea name="content_news" rows="8" id="content_news" class="form-control"></textarea>
           
             <br/>
             <label><label>Hình ảnh (<font style="color: red">*</font>)</label>
@@ -177,7 +177,7 @@ $( document ).ready(function() {
                         <p>${item.content.substr(0, 200)}<p>
 
                     </td>
-                    <td class="project-people">
+                    <td >
                         <img alt="" height="150" width="150" src="${item.image_upload}">
                     </td>
                     <td class="project-actions">
@@ -317,7 +317,7 @@ function delete_news(id)
                     <p>${item.content.substr(0, 200)}<p>
 
                 </td>
-                <td class="project-people">
+                <td >
                      <img alt="" height="150" width="150" src="${item.image_upload}">
                 </td>
                 <td class="project-actions">
@@ -373,7 +373,7 @@ function disable_news(id)
                 <td class="project-title">
                     <p> ${item.content.substr(0, 200)} VND</p> 
                 </td>
-                <td class="project-people">
+                <td >
                      <img alt="" height="150" width="150" src="${item.image_upload}">
                 </td>
                 <td class="project-actions">
@@ -424,7 +424,7 @@ function enable_news(id)
                 <td class="project-title">
                     <p> ${item.content.substr(0, 200)} VND</p> 
                 </td>
-                <td class="project-people">
+                <td >
                      <img alt="" height="150" width="150" src="${item.image_upload}">
                 </td>
                 <td class="project-actions">
@@ -478,7 +478,7 @@ $('#search_news').keyup(function(){
                     <p>${item.content.substr(0, 200)}<p>
 
                 </td>
-                <td class="project-people">
+                <td >
                      <img alt="" height="150" width="150" src="${item.image_upload}">
                 </td>
                 <td class="project-actions">

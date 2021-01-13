@@ -8,7 +8,7 @@
             <div class="col-lg-12">
                 <div class="inqbox float-e-margins">
                 <div class="inqbox-content">
-                    <h2>Clients</h2>
+                    <h2> LỊCH SỬ ĐƠN KHÁM </h2>
                     <ol class="breadcrumb">
                         <li>
                             <a href="index.html">Home</a>
@@ -25,7 +25,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row"> 
             <div class="col-sm-8">
                 <div class="inqbox">
                 <div class="inqbox-content">
@@ -35,7 +35,7 @@
                         All clients need to be verified before you can send email and set a project.
                     </p>
                     <div class="input-group">
-                        <input type="text" placeholder="Search client " class="input form-control">
+                        <input type="text" placeholder="Tìm kiếm " class="input form-control">
                         <span class="input-group-btn">
                         <button type="button" class="btn btn btn-primary"> <i class="fa fa-search"></i> Search</button>
                         </span>

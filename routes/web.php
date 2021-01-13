@@ -91,8 +91,8 @@ Route::get('/enable-news/{id}','NewsController@enable_news');
 Route::post('/search-news','NewsController@search_news');
 // QL khách hàng---------------------------------------------------------------------
 Route::get('/all-account-customer','AccountCustomerController@all_account_customer');
-Route::get('/save-account-customer','AccountCustomerController@save_account_customer');
-Route::get('/delete-account-customer/{id}','AccountCustomerController@delete_account_customer');
+Route::post('/save-account-customer','AccountCustomerController@save_account_customer');
+Route::post('/delete-account-customer','AccountCustomerController@delete_account_customer');
 Route::get('/edit-account-customer/{id}','AccountCustomerController@edit_account_customer');
 Route::get('/update-account-customer/{id}','AccountCustomerController@update_account_customer');
 

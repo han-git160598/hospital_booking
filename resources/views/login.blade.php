@@ -3,7 +3,7 @@
    <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>InQ - A Responsive Bootstrap 3 Admin Login</title>
+      <title> HOSPITAL BOOKING </title>
       <link href="{{ asset('backend/css/bootstrap.min.css') }}" rel="stylesheet">
       <link href="{{ asset('backend/fonts/font-awesome/css/font-awesome.css')}}" rel="stylesheet">
       <link href="{{ asset('backend/css/animate.css')}}" rel="stylesheet">
@@ -41,9 +41,7 @@
                      </p>
                      <a class="btn btn-sm btn-white btn-block" href="register.html">Create an account</a>
                   </form>
-                  <p class="m-t">
-                     <small>InQ we app framework base on Bootstrap 3 &copy; 2015</small>
-                  </p>
+                  
                </div>
             </div>
          </div>

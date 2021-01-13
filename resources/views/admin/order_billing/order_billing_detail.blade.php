@@ -8,7 +8,7 @@
             <div class="col-lg-12"> 
                 <div class="inqbox float-e-margins">
                 <div class="inqbox-content">
-                    <h2>Clients</h2>
+                    <h2> CHI TIẾT HÓA ĐƠN </h2>
                     <ol class="breadcrumb">
                         <li>
                             <a href="index.html">Home</a>
@@ -24,28 +24,20 @@
                 </div>
                 </div>
             </div>
-        </div>
+        </div> 
 
         <div class="row">
             <div class="col-sm-8">
                 <div class="inqbox">
                 <div class="inqbox-content">
-                    <span class="text-muted small pull-right">Last modification: <i class="fa fa-clock-o"></i> 2:10 pm - 12.06.2015</span>
+                <span class="text-muted big pull-right"><a href="{{URL::to('/all-billing')}}" ></a></span>
                     <h2> @if($data['billing'][0]->billing_type == 1)
-                                <strong>Khám cá nhân</strong>
+                                <strong>Khám cá nhân <i class="fa fa-clock-o"></i></strong>
                             @else
                                 <strong>Khám hộ</strong>
                             @endif
                     </h2>
-              
-                    <div class="input-group">
-                        <input type="text" hidden value="{{$data['billing'][0]->id}}" id="id_bill">
-                        <input type="text" placeholder="Search client " class="input form-control">
-                        <span class="input-group-btn">
-                        <button type="button" class="btn btn btn-primary"> <i class="fa fa-search"></i> Search</button>
-                        </span>
-                    </div>
-                    
+
                     <div class="clients-list">
                          @foreach($data['billing'] as $v)
                         
@@ -121,7 +113,7 @@
                                         </tr>
                                         {{--  @endforeach  --}}
                                         </tbody>
-
+                                    
                                     </table>
                                     <!-- Simple pop-up dialog box containing a form -->
                                     <dialog id="favDialog">
@@ -157,9 +149,10 @@
             {{--  ///// Thêm tiểu sử  --}}
             <dialog id="prehistoric_model">
             <form method="dialog">
-                <p><label>Tiểu sử
-                <textarea id="add_prehistoric_text"></textarea>
-                </label></p>
+               <tr><label><p> Tiểu sử </label></p></tr>
+               <tr> 
+               <textarea rows="8" cols="30" id="add_prehistoric_text"></textarea>
+                </tr>
                 <menu>
                 <button>Trở lại</button>
                 <button onClick="add_prehistoric()">Xác nhận</button>
@@ -193,20 +186,47 @@
                 </div>
                 </div>
             </div>
+<!-- ----------------------------- thanh toán----------------------------------- -->
             <div class="col-sm-4">
                 <div class="inqbox ">
                 <div class="inqbox-content">
                     <div class="tab-content">
                         <div id="contact-1" class="tab-pane active">
                             <div class="row m-b-lg">
-                            <div class="col-lg-4">
-                                <h2> Kết quả khám</h2>
-                                <div class="m-b-sm">
-                                    
-                                </div>
+                           
+                            <div >  
+                              <center>  <h1 ><strong> PT thanh toán </strong> </h1>  </center>
+                              
+                            </div>
+                           
+                            <div class="col-lg-8">
+
+                            <div>
+                         <center>    <img src="{{ asset($data['billing'][0]->payment_image) }}" alt="" height="150" width="150"> </center>
+                            </div>
+                               
+                            </div>
+                            </div>
+                            
+                        </div>
+                    
+                        
+                    </div>
+                </div>
+                </div>
+            </div>
+<!-- ---------------------------hình ảnh--------------------------------------------------- -->
+            <div class="col-sm-4">
+                <div class="inqbox ">
+                <div class="inqbox-content">
+                    <div class="tab-content">
+                        <div id="contact-1" class="tab-pane active">
+                            <div class="row m-b-lg">
+                            <div >
+                            <center>  <h1 ><strong> Kết quả khám </strong> </h1>  </center>
+                              
                             </div>
                             <div class="col-lg-8">
-                            
                                 <strong>
                                 Hình ảnh <i class="fa fa-file"></i>
                                 </strong>
@@ -405,7 +425,6 @@ function actually_detail(id)
             </tr>`;
             $('tbody').html('');
             $('tbody').html(output); 
-
             }else{
             console.log(response);
            // console.log(response[0].id_billing)
@@ -537,7 +556,7 @@ function appointment_detail(id)
                 <th style="width:30px;"></th>   
             </tr>`;
             $('tbody').html('');
-            response.forEach(function (item) {
+            response['service'].forEach(function (item) {
                 //console.log(item);
             output+=`
             <tr>
@@ -545,7 +564,7 @@ function appointment_detail(id)
                 <td class="project-title">
                     <p>${item.service}<p>
                 </td>
-                <td class="project-title">
+                <td class="project-title" id="time_appoint">
                     <p>${item.appointment_time}<p>
                 </td>
                 <form id="${item.id_service}reset">
@@ -594,6 +613,9 @@ function add_appointment(id)
         {
             console.log(response);
             alert(response['mes']);
+            var output=``;
+            output = `  
+            <p>${item.appointment_time}<p>`;
         }
     });
 

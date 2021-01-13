@@ -101,9 +101,10 @@ class ServiceController extends Controller
     {
         $model = new AuthModel;
         $model->AuthLogin();
+        $permission=$model->permission();
         $stt = 'N';
         $disable_service = DB::table('tbl_service_service')->where('status_service',$stt)->orderby('id','desc')->get();
-        return view('admin.disable_service',compact('disable_service'));
+        return view('admin.disable_service',compact('disable_service','permission'));
     }
     public function search_service_service(Request $request)
     {
@@ -116,6 +117,23 @@ class ServiceController extends Controller
             $data = DB::table('tbl_service_service')->where('status_service','Y')
             ->where('service', 'LIKE', "%{$keywork}%")
             ->orWhere('price', 'LIKE', "%{$keywork}%")->get();
+            return json_encode($data);
+        }
+      
+    }
+    public function search_service_disable(Request $request)
+    {
+        $keywork = $request->service;
+        if($keywork =='')
+        {
+            $data = DB::table('tbl_service_service')->where('status_service','N')->orderby('id','desc')->get();
+            return json_encode($data);
+        }else{
+            $data = DB::table('tbl_service_service')
+            ->where('status_service','N')
+            ->where('service', 'LIKE', "%{$keywork}%")
+           // ->orWhere('price', 'LIKE', "%{$keywork}%")
+           ->get();
             return json_encode($data);
         }
       

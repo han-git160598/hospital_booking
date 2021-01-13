@@ -64,9 +64,6 @@
                 </div>
                 <div class="inqbox-content">
                     <div class="row m-b-sm m-t-sm">
-                        <div class="col-md-1">
-                            <button type="button" id="loading-example-btn" class="btn btn-white btn-sm" ><i class="fa fa-refresh"></i> Refresh</button>
-                        </div>
                         <div class="col-md-11">
                             <div class="input-group"><input type="text" onkeyup="search_account_admin()" id="search_account_admin" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
                             <button type="button" class="btn btn-sm btn-primary"> Go!</button> </span>
@@ -108,7 +105,7 @@
                               
                                 <td class="project-actions">
                                     <button onClick="account_admin_detail({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết</button>
-                                    <button onClick="delete_account_admin({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
+                                    <button onClick="delete_account_admin({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                                 </td>
                             </tr>
                             @endforeach
@@ -168,7 +165,7 @@ function disable_account_admin(id)
                 </td>
                 <td class="project-actions">
                     <button onClick="account_admin_detail(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết</button>
-                    <button onClick="delete_account_admin(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
+                    <button onClick="delete_account_admin(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                 </td>
                 
                 
@@ -222,7 +219,7 @@ function enable_account_admin(id)
                 </td>
                 <td class="project-actions">
                     <button onClick="account_admin_detail(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết</button>
-                    <button onClick="delete_account_admin(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
+                    <button onClick="delete_account_admin(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                 </td>
                 
                 
@@ -293,7 +290,8 @@ $.ajax({
                         <div class="row">
                             <div class="col-lg-12">
                             <div class="m-b-md">
-                                <button onClick="update_account_admin(${item[0].id})" class="btn btn-white btn-xs pull-right">Cập nhật</button>
+                                <button onClick="update_account_admin(${item[0].id})" class="btn btn-sm  btn-primary pull-right">Cập nhật</button>
+                                <a href="{{URL::to('all-account-admin')}}"><button class="btn btn-sm btn-primary"> Trở về </button></a>
                                 <h2>Thông tin nhân viên</h2>
                             </div>
                             <dl class="dl-horizontal">
@@ -551,15 +549,17 @@ if(r==true)
     
 }
 $('#create_account_admin').click(function(){
+   //  document.getElementById("form_admin").reset();
+    // $("#form_admin").reset();
     var output=``;
     $('#detail').html(''); 
     $.ajax({
     url: '{{URL::to('/list-account-type')}}',
-    type: 'GET',
+    type: 'GET',    
     dataType: 'json',
     success: function (response) 
     {
-        console.log(response);
+    console.log(response);
     output+=` 
     <div class="row">
         <div class="col-lg-9">
@@ -569,7 +569,8 @@ $('#create_account_admin').click(function(){
                     <div class="row">
                         <div class="col-lg-12">
                         <div class="m-b-md">
-                            <button onClick="save_account_admin()"  class="btn btn-white btn-xs pull-right"> Lưu </button>
+                            <button onClick="save_account_admin()" class="btn btn-sm btn-primary pull-right"> Thêm tài khoản </button>
+                            <a href="{{URL::to('all-account-admin')}}"><button class="btn btn-sm btn-primary"> Trở về </button></a>
                             <h2>Thông tin nhân viên</h2>
                         </div>
                         <dl class="dl-horizontal">
@@ -580,6 +581,7 @@ $('#create_account_admin').click(function(){
                         </dl>
                         </div>
                     </div>
+                    <form id="form_admin">
                     <div class="row">
                         <div class="col-lg-5">
                         <dl class="dl-horizontal" >
@@ -617,6 +619,7 @@ $('#create_account_admin').click(function(){
                         </dl>
                         </div>
                     </div>
+                    </form>
                     <div class="row m-t-sm">
                         <div class="col-lg-12">
                         <div class="panel blank-panel">
@@ -647,17 +650,14 @@ $('#create_account_admin').click(function(){
         });
         output+=`
         </div>
-            
-            <div class="text-center m-t-md">
-                <a href="#" class="btn btn-xs btn-primary">Add files</a>
-                <a href="#" class="btn btn-xs btn-primary">Report contact</a>
-            </div>
+           
             </div>
         </div>
     </div> `;
      $('#detail').html(output); 
     }
     });
+   
 });
 function save_account_admin()
 {
@@ -665,6 +665,7 @@ function save_account_admin()
     var username1 = $('#username_admin').val(); 
     var email1= $('#email_admin').val();
     var account_type1= $('#account_type1').val();
+    //console.log(account_type1);
     var password_admin1= $('#password_admin').val();
     var phone_number1= $('#phone_number').val();
     var arr_permission1=[];

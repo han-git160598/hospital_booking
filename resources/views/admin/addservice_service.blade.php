@@ -64,7 +64,7 @@
                      <div class="hr-line-dashed"></div>
                      <div class="form-group">
                         <label class="col-sm-2 control-label">Nội dung</label>
-                        <div class="col-sm-10"><input type="text" id="content" class="form-control"></div>
+                        <div class="col-sm-10"><textarea id="content" class="form-control"> </textarea></div>
                      </div>
                      <div class="hr-line-dashed"></div>
 

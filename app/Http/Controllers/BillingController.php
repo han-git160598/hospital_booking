@@ -31,15 +31,19 @@ class BillingController extends Controller
     }
     public function order_billing_detail($id)
     {
-
         $model = new AuthModel;
         $model->AuthLogin();
         $permission=$model->permission();
-         $data = DB::table('tbl_billing_billing')    
+        $data['document'] = DB::table('tbl_billing_billing')    
+        ->join('tbl_billing_document','tbl_billing_document.id_billing','=','tbl_billing_billing.id')
+        ->where('tbl_billing_billing.id',$id)
+        ->select('image_upload','tbl_billing_document.id_billing','tbl_billing_document.id')
+        ->get();
+         $data['billing'] = DB::table('tbl_billing_billing')    
       //  ->join('tbl_billing_document','tbl_billing_document.id_billing','=','tbl_billing_billing.id')
         ->where('tbl_billing_billing.id',$id)
         ->get();
-      //  dd($data);
+       // dd($data);
        // return json_encode($data); 
         return view('admin.order_billing.order_billing_detail',compact('data','permission'));
     }
@@ -200,5 +204,19 @@ class BillingController extends Controller
         $content = $request->content;
         return json_encode($content);
      
+    }
+    public function save_billing_document(Request $request)
+    {
+        $image = $request->file('img_billing_document');
+        $new_name = rand() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images/slide/'), $new_name);
+        $url='images/slide/'.$new_name;
+        $data = array();
+        $data['id_billing']=$request->id_billing;
+        $data['image_upload']=$url;
+        DB::table('tbl_billing_document')->insert($data);
+        $mes['mes']='Thêm hình ảnh thành công';
+        $mes['data'] = DB::table('tbl_billing_document')->where('id_billing',$request->id_billing)->get();
+        return json_encode($mes); 
     }
 }

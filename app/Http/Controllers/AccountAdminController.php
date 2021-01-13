@@ -155,7 +155,7 @@ class AccountAdminController extends Controller
         }
         $per = $request->arr_per1;
         if($request->full_name == '' || $request->username=='' || $request->email==''
-            || $request->account_type==''||$request->password_admin=='' || $request->phone_number=='' )
+            || $request->account_type == 0 ||$request->password_admin=='' || $request->phone_number=='' )
         {
         $mes['mes']='Vui lòng điền đủ trường !';
         return json_encode($mes);

@@ -34,9 +34,7 @@
                 </div>
                 <div class="inqbox-content">
                     <div class="row m-b-sm m-t-sm">
-                        <div class="col-md-1">
-                            <button type="button" id="loading-example-btn" class="btn btn-white btn-sm" ><i class="fa fa-refresh"></i> Refresh</button>
-                        </div>
+                        
                         <div class="col-md-11">
                             <div class="input-group"><input type="text" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
                             <button type="button" class="btn btn-sm btn-primary"> Go!</button> </span>
@@ -65,8 +63,8 @@
                                 </td>
 
                                 <td class="project-actions">
-                                    <button onClick="edit_account_type({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
-                                    <button onClick="delete_account_type({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
+                                    <button onClick="edit_account_type({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                                    <button onClick="delete_account_type({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                                 </td>
                             </tr>
                             @endforeach
@@ -159,8 +157,8 @@ function delete_account_type(id)
                 </td>
 
                 <td class="project-actions">
-                    <button onClick="edit_account_type(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
-                    <button onClick="delete_account_type(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
+                    <button onClick="edit_account_type(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                    <button onClick="delete_account_type(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                 </td>
             </tr>`;       
             });

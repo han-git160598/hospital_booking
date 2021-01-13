@@ -52,8 +52,17 @@ class AccountCustomerController extends Controller
     }
     public function delete_account_customer($id)
     {
+        $check = DB::table('tbl_account_customer')
+        ->join('tbl_billing_billing','tbl_billing_billing.id_customer','=','tbl_account_customer.id')
+        ->where('id',$id)->get();
+        if(count($check)>0)
+        {
+            $data['mes']='Không thể xóa khách hàng này';
+            return json_encode($data);
+        }
         DB::table('tbl_account_customer')->where('id',$id)->delete();
         $data = DB::table('tbl_account_customer')->orderby('id','desc')->get();
+        $data['mes']= 'sucsses';
         return json_encode($data);
     }
     public function edit_account_customer($id)

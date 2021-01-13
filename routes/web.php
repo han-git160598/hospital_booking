@@ -49,6 +49,7 @@ Route::get('/enable-service-service/{id}','ServiceController@enable_service');
 Route::get('/disable-service-service','ServiceController@all_disable_service');
 
 Route::post('/search-service-service','ServiceController@search_service_service');
+Route::post('/search-service-disable','ServiceController@search_service_disable');
 
 //QL service_packet
 Route::get('/all-service-packet','ServicePacketController@all_service_packet');
@@ -146,10 +147,11 @@ Route::post('/remove-service-actually','BillingController@remove_service_actuall
 // appointment
 Route::post('/appointment-detail','BillingController@appointment_detail');
 // Acctually
-
 Route::post('/save-billing-actually','BillingController@save_billing_acctually');
 // billing customer
 Route::post('/add-prehistoric','BillingController@add_prehistoric');
+// billing document
+Route::post('/save-billing-document','BillingController@save_billing_document');
 //Account admin///////////////////////////////////////////
 Route::get('/all-account-admin','AccountAdminController@all_account_admin');
 Route::get('/disable-account-admin/{id}','AccountAdminController@disable_account_admin');

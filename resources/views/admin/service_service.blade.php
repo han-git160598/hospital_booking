@@ -34,9 +34,7 @@
                 </div>
                 <div class="inqbox-content">
                     <div class="row m-b-sm m-t-sm">
-                        <div class="col-md-1">
-                            <button type="button" id="loading-example-btn" class="btn btn-white btn-sm" ><i class="fa fa-refresh"></i> Refresh</button>
-                        </div>
+                       
                         <div class="col-md-11">
                             <div class="input-group"><input type="text" onkeyup="search_service()" id="search_service" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
                             <button type="button" id="btnn"  class="btn btn-sm btn-primary"> Go!</button> </span>
@@ -64,9 +62,9 @@
                                 </td>
 
                                 <td class="project-actions">
-                                    <a href="#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> View </a>
-                                    <button onClick="edit_service({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
-                                    <button onClick="delete_service({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
+                                  
+                                    <button onClick="edit_service({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                                    <button onClick="delete_service({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                                 </td>
                             </tr>
                             @endforeach
@@ -120,9 +118,9 @@ function delete_service(id)
                     <p> ${item.status_service} VND</p> 
                 </td>
                 <td class="project-actions">
-                    <a href="#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> View </a>
-                    <button onClick="edit_service(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
-                    <button onClick="delete_service(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
+           
+                    <button onClick="edit_service(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                    <button onClick="delete_service(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                 </td>
             </tr>`;    
             });
@@ -162,7 +160,10 @@ function edit_service(id)
                      <div class="form-group">
                         <label class="col-sm-2 control-label">Nội dung</label>
                         <input type="text" hidden id="id_disable" value="${item.id}">
-                        <div class="col-sm-10"><input type="text" value="${item.content}" id="content" class="form-control"></div>
+                        <div class="col-sm-10">
+                        <textarea id="content" class="form-control"> ${item.content} </textarea>
+                        </div>
+                        <textarea id="content" class="form-control"> ${item.content} </textarea>
                      </div>
                      <div class="hr-line-dashed"></div>  
                      <div class="form-group">
@@ -217,9 +218,9 @@ function update_service(id)
                     <p> ${item.status_service} VND</p> 
                 </td>
                 <td class="project-actions">
-                    <a href="#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> View </a>
-                    <button onClick="edit_service(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
-                    <button onClick="delete_service(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
+                    
+                    <button onClick="edit_service(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                    <button onClick="delete_service(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                 </td>
             </tr>`;    
             });
@@ -256,9 +257,9 @@ function disable_service(id)
                     <p> ${item.status_service} VND</p> 
                 </td>
                 <td class="project-actions">
-                    <a href="#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> View </a>
-                    <button onClick="edit_service(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
-                    <button onClick="delete_service(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
+                   
+                    <button onClick="edit_service(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                    <button onClick="delete_service(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                 </td>
             </tr>`;    
             });
@@ -299,9 +300,9 @@ function search_service()
                 </td>
 
                 <td class="project-actions">
-                    <a href="#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> View </a>
-                    <button onClick="edit_service(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
-                    <button onClick="delete_service(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
+                  
+                    <button onClick="edit_service(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                    <button onClick="delete_service(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                 </td>
             </tr>`;    
             });

@@ -34,11 +34,9 @@
                 </div>
                 <div class="inqbox-content">
                     <div class="row m-b-sm m-t-sm">
-                        <div class="col-md-1">
-                            <button type="button" id="loading-example-btn" class="btn btn-white btn-sm" ><i class="fa fa-refresh"></i> Refresh</button>
-                        </div>
+                      
                         <div class="col-md-11">
-                            <div class="input-group"><input type="text" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
+                            <div class="input-group"><input id="search_service_disable" onkeyup="search_service_disable()" type="text" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
                             <button type="button" class="btn btn-sm btn-primary"> Go!</button> </span>
                             </div>
                         </div>
@@ -113,6 +111,47 @@ function enable_service(id)
             });
             $('tbody').html(output);        
         }
+    });
+}
+function search_service_disable()
+{
+    var search_service1 = $('#search_service_disable').val();
+    $.ajax({
+    url: '{{URL::to('/search-service-disable')}}',
+    type: 'POST',
+    data: {service:search_service1},
+    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+    dataType: 'json',
+    success: function (response) 
+    { 
+        //console.log(response);
+         var output=`
+            <tr> 
+                <th style="width:30px;"></th>
+                <th>Tên dịch vụ</th>
+                <th>Giá tiền</th>
+                <th style="width:30px;"></th>
+            </tr>`;
+            $('tbody').html('');
+            response.forEach(function (item) {
+                //console.log(item);
+            output+=`
+           <tr>
+                <td style="width:30px;"></td>
+                <td class="project-title">
+                    <p>${item.service}</p>  
+                </td>
+                <td class="project-title">
+                    <p>${item.price} VND</p> 
+                </td>
+
+                <td class="project-actions">
+                    <button onClick="enable_service(${item.id})" class="btn btn-primary btn-sm">Phục hồi </button>
+                </td>
+            </tr>`;    
+            });
+            $('tbody').html(output); 
+    }
     });
 }
 

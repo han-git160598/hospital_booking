@@ -27,7 +27,7 @@
             <div class="col-lg-12">
                 <div class="inqbox">
                 <div class="inqbox-title">
-                    <h5>All projects assigned to this account</h5>
+                 
                     <div class="inqbox-tools">
                         <button id="create_news" class="btn btn-primary btn-xs">Thêm bài viêt</button>
                     </div>

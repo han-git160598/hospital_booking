@@ -34,9 +34,7 @@
                 </div>
                 <div class="inqbox-content">
                     <div class="row m-b-sm m-t-sm">
-                        <div class="col-md-1">
-                            <button type="button" id="loading-example-btn" class="btn btn-white btn-sm" ><i class="fa fa-refresh"></i> Refresh</button>
-                        </div>
+                        
                         <div class="col-md-11">
                             <div class="input-group"><input type="text" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
                             <button type="button" class="btn btn-sm btn-primary"> Go!</button> </span>
@@ -124,6 +122,7 @@
                                 <th style="width:30px;"></th>
                                
                             </tr>
+
                             @foreach($all_slide as $key=> $value)
                             <tr>
                                 <td style="width:30px;"></td>
@@ -194,7 +193,7 @@ $( document ).ready(function() {
                     <img src="${item.image_upload}" height="150" width="150" alt="Image">
                     </td>
                     <td class="project-actions">
-                    <button onClick="edit_slide({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                    <button onClick="edit_slide(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
                 </td>
                     <td class="project-actions">
                         <button onClick="delete_slide(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
@@ -252,7 +251,7 @@ $('#update_category_form').on('submit', function(event) {
                     <tr> 
                         <th style="width:30px;"></th>
                         <th style="width:30px;"></th>
-                        <th>Số thứ tựt</th>
+                        <th>Số thứ tự</th>
                         <th>Hình ảnh</th>
                         <th style="width:30px;"></th>
                         <th style="width:30px;"></th>
@@ -270,7 +269,7 @@ $('#update_category_form').on('submit', function(event) {
                     <img src="${item.image_upload}" height="150" width="150" alt="Image">
                     </td>
                         <td class="project-actions">
-                        <button onClick="edit_slide({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                        <button onClick="edit_slide(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
                     </td>
                     <td class="project-actions">
                         <button onClick="delete_slide(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
@@ -320,7 +319,7 @@ function delete_slide(id)
                 <img src="${item.image_upload}" height="150" width="150" alt="Image">
                 </td>
                  <td class="project-actions">
-                 <button onClick="edit_slide({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                 <button onClick="edit_slide(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
                </td>
                 <td class="project-actions">
                     <button onClick="delete_slide(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>

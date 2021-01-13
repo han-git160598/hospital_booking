@@ -37,19 +37,7 @@
                             </div>
                         </li>
                         <li>
-                            <div class="leftpanel-profile">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img src="" alt="" class="media-object img-circle">                                        
-                                    </a>
-                                </div>
-                                <div class="media-body profile-name" style="white-space: nowrap;">
-                                    <h4 class="media-heading">
-                                   
-                                    <a data-toggle="collapse" data-target="#loguserinfo" class="pull-right"><i class="fa fa-angle-down"></i></a></h4>
-                                    <span></span>
-                                </div>
-                            </div>
+                
                             <div class="leftpanel-userinfo collapse" id="loguserinfo" style="position: absolute; background: #3b4354!important">
                                 <h5 class="sidebar-title">Address</h5>
                                 <address>
@@ -150,7 +138,7 @@
                     <nav class="navbar navbar-fixed-top white-bg show-menu-full" id="nav" role="navigation" style="margin-bottom: 0">
                         <div class="navbar-header">
                             <a class="navbar-minimalize minimalize-styl-2 btn" href="javascript:void(0)"><i class="fa fa-bars" style="font-size:27px;"></i> </a>
-                            <form role="search" class="navbar-form-custom">
+                            {{--  <form role="search" class="navbar-form-custom">
                                 <div class="form-group">
                                     <div class="kform inq">
                                         <div>
@@ -163,40 +151,10 @@
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            </form>  --}}
                         </div>
                         <ul class="nav navbar-top-links navbar-right">
-                            <li class="dropdown hidden-xs">
-                                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-envelope"></i>  <span class="label label-danger">4</span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-messages">
-                                    <li class="divider"></li>
-                                    <li>
-                                        <div class="text-center link-block">
-                                            <a href="mailbox.html" class="animated animated-short fadeInUp">
-                                                <i class="fa fa-envelope"></i> <strong>Read All Messages</strong>
-                                            </a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="dropdown hidden-xs">
-                                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-bell"></i>  <span class="label label-danger">5</span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-alerts">
-                                    <li>
-                                        <a href="mailbox.html" class="animated animated-short fadeInUp">
-                                            <div>
-                                                <i class="fa fa-envelope fa-fw"></i> You have 16 messages
-                                                <span class="pull-right text-muted small">4 minutes ago</span>
-                                            </div>
-                                        </a>
-                                    </li>
-                                   
-                                </ul>
-                            </li>
+                           
                             <li class="dropdown pull-right">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                     <span class="pl15">  <?php
@@ -205,15 +163,14 @@
                                         if($id)
                                         {
                                             echo $full_name." ";
-                                            echo $id;
+                                          //  echo $id;
                                         }
+                                    
                                     ?>  </span>
                                     <span class="caret caret-tp"></span>
                                 </a>
                                 <ul class="dropdown-menu animated m-t-xs">
-                                    <li><a href="profile.html" class="animated animated-short fadeInUp"><i class="fa fa-user"></i> Profile</a></li>
-                                    <li><a href="contacts.html" class="animated animated-short fadeInUp"><i class="fa fa-group"></i> Contacts</a></li>
-                                    <li><a href="mailbox.html" class="animated animated-short fadeInUp"><i class="fa fa-inbox"></i> Mailbox</a></li>
+                           
                                     <li class="divider"></li>
                                     <li><a href="{{URL::to('/logout-admin')}}" class="animated animated-short fadeInUp"><i class="fa fa-sign-out"></i> Đăng xuất </a></li>
                                 </ul>

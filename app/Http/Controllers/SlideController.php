@@ -10,12 +10,13 @@ class SlideController extends Controller
 {
     public function all_slide()
     {
-        $model = new AuthModel;
-        $model->AuthLogin();
-        $permission=$model->permission();
-        $all_slide=DB::table('tbl_slide')->orderby('id','desc')->get();
-      //  dd($all_slide);
-        return view('admin.slide',compact('all_slide','permission'));
+      $model = new AuthModel;
+      $model->AuthLogin();
+      $permission=$model->permission();
+
+      $all_slide=DB::table('tbl_slide')->orderby('id','desc')->get();
+     
+      return view('admin.slide',compact('all_slide','permission'));
     }
     public function save_slide(Request $request)
     {

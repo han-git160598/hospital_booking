@@ -9,17 +9,7 @@
                 <div class="inqbox float-e-margins">
                 <div class="inqbox-content">
                     <h2> LỊCH SỬ ĐƠN KHÁM </h2>
-                    <ol class="breadcrumb">
-                        <li>
-                            <a href="index.html">Home</a>
-                        </li>
-                        <li>
-                            <a>Apps</a>
-                        </li>
-                        <li class="active">
-                            <strong>Clients</strong>
-                        </li>
-                    </ol>
+                  
                 </div>
                 </div>
             </div>
@@ -29,22 +19,13 @@
             <div class="col-sm-8">
                 <div class="inqbox">
                 <div class="inqbox-content">
-                    <span class="text-muted small pull-right">Last modification: <i class="fa fa-clock-o"></i> 2:10 pm - 12.06.2015</span>
-                    <h2>Clients</h2>
-                    <p>
-                        All clients need to be verified before you can send email and set a project.
-                    </p>
-                    <div class="input-group">
-                        <input type="text" placeholder="Tìm kiếm " class="input form-control">
-                        <span class="input-group-btn">
-                        <button type="button" class="btn btn btn-primary"> <i class="fa fa-search"></i> Search</button>
-                        </span>
-                    </div>
-                    
+                    <a href="{{URL::to('/all-account-customer')}}" class="text-muted small pull-right"> 
+                    <button type="button" class="btn btn-primary btn-sm btn-block"> Trở về </button></a>
+
                     <div class="clients-list">
                          @foreach($data as $v)
                         <ul class="nav nav-tabs tab-border-top-danger">
-                            <span class="pull-right small text-muted">1406 Elements</span>
+                       
                             <li class="active"><a data-toggle="tab" href="#tab-1" onClick="billing_detail({{$v->id_billing}})">Thông tin bill</a></li>
                             <li class=""><a data-toggle="tab" href="#" onClick="customer_detail({{$v->id_billing}})">Khách hàng</a></li>
                             <li class=""><a data-toggle="tab" href="#" onClick="service_detail({{$v->id_billing}})">Dịch vụ</a></li>

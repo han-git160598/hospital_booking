@@ -8,17 +8,7 @@
                 <div class="inqbox float-e-margins">
                 <div class="inqbox-content">
                     <h2> BÀI VIẾT </h2>
-                    <ol class="breadcrumb">
-                        <li>
-                            <a href="index.html">Home</a>
-                        </li>
-                        <li>
-                            <a>Apps</a>
-                        </li>
-                        <li class="active">
-                            <strong>Project list</strong>
-                        </li>
-                    </ol>
+                   
                 </div>
                 </div>
             </div>
@@ -41,7 +31,7 @@
                             </div>
                         </div>
                     </div>
-                    {{--  Model Thêm  --}}
+            
                       {{--  model thêm  --}}
     <div id="add_data_Modal" class="modal fade">
             <div class="modal-dialog">
@@ -61,7 +51,7 @@
              <textarea name="content_news" rows="8" id="content_news" class="form-control"></textarea>
           
             <br/>
-            <label><label>Hình ảnh (<font style="color: red">*</font>)</label>
+            <label><label>Hình ảnh </label>
                 <input type="file" id="img_news"  name="img_news" class="form-control" multiple="multiple"  placeholder="Hình ảnh">
                 </label>
             <br/>
@@ -77,7 +67,42 @@
              </div>
             </div>
            </div>
-            {{--    --}}
+            {{--  update    --}}
+             <div id="update_data_Modal" class="modal fade">
+            <div class="modal-dialog">
+             <div class="modal-content">
+              <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+               <h4 class="modal-title">Thêm sản phẩm</h4>
+              </div>
+              <div class="modal-body">
+
+            <form id="update_news_form" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <label>Tên bài viết (<font style="color: red">*</font>)</label>
+            <input type="text" name="name_news_ud" id="name_news" class="form-control" />
+            <br/>
+             <label>Nội dung bài viết (<font style="color: red">*</font>)</label>
+             <textarea name="content_news_ud" rows="8" id="content_news" class="form-control"></textarea>
+           <div id="id_news"> </div>
+            <br/>
+            <label><label>Hình ảnh (<font style="color: red">*</font>)</label>
+                <input type="file" id="img_news"  name="img_news_ud" class="form-control" multiple="multiple"  placeholder="Hình ảnh">
+                </label>
+            <br/>
+                <span id="upload_ed_image"></span>
+            <br/>
+            <br/>
+            <input type="submit" name="update" id="insert_category" value="Thêm" class="btn btn-success" />
+           </form>
+              </div>
+              <div class="modal-footer">
+               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+             </div>
+            </div>
+           </div>
+  
                     {{--  --------  --}}
                     
                     <div class="project-list">
@@ -91,7 +116,7 @@
                                 <th style="width:30px;"></th>
                             </tr>
                             @foreach($all_news as $key=> $value)
-                            <tr>
+                            <tr id="{{$value->id}}">
                             @if($value->home_action == 'Y')
                                 <td class="project-status">
                                     <button class="label label-primary" onClick="disable_news({{$value->id}})" >Disable</button>
@@ -112,6 +137,7 @@
                                 </td>
                                 <td class="project-actions">
                                     <button onClick="edit_news({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                                      {{--  <button type="button" name="x" id="x" data-toggle="modal" data-target="#update_data_Modal"><i class="fa fa-pencil"></i> Sửa </button>  --}}
                                 </td>
                                 <td class="project-actions">
                                     <button onClick="delete_news({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
@@ -192,89 +218,95 @@ $( document ).ready(function() {
             }
         })
     });
+
+    $('#update_news_form').on('submit', function(event) {
+       event.preventDefault();
+         $.ajax({
+           url: '{{URL::to('/update-news')}}',
+             method: "POST",
+             data: new FormData(this),
+             dataType: 'JSON',
+             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+             contentType: false,
+             cache: false,
+             processData: false,
+             success: function(data) 
+             {
+                 console.log(data);
+                 var output=``;
+             
+                  if(data['data'][0].home_action == 'Y')
+                output+=`
+                    <td class="project-status">
+                        <button class="label label-primary" onClick="disable_news(${data['data'][0].id})" > Disable</button>
+                    </td>`;
+                else
+                 output+=`
+                    <td class="project-status">
+                        <button class="label label-primary" onClick="enable_news(${data['data'][0].id})"> Enable</button>
+                    </td>`;
+                output+=`
+                    <td class="project-title">
+                        <p>${data['data'][0].title.substr(0, 200)} <p>
+                    </td>
+                    <td class="project-title">
+                        <p>${data['data'][0].content.substr(0, 200)} <p>
+                    </td>
+                    <td >
+                    <img alt="Image" height="100" width="100" src="${data['data'][0].image_upload}">
+                    </td>
+                    <td class="project-actions">
+                        <button onClick="edit_news(${data['data'][0].id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                        
+                    </td>
+                    <td class="project-actions">
+                        <button onClick="delete_news(${data['data'][0].id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
+                    </td>`;
+                   $('#'+data['data'][0].id).html(output);   
+             }
+         });
+    });
 });
 function edit_news(id)
 {
-     $.ajax({
-        url: '{{URL::to('/edit-news')}}'+'/'+id,
-        type: 'GET',
-        dataType: 'json',
-        success: function (response) 
-        {
-            var output=``;
-            $('tbody').html('');  
-            response.forEach(function (item) {
-            output+=`
-            <div class="inqbox-content">
-            <div  class="form-horizontal">
-            <form id="update_news_form" enctype="multipart/form-data">
-                <div class="form-group">
-                <label class="col-sm-2 control-label">Tên bài viêt</label>
-                <div class="col-sm-10"><input type="text" value="${item.title}" name="title_news_ud"  id="title_news" class="form-control"></div>
-                </div>
-                <div class="hr-line-dashed"></div>
-                <div class="form-group">
-                <label class="col-sm-2 control-label">Nội dung</label>
-                <div class="col-sm-10"><input type="text" value="${item.content}" name="content_news_ud"  id="content_news" class="form-control"></div>
-                <input type="hidden" value="${item.id}" name="id_news"  class="form-control">
-                </div>
-                <div class="hr-line-dashed"></div>
-                <div class="form-group">
-                <label class="col-sm-2 control-label">Hình ảnh</label>
-                <div class="col-sm-10"><input type="file" id="image_news_ud"  id="image_upload_news"></div>
-                </div>
-                <div class="hr-line-dashed"></div>  
-                <div class="form-group">
-                <div class="col-sm-6 col-sm-offset-2">
-                    <button class="btn btn-primary" onclick="update_news(${item.di})" type="submit" id="save_news">Cập nhật</button>
-                </div>
-                </div>
-            </form>
-            </div>
-            </div> `;
-            $('tbody').html(output);  
-            });
-        }
-     });
-}
-function update_news(id)
-{
-        var form = $('#update_news_form').serialize();
-      var FormData = new FormData(update_news_form)
-     console.log(form);
-     console.log(FormData);
-
-    $.ajax({
-        url: '{{URL::to('/update-news')}}',
+    console.log(id);
+$.ajax({
+        url: '{{URL::to('/edit-news')}}',
         type: 'POST',
-        data: {form:form},
+        data: {id:id},
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         dataType: 'json',
         success: function (response) 
-        {
+        {   
             console.log(response);
-            alert(response['mes']);
-        }
-    }); 
+           
+        var output=`
+            <label>Tên bài viết (<font style="color: red">*</font>)</label>
+            <input type="text" name="name_news_ud" value="${response[0].title}"  id="name_news" class="form-control" />
+            <br/>
+             <label>Nội dung bài viết (<font style="color: red">*</font>)</label>
+             <textarea name="content_news_ud" rows="8" id="content_news" class="form-control">${response[0].content}</textarea>
+            <input type="text" name="id_news" value="${response[0].id}" class="form-control" />
+            <br/>
+            <label><label>Hình ảnh (<font style="color: red">*</font>)</label>
+            <input type="file" id="img_news" value="${response[0].image_upload}" accept="image/png, image/jpeg" name="img_news_ud" class="form-control" multiple="multiple"  placeholder="Hình ảnh">
+            <img src="${response[0].image_upload}" height="150" width="200" >
+            </label>
+            <br/>
+                <span id="upload_ed_image"></span>
+            <br/>
+            <br/>
+            <input type="submit" name="update" id="insert_category" value="Cập nhật" class="btn btn-success" />
+           `;
+         $('#update_news_form').html(output); 
 
+
+        }
+    });
+    $('#update_data_Modal').modal('show');
 }
 
-// $('#update_news_form').on('submit', function(event) {
-//         event.preventDefault();
-//         $.ajax({
-//             url: '{{URL::to('/update-news')}}',
-//             method: "POST",
-//             data: new FormData(this),
-//             dataType: 'JSON',
-//             contentType: false,
-//             cache: false,
-//             processData: false,
-//             success: function(data) 
-//             {
-//                 console.log(data);
-//             }
-//         });
-// })
+ 
 function delete_news(id)
 {
     var r=confirm('Waring! Bạn có muốn xóa không !!');

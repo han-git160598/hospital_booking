@@ -8,17 +8,7 @@
                 <div class="inqbox float-e-margins">
                 <div class="inqbox-content">
                     <h2> TÀI KHOẢN KHÁCH HÀNG </h2>
-                    <ol class="breadcrumb">
-                        <li>
-                            <a href="index.html">Home</a>
-                        </li>
-                        <li>
-                            <a>Apps</a>
-                        </li>
-                        <li class="active">
-                            <strong>Project list</strong>
-                        </li>
-                    </ol>
+                   
                 </div>
                 </div> 
             </div>

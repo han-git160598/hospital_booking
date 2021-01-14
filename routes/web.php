@@ -83,7 +83,7 @@ Route::get('/news',function()
 });
 Route::post('/save-news','NewsController@save_news');
 Route::get('/delete-news/{id}','NewsController@delete_news');
-Route::get('/edit-news/{id}','NewsController@edit_news');
+Route::post('/edit-news','NewsController@edit_news');
 Route::post('/update-news','NewsController@update_news');
 Route::get('/disable-news/{id}','NewsController@disable_news');
 Route::get('/enable-news/{id}','NewsController@enable_news');

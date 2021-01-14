@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\Session;
 use App\AuthModel;
 class BillingController extends Controller
 {
@@ -11,7 +12,7 @@ class BillingController extends Controller
     {
         $model = new AuthModel;
         $model->AuthLogin();
-        $permission=$model->permission();
+        $permission=$model->permission(); 
         $all_bill = DB::table('tbl_billing_billing')->orderby('id','desc')->get();
         //dd($all_bill);
         return view('admin.order_billing.billing_billing',compact('all_bill','permission'));
@@ -30,20 +31,24 @@ class BillingController extends Controller
         }
     }
     public function order_billing_detail($id)
-    {
+    { 
+       // dd($id);
+       $a = $id;
         $model = new AuthModel;
-        $model->AuthLogin();
+     //   $model->AuthLogin();
         $permission=$model->permission();
+        $id = session::get('id');
+    //    dd($id);
         $data['document'] = DB::table('tbl_billing_billing')    
         ->join('tbl_billing_document','tbl_billing_document.id_billing','=','tbl_billing_billing.id')
-        ->where('tbl_billing_billing.id',$id)
+        ->where('tbl_billing_billing.id',$a)
         ->select('image_upload','tbl_billing_document.id_billing','tbl_billing_document.id')
         ->get();
          $data['billing'] = DB::table('tbl_billing_billing')    
       //  ->join('tbl_billing_document','tbl_billing_document.id_billing','=','tbl_billing_billing.id')
-        ->where('tbl_billing_billing.id',$id)
+        ->where('tbl_billing_billing.id',$a)
         ->get();
-       // dd($data);
+       //dd($data);
        // return json_encode($data); 
         return view('admin.order_billing.order_billing_detail',compact('data','permission'));
     }
@@ -63,20 +68,20 @@ class BillingController extends Controller
     }
     public function appointment_detail(Request $request) 
     {
-        $data = DB::table('tbl_billing_billing')    
+        $data['service'] = DB::table('tbl_billing_billing')    
         ->join('tbl_billing_detail','tbl_billing_detail.id_billing','=','tbl_billing_billing.id')    
         ->join('tbl_service_service','tbl_service_service.id','=','tbl_billing_detail.id_service')
         ->where('tbl_billing_billing.id',$request->id)
         ->select('service','tbl_billing_detail.id_billing','tbl_billing_detail.id_service')
         ->get();
 
-        $data = DB::table('tbl_billing_billing')    
-        ->leftjoin('tbl_billing_detail','tbl_billing_detail.id_billing','=','tbl_billing_billing.id')    
-        ->leftjoin('tbl_service_service','tbl_service_service.id','=','tbl_billing_detail.id_service')
-        ->leftjoin('tbl_billing_appointment','tbl_billing_appointment.id_billing','=','tbl_billing_billing.id')
-        ->where('tbl_billing_billing.id',$request->id)
-        ->select('service','tbl_billing_detail.id_billing','tbl_billing_detail.id_service','appointment_time')
-        ->get();
+        // $data = DB::table('tbl_billing_billing')    
+        // ->leftjoin('tbl_billing_detail','tbl_billing_detail.id_billing','=','tbl_billing_billing.id')    
+        // ->leftjoin('tbl_service_service','tbl_service_service.id','=','tbl_billing_detail.id_service')
+        // ->leftjoin('tbl_billing_appointment','tbl_billing_appointment.id_billing','=','tbl_billing_billing.id')
+        // ->where('tbl_billing_billing.id',$request->id)
+        // ->select('service','tbl_billing_detail.id_billing','tbl_billing_detail.id_service','appointment_time')
+        // ->get();
         
       // dd($data);
         return json_encode($data);

@@ -46,23 +46,42 @@ class NewsController extends Controller
         DB::table('tbl_news')->where('id',$id)->delete();
         $data = DB::table('tbl_news')->orderby('id','desc')->get();
         return json_encode($data);
-    }
-    public function edit_news($id)
+    } 
+    public function edit_news(Request $request)
     {
-        $data = DB::table('tbl_news')->where('id',$id)->get();
+        $data = DB::table('tbl_news')->where('id',$request->id)->get();
         return json_encode($data);
     }
     public function update_news(Request $request)
     {
-        $image = $request->file('image_news_ud');
-        // $data = array(
-       //  $data['image_upload']=$image;
-        // $data['title']=$request->title;
-        // $data['content']=$request->content;
-        // $data['home_action']='Y';
-       //  DB::table('tbl_news')->where('id',$id)->update($data);
-        $mes['mes']='cập nhật thành công!';
-        return json_encode($image);
+        $check = DB::table('tbl_news')->where('id',$request->id_news)->get();
+        $data = array();
+        $mes=array();
+        $image = $request->file('img_news_ud');
+        if($request->file('img_news_ud')==null)
+        {
+        
+        $data['title']=$request->name_news_ud;
+        $data['content']=$request->content_news_ud;
+        $data['home_action']='Y';
+        DB::table('tbl_news')->where('id',$request->id_news)->update($data);
+        $mes['mes']='Cập nhật bài viết thành công';
+        $mes['data'] = DB::table('tbl_news')->where('id',$request->id_news)->get();
+        return json_encode($mes);   
+        }
+        $new_name = rand() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images/slide/'), $new_name);
+        $url='images/slide/'.$new_name;
+
+
+        $data['image_upload']=$url;
+        $data['title']=$request->name_news_ud;
+        $data['content']=$request->content_news_ud;
+        $data['home_action']='Y';
+        DB::table('tbl_news')->where('id',$request->id_news)->update($data);
+        $mes['mes']='Cập nhật bài viết thành công';
+        $mes['data'] = DB::table('tbl_news')->where('id',$request->id_news)->get();
+        return json_encode($mes);
     }
     public function disable_news($id)
     {

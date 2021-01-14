@@ -8,17 +8,7 @@
                 <div class="inqbox float-e-margins">
                 <div class="inqbox-content">
                     <h2> GÓI KHÁM </h2>
-                    <ol class="breadcrumb">
-                        <li>
-                            <a href="index.html">Home</a>
-                        </li>
-                        <li>
-                            <a>Apps</a>
-                        </li>
-                        <li class="active">
-                            <strong>Project list</strong>
-                        </li>
-                    </ol>
+                 
                 </div>
                 </div>
             </div>
@@ -128,7 +118,9 @@ function create_service_packet()
 
         <div class="form-group">
         <label class="col-sm-2 control-label">Mô tả</label>
-        <div class="col-sm-10"><input type="text"  id="packet_content" class="form-control"></div>
+        <div class="col-sm-10">
+        
+        <input type="text"  id="packet_content" class="form-control"></div>
         </div>
         <div class="hr-line-dashed"></div>
 
@@ -140,7 +132,8 @@ function create_service_packet()
         <div class="form-group">
         <label class="col-sm-2 control-label"></label>
         <div class="col-sm-10" >
-        <tr><td id="show_list"></td> <td id="select_list"></td></tr>
+        <div id="show_list"></div>
+        
         </div>
         </div>
 

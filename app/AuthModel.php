@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use DB;
-class AuthModel extends Model
+class AuthModel extends Model 
 {
     public function AuthLogin(){
         $id_admin = Session::get('id');
@@ -18,7 +18,7 @@ class AuthModel extends Model
         }
     }
     public function Admin()
-    {
+    { 
         $id = Session::get('id');
         $permission = DB::table('tbl_account_admin')
         ->join('tbl_account_type','tbl_account_type.id','=','tbl_account_admin.id_type')

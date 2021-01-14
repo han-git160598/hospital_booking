@@ -101,7 +101,7 @@
                                             @if($v->billing_status ==1)
                                             <td>Chờ xác nhận</td>
                                             @elseif ($v->billing_status==2)
-                                            <td>Đã xác nhận</td>
+                                            <td>Đã đặt lịch</td>
                                             @elseif ($v->billing_status==3)
                                             <td>Đã chuyển khoản</td>
                                             @elseif ($v->billing_status==4)
@@ -513,14 +513,13 @@ function billing_detail(id)
                  if(item.billing_status ==1)
             output+=`<td> Chờ xác nhận </td>`;
                 else if (item.billing_status==2)
-            output+=`<td> Đã xác nhận </td>`;
+            output+=`<td> Đã đặt lịch </td>`;
                 else if (item.billing_status==3)
             output+=`<td> Đã chuyển khoản </td>`;
                 else if (item.billing_status==4)
             output+=`<td>Hoàn tất</td>`;
                 else
             output+=`<td>Hủy bỏ</td>`;
-
             output+=`
             
                 <td style="width:30px;"></td>
@@ -618,7 +617,6 @@ function add_appointment(id)
             <p>${item.appointment_time}<p>`;
         }
     });
-
 }
 function update_status_bill(id){
     console.log(id)
@@ -639,12 +637,8 @@ function update_status_bill(id){
     });
     location.reload();
     }else{
-
     }
-
-
 }
-
 function cancel_order(id)
 {
     var r=confirm('Waring! Bạn có muốn hủy đơn này không !!');
@@ -665,12 +659,9 @@ function cancel_order(id)
     });
     location.reload();
     }else{
-
     }
    
-
   
-
 }
 /// huy don /////////////
 function cancel_bill()
@@ -682,14 +673,12 @@ function cancel_bill()
 {{--  (function() {
   var updateButton = document.getElementById('cancel_bill');
   var favDialog = document.getElementById('favDialog');
-
   // “Update details” button opens the <dialog> modally
   updateButton.addEventListener('click', function() {
     favDialog.showModal();
   });
 })();  --}}
 /// chon lai time ////////////
-
 function update_billing_date(id)
 {
     console.log(id);
@@ -716,20 +705,15 @@ function update_billing_date(id)
         }
     });
     
-
 }
 (function() {
   var updateButton = document.getElementById('edit_time');
   var favDialog = document.getElementById('dialogtime');
-
   // “Update details” button opens the <dialog> modally
   updateButton.addEventListener('click', function() {
     favDialog.showModal();
   });
 })();
-
-
-
 function list_service1()
 {
     $.ajax({
@@ -964,7 +948,6 @@ $( document ).ready(function() {
             output+=`<img src="{{ asset('${item.image_upload}') }}" alt="" height="150" width="150">
             
              `;
-
             });
            
             $('#show_img').html(output);

@@ -43,7 +43,7 @@ class AccountPermissionController extends Controller
     }
     public function update_account_permission(Request $request ,$id)
     {
-        if($request->permission =='' || $request->description=='')
+        if($request->description=='')
         {
         $mes['mes']='Vui lòng điền đủ trường!';
         return json_encode($mes);    
@@ -55,7 +55,7 @@ class AccountPermissionController extends Controller
         return json_encode($mes);      
         }
         $data = array();
-        $data['permission']=$request->permission;
+       // $data['permission']=$request->permission;
         $data['description']=$request->description;
         DB::table('tbl_account_permission')->where('id',$id)->update($data);
         $mes['mes']='Cập nhật thành công!';

@@ -280,9 +280,6 @@ $.ajax({
             </form>
             </dialog>
 
-        
-
-
         <div class="row">
             <div class="col-lg-9">
                 <div class="animated fadeInUp">
@@ -317,7 +314,7 @@ $.ajax({
                                 <dt>Họ & Tên:</dt>
                                 <dd><input value="${item[0].full_name}" type="text" id="full_name_admin_ud"></dd>
                                 <dt>Số điện thoại</dt>
-                                <dd><input value="${item[0].phone_number}" type="text" id="phone_number_ud"></dd>
+                                <dd><input value="${item[0].phone_number}" type="number" id="phone_number_ud"></dd>
                                 <dt>Tên đăng nhập:</dt>
                                 <dd><input value="${item[0].username}" type="text" id="username_admin_ud"></dd>
                                 <dt>Email:</dt>
@@ -419,7 +416,6 @@ function list_permission(id)
     $('#permission').html('');
     response.forEach(function (item) {
         //console.log(item);
-
     output+=`
     <tr>
         <td style="width:30px;"></td>
@@ -441,15 +437,17 @@ function add_permission(id)
     $(':checkbox:checked').each(function(i){
        arr.push($(this).val());
     });
-   // console.log(arr);
+    console.log(arr);
     $.ajax({
     url: '{{URL::to('/save-account-authorize')}}',
     type: 'POST',
     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-    data: {arr1:arr , id_acc_admin:id},
+    data: {arr:arr , id:id},
     dataType: 'json',
     success: function (response) 
     {
+        console.log(response);
+        
         output=``;
         $('#list_premission').html('');
         response.forEach(function (item) {
@@ -457,7 +455,10 @@ function add_permission(id)
         <p><span><button onClick="remove_authorize(${item.id},${item.id_admin})" class="label label-primary" ><i class="fa fa-remove"></i></button> ${item.description}</span></p>
         `;
         });   
-        $('#list_premission').html(output);    }
+        $('#list_premission').append(output); 
+
+      
+    }
     });
 }
 /// dat mat khau
@@ -545,7 +546,7 @@ if(r==true)
             $('#list_premission').html(output); 
         }
         });
-        location.reload();
+       
 }else{  }
     
 }
@@ -592,7 +593,7 @@ $('#create_account_admin').click(function(){
                             <dd><input type="text" id="username_admin"></dd>
                             <dt>Số điện thoại:</dt>
                             <dd>
-                            <input type="text" id="phone_number" >
+                            <input type="number" id="phone_number" >
                             </dd>
                         </dl>
                         </div>
@@ -683,8 +684,7 @@ function save_account_admin()
     dataType: 'json',
     success: function (response) 
     {
-       // console.log(response);
-       alert(response['mes']);
+      alert(response['mes']);
     }
     });
 }

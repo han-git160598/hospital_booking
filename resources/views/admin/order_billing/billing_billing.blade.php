@@ -8,17 +8,7 @@
                 <div class="inqbox float-e-margins">
                 <div class="inqbox-content">
                     <h2> HÓA ĐƠN </h2>
-                    <ol class="breadcrumb">
-                        <li>
-                            <a href="index.html">Home</a>
-                        </li>
-                        <li>
-                            <a>Apps</a>
-                        </li>
-                        <li class="active">
-                            <strong>Project list</strong>
-                        </li>
-                    </ol>
+                   
                 </div>
                 </div>
             </div>
@@ -76,7 +66,7 @@
                                 <td> Hủy bỏ</td>
                                 @endif
                                 <td class="project-actions">
-                                    <a  href="{{URL::to('/order-billing-detail')}}/{{$v->id}}"  class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết </a>
+                                    <a  href="{{URL::to('/order-billing-detail/')}}{{$v->id}}"  class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết </a>
                                 </td>
                                
                             </tr>

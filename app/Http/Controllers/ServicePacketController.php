@@ -92,7 +92,7 @@ class ServicePacketController extends Controller
             $x=count($arrayservice);
             if($x==0)
             {
-            $mes['mes']='Vui chon dich vu';
+            $mes['mes']='Vui lòng chọn dịch vụ';
             return json_encode($mes);
             }
             else
@@ -105,10 +105,10 @@ class ServicePacketController extends Controller
                 }
                
             }
-            $mes['mes']='Thanh cong';
+            $mes['mes']='Tạo gói khám thành công';
             return json_encode($mes);
         }else{
-            $mes['mes']='Vui chon dich vu';
+            $mes['mes']='Vui lòng chọn tối thiếu một dịch vụ';
             return json_encode($mes);}
     }
     public function edit_service_packet($id)

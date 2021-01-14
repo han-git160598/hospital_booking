@@ -21,7 +21,7 @@ class AccountAdminController extends Controller
     //dd($data); 
     return view('admin.account_admin',compact('data','permission'));
     }
-    public function disable_account_admin($id) 
+    public function disable_account_admin($id)  
     {
         $data = array();
         $data['status']='N';
@@ -80,24 +80,30 @@ class AccountAdminController extends Controller
     }
     public function save_account_authorize(Request $request)
     {
-        $arraypermission=isset($request->arr1)?$request->arr1:array();
-        $data=array();
-        $flag = 0;
+        $arraypermission=isset($request->arr)?$request->arr:array();
+        
         foreach ($arraypermission as $v)
         {
-           $check =  DB::table('tbl_account_authorize')->where('id_admin',$request->id_acc_admin)
-            ->where('grant_permission',$v)->count();
-            if($check == 0)
+            $check =  DB::table('tbl_account_authorize')
+            ->where('id_admin',$request->id)
+            ->where('grant_permission',$v)->get();
+        
+            if(count($check) == 0)
             {
-                $data['id_admin']=$request->id_acc_admin;
+             
+                $data=array();
+                $data['id_admin']=$request->id;
                 $data['grant_permission']=$v;
-                DB::table('tbl_account_authorize')->insert($data);        
+                // $data['created_at']=date("Y-m-d H:i:s");
+                // $data['updated_at']=date("Y-m-d H:i:s");
+                DB::table('tbl_account_authorize')->insert($data);
+               
             }
         }
-         $alldata=DB::table('tbl_account_permission')
+        $alldata=DB::table('tbl_account_permission')
         ->join('tbl_account_authorize','tbl_account_authorize.grant_permission','=','tbl_account_permission.id')
         ->leftjoin('tbl_account_admin','tbl_account_admin.id','=','tbl_account_authorize.id_admin')
-        ->where('tbl_account_admin.id',$request->id_acc_admin)
+        ->where('tbl_account_admin.id',$request->id)
         ->select('tbl_account_permission.id','description','tbl_account_authorize.id_admin')
         ->get();
         return json_encode($alldata);
@@ -170,16 +176,16 @@ class AccountAdminController extends Controller
         $data['username']= $request->username;
         $data['email']= $request->email;
         $data['id_type']= $request->account_type;
-        $data['password']= $request->password_admin;
+        $data['password']= md5($request->password_admin);
         $data['phone_number']=$request->phone_number;
         $data['status']='Y';
         $data['force_sign_out']='1';	
         DB::table('tbl_account_admin')->insert($data);
         $id_admin= DB::table('tbl_account_admin')->orderby('id','desc')->get();
         $id_admin[0]->id;
-        $authorize = array();
         foreach($per as $v)
         {
+        $authorize = array();
         $authorize['id_admin']=$id_admin[0]->id;
         $authorize['grant_permission']=$v;
         DB::table('tbl_account_authorize')->insert($authorize);

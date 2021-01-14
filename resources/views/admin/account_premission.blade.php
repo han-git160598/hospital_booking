@@ -8,17 +8,7 @@
                 <div class="inqbox float-e-margins">
                 <div class="inqbox-content">
                     <h2> QUYỀN HẠN </h2>
-                    <ol class="breadcrumb">
-                        <li>
-                            <a href="index.html">Home</a>
-                        </li>
-                        <li>
-                            <a>Apps</a>
-                        </li>
-                        <li class="active">
-                            <strong>Project list</strong>
-                        </li>
-                    </ol>
+                    
                 </div>
                 </div>
             </div>
@@ -58,7 +48,7 @@
                                     <p>{{$value->permission}}</p>  
                                 </td>
                                 <td class="project-title">
-                                    <p> {{$value->description}} VND</p> 
+                                    <p> {{$value->description}} </p> 
                                 </td>
                                 <td class="project-actions">
                                     <button onClick="edit_account_permission({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
@@ -95,7 +85,11 @@ $("#create_account_permission").click( function(){
 
         <div class="form-group">
         <label class="col-sm-2 control-label">Mô tả</label>
-        <div class="col-sm-10"><input type="text"  id="description" class="form-control"></div>
+      
+        
+        <div class="col-sm-10">
+            <textarea id="description" class="form-control"  rows="6"></textarea></div>
+
         </div>
         <div class="hr-line-dashed"></div>
 
@@ -152,7 +146,7 @@ function delete_account_permission(id)
                         <p>${item.permission}</p>  
                     </td>
                     <td class="project-title">
-                        <p> ${item.description} VND</p> 
+                        <p> ${item.description} </p> 
                     </td>
 
                     <td class="project-actions">
@@ -185,15 +179,17 @@ function edit_account_permission(id)
         <div  class="form-horizontal">
            
             <div class="form-group">
-            <label class="col-sm-2 control-label">Tên khách hàng(*):</label>
-            <div class="col-sm-10"><input type="text" value="${response[0].permission}" id="permission_up" class="form-control"></div>
+            <label class="col-sm-2 control-label">Tên module(*):</label>
+            <div class="col-sm-10"><label class="col-sm-2 control-label">${response[0].permission}</label></div>
             </div>
             <div class="hr-line-dashed"></div>
 
         
             <div class="form-group">
-            <label class="col-sm-2 control-label">Địa chỉ(*):</label>
-            <div class="col-sm-10"><input type="text" value="${response[0].description}"  id="description_up" class="form-control"></div>
+            <label class="col-sm-2 control-label">Mô tả(*):</label>
+            <div class="col-sm-10">
+             <textarea id="description_up" class="form-control"  rows="6">${response[0].description}</textarea></div>
+           
             </div>
             <div class="hr-line-dashed"></div>
 
@@ -253,7 +249,7 @@ $('#search_account_permission').keyup(function(){
                     <p>${item.permission}</p>  
                 </td>
                 <td class="project-title">
-                    <p> ${item.description} VND</p> 
+                    <p> ${item.description} </p> 
                 </td>
 
                 <td class="project-actions">

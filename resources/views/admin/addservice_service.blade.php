@@ -8,17 +8,7 @@
             <div class="inqbox float-e-margins">
                <div class="inqbox-content">
                   <h2> THÊM DỊCH vụ </h2>
-                  <ol class="breadcrumb">
-                     <li>
-                        <a href="index.html">Home</a>
-                     </li>
-                     <li>
-                        <a>Forms</a>
-                     </li>
-                     <li class="active">
-                        <strong>Basic Form</strong>
-                     </li>
-                  </ol>
+                
                </div>
             </div>
          </div>

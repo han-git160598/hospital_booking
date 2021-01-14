@@ -119,7 +119,7 @@
                                         @endif
                                         @if($v->permission == 'account_force_signout')
                                         <li >
-                                            <a href="{{URL::to('/force-sign-out')}}"><i><img src="{{asset ('backend/icon/force sign out.svg')}}"></i> <span class="nav-label">Cưỡng chế logout</span></a>
+                                            <a href="{{URL::to('/force-sign-out')}}"><i><img src="{{asset ('backend/icon/force sign out.svg')}}"></i> <span class="nav-label">Cưỡng chế đăng xuất</span></a>
                                         </li>
                                         @endif
                                      @endforeach

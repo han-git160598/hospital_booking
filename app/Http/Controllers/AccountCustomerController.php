@@ -11,16 +11,16 @@ class AccountCustomerController extends Controller
     {
         $model = new AuthModel;
         $model->AuthLogin();
-       // dd(123);
-       $permission=$model->permission();
+        // dd(123);
+        $permission=$model->permission();
         $all_account_customer = DB::table('tbl_account_customer')
         //->join('tbl_billing_billing','tbl_billing_billing.id_customer','=','tbl_account_customer.id')
         //->select(DB::raw('count(*) as total, id_customer'))
         //->orderby('tbl_account_customer.id','desc')
-       // ->groupBy('id_customer')
-       ->orderby('id','desc')
+        // ->groupBy('id_customer')
+        ->orderby('id','desc')
         ->get();
-         //dd($all_account_customer);    
+            //dd($all_account_customer);    
         return view('admin.account_customer',compact('all_account_customer','permission'));
     }
     public function save_account_customer(Request $request)
@@ -89,7 +89,7 @@ class AccountCustomerController extends Controller
     }
     public function update_account_customer(Request $request, $id)
     {
-        if($request->allFiles()=='')
+        if($request->full_name='' || $request->address == '' )
         {
         $mes['mes']='Không được bỏ trống !';
         return json_encode($mes);     
@@ -101,7 +101,11 @@ class AccountCustomerController extends Controller
         $data['address']= $request->address;
         $data['phone_number']= $request->phone_number;
         $data['email']= $request->email;
+        if($request->password=='')
+        {
+        }else{
         $data['password']= md5($request->password);
+        }
         $data['nationality']= $request->nationality;
         $data['force_sign_out']= '0';
         DB::table('tbl_account_customer')->where('id',$id)->update($data);
@@ -113,7 +117,7 @@ class AccountCustomerController extends Controller
     {
        $data =  DB::table('tbl_billing_billing')
         //->join('tbl_account_customer','tbl_account_customer.id','=','tbl_billing_billing.id_customer')
-       // ->join('tbl_billing_detail','tbl_billing_detail.id_billing','=','tbl_billing_billing.id')
+        // ->join('tbl_billing_detail','tbl_billing_detail.id_billing','=','tbl_billing_billing.id')
         //->join('tbl_service_service','tbl_service_service.id','=','tbl_billing_detail.id_service')
         ->where('tbl_billing_billing.id_customer',$id)->get();        
         //dd($data);  
@@ -121,17 +125,24 @@ class AccountCustomerController extends Controller
     }
     public function detail_order_customer($id)
     {
-        $model = new AuthModel;
+        $model = new AuthModel; 
         $model->AuthLogin();
         $permission=$model->permission();
-      
-        $data = DB::table('tbl_billing_billing')    
-         ->join('tbl_billing_detail','tbl_billing_detail.id_billing','=','tbl_billing_billing.id')
+
+        $data['document'] = DB::table('tbl_billing_billing')    
+        ->join('tbl_billing_document','tbl_billing_document.id_billing','=','tbl_billing_billing.id')
+        ->where('tbl_billing_billing.id',$id)
+        ->select('image_upload')
+        ->orderby('tbl_billing_document.id','desc')
+        ->get();
+     // dd( $data['document'])
+        $data['billing'] = DB::table('tbl_billing_billing')    
+       //  ->join('tbl_billing_detail','tbl_billing_detail.id_billing','=','tbl_billing_billing.id')
         // ->join('tbl_billing_document','tbl_billing_document.id_billing','=','tbl_billing_billing.id')
         //->join('tbl_service_service','tbl_service_service.id','=','tbl_billing_detail.id_service')
        // ->join('tbl_billing_actually','tbl_billing_actually.id_billing','=','tbl_billing_billing.id')
        // ->join('tbl_service_service','tbl_service_service.id','=','tbl_billing_actually.id_service')
-        ->where('tbl_billing_billing.id',$id)->get();     
+        ->where('id',$id)->get();     
        //dd($data);
        return view('admin.billing_detail',compact('data','permission'));
             
@@ -164,10 +175,11 @@ class AccountCustomerController extends Controller
         // ->where('id_billing',$request->id_billing)
         // ->groupby('billing_price')->sum('billing_price') ->select('id_billing');
 
-            $data['service'] = DB::table('tbl_billing_actually')    
-            ->join('tbl_billing_billing','tbl_billing_billing.id','=','tbl_billing_actually.id_billing')
+        $data['service'] = DB::table('tbl_billing_actually')    
+        ->join('tbl_billing_billing','tbl_billing_billing.id','=','tbl_billing_actually.id_billing')
         ->join('tbl_service_service','tbl_service_service.id','=','tbl_billing_actually.id_service')
         ->where('tbl_billing_actually.id_billing',$request->id)
+        ->select('service','billing_price','billing_quantity','id_service','id_billing')
         ->get();
         $data['total'] = DB::table('tbl_billing_actually')->where('id_billing',$request->id)
         ->select([DB::raw("SUM(billing_price) as total_actually")])

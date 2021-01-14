@@ -35,7 +35,7 @@ class BillingController extends Controller
        // dd($id);
        $a = $id;
         $model = new AuthModel;
-     //   $model->AuthLogin();
+        $model->AuthLogin();
         $permission=$model->permission();
         $id = session::get('id');
     //    dd($id);
@@ -43,6 +43,7 @@ class BillingController extends Controller
         ->join('tbl_billing_document','tbl_billing_document.id_billing','=','tbl_billing_billing.id')
         ->where('tbl_billing_billing.id',$a)
         ->select('image_upload','tbl_billing_document.id_billing','tbl_billing_document.id')
+        ->orderby('tbl_billing_document.id','desc')
         ->get();
          $data['billing'] = DB::table('tbl_billing_billing')    
       //  ->join('tbl_billing_document','tbl_billing_document.id_billing','=','tbl_billing_billing.id')
@@ -74,44 +75,74 @@ class BillingController extends Controller
         ->where('tbl_billing_billing.id',$request->id)
         ->select('service','tbl_billing_detail.id_billing','tbl_billing_detail.id_service')
         ->get();
+        // $appointment = DB::table('tbl_billing_billing')   
+        // ->leftjoin('tbl_billing_appointment','tbl_billing_appointment.id_billing','=','tbl_billing_billing.id')
+        // ->where('tbl_billing_appointment.id_billing',$request->id)
+        // ->select('tbl_billing_appointment.id_billing','tbl_billing_appointment.id','id_service_service','appointment_time')
+        // ->get(); 
 
         // $data = DB::table('tbl_billing_billing')    
         // ->leftjoin('tbl_billing_detail','tbl_billing_detail.id_billing','=','tbl_billing_billing.id')    
         // ->leftjoin('tbl_service_service','tbl_service_service.id','=','tbl_billing_detail.id_service')
-        // ->leftjoin('tbl_billing_appointment','tbl_billing_appointment.id_billing','=','tbl_billing_billing.id')
+        // //->leftjoin('tbl_billing_appointment','tbl_billing_appointment.id_billing','=','tbl_billing_billing.id')
         // ->where('tbl_billing_billing.id',$request->id)
-        // ->select('service','tbl_billing_detail.id_billing','tbl_billing_detail.id_service','appointment_time')
+        // ->select('service','tbl_billing_detail.id_billing','tbl_billing_detail.id_service')
         // ->get();
-        
+        // foreach($data as $key=>$value)
+        // {
+        //     foreach($appointment as $key=>$v)
+        //     {
+        //         if($value->id_billing == $v->id_billing && $value->id_service == $v->id_service_service )
+        //         {
+        //             s;
+        //         }
+        //     }   
+        //}
+
       // dd($data);
         return json_encode($data);
     }
     public function add_appointment(Request $request)
     {
+        
         $flag=0;
         $data = array();
         $arraylich=isset($request->arrlich1)?$request->arrlich1:array();
-        foreach($arraylich as $v){
-        if($v['starttime']!='' && $v['finishtime']!='')
-            $flag =1; }
-
+        foreach($arraylich as $v)
+        {
+        if($v['starttime'] =='' || $v['finishtime'] =='')
+            $flag =1;
+        }
         if($flag == 1)
         {
-            foreach($arraylich as $v)
-            {
-                if($v['starttime']!='' && $v['finishtime']!='')
-                {
-                $data['id_service_service']=$v['id'];   
-                $data['id_billing']=$request->id;
-                $data['appointment_time']=$v["starttime"]." - ".$v["finishtime"];
-                DB::table('tbl_billing_appointment')->insert($data);
-                }
-            }    
-            $mes['mes']='Đặt lịch thành công !';
+            $mes['mes']='Không được bỏ trống !';
             return json_encode($mes);          
         }else{
-            $mes['mes']='Vui lòng điền tối thiểu 1 !';
-            return json_encode($mes);     
+            foreach($arraylich as $v)
+            {   
+                $check = DB::table('tbl_billing_appointment')->where('id_billing',$request->id)
+                ->where('id_service_service',$v['id'])->count();
+                if($check == 0)
+                {
+                    if($v['starttime']!='' && $v['finishtime']!='')
+                    {
+                    $data['id_service_service']=$v['id'];   
+                    $data['id_billing']=$request->id;
+                    $data['appointment_time']=$v["starttime"]." - ".$v["finishtime"];
+                    DB::table('tbl_billing_appointment')->insert($data);
+                    }
+                }else{
+                    $data['id_service_service']=$v['id'];   
+                    $data['id_billing']=$request->id;
+                    $data['appointment_time']=$v["starttime"]." - ".$v["finishtime"];
+                    DB::table('tbl_billing_appointment')->where('id_billing',$request->id)
+                    ->where('id_service_service',$v['id'])->update($data);
+                    $mes['mes']=' Thay đổi lịch khám thành công !';
+                    return json_encode($mes);
+                }
+            }    
+            $mes['mes']=' Tạo lịch khám khám thành công !';
+            return json_encode($mes);    
         }
         
     }
@@ -213,11 +244,10 @@ class BillingController extends Controller
             $data['prehistoric']=$request->content;
             DB::table('tbl_billing_customer')->where('id',$request->id)->update($data);
         }
-     
         $content = $request->content;
         return json_encode($content);
      
-    }
+    } 
     public function save_billing_document(Request $request)
     {
         $image = $request->file('img_billing_document');
@@ -231,5 +261,12 @@ class BillingController extends Controller
         $mes['mes']='Thêm hình ảnh thành công';
         $mes['data'] = DB::table('tbl_billing_document')->where('id_billing',$request->id_billing)->get();
         return json_encode($mes); 
+    }
+    public function remove_img_document(Request $request)
+    {
+        DB::table('tbl_billing_document')->where('id',$request->id)->delete();
+        $data['mes']='Xóa hình ảnh thành công';
+        $data['data']=DB::table('tbl_billing_document')->where('id_billing',$request->id_billing)->get();
+        return json_encode($data);
     }
 }

@@ -55,7 +55,7 @@
 
                                 <td class="project-actions">
                                    
-                                    <button onClick="edit_service_packet({{$tam[$i]['id']}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                                    <button onClick="edit_service_packet({{$tam[$i]['id']}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Xem </button>
                                     <button onClick="delete_service_packet({{$tam[$i]['id']}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                                 </td>
 
@@ -449,7 +449,7 @@ function delete_service_packet(id)
 
             <td class="project-actions">
                 
-                <button onClick="edit_service_packet(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                <button onClick="edit_service_packet(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Xem </button>
                 <button onClick="delete_service_packet(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
             </td>
 
@@ -495,7 +495,7 @@ function search_packet()
 
             <td class="project-actions">
         
-                <button onClick="edit_service_packet(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                <button onClick="edit_service_packet(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Xem </button>
                 <button onClick="delete_service_packet(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
             </td>
 

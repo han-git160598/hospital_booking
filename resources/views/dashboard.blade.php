@@ -5,6 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title> HOSPITAL BOOKING </title>
+        <!-- img -->
+   
+        <!--  -->
         <link href="{{ asset('backend/css/bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ asset('backend/fonts/font-awesome/css/font-awesome.css')}}" rel="stylesheet">
         <!-- Toastr style -->
@@ -200,7 +203,8 @@
              
 
       
-        
+     
+      
             <!-- Mainly scripts -->
             <script src="{{ asset('backend/js/jquery-2.1.1.js')}}"></script>
             <script src="{{ asset('backend/js/bootstrap.min.js')}}"></script>

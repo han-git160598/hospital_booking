@@ -23,13 +23,13 @@
                     <button type="button" class="btn btn-primary btn-sm btn-block"> Trở về </button></a>
 
                     <div class="clients-list">
-                         @foreach($data as $v)
+                         @foreach($data['billing'] as $v)
                         <ul class="nav nav-tabs tab-border-top-danger">
                        
-                            <li class="active"><a data-toggle="tab" href="#tab-1" onClick="billing_detail({{$v->id_billing}})">Thông tin bill</a></li>
-                            <li class=""><a data-toggle="tab" href="#" onClick="customer_detail({{$v->id_billing}})">Khách hàng</a></li>
-                            <li class=""><a data-toggle="tab" href="#" onClick="service_detail({{$v->id_billing}})">Dịch vụ</a></li>
-                            <li class=""><a data-toggle="tab" href="#" onClick="actually_detail({{$v->id_billing}})">Phát sinh</a></li>
+                            <li class="active"><a data-toggle="tab" href="#tab-1" onClick="billing_detail({{$v->id}})">Thông tin bill</a></li>
+                            <li class=""><a data-toggle="tab" href="#" onClick="customer_detail({{$v->id}})">Khách hàng</a></li>
+                            <li class=""><a data-toggle="tab" href="#" onClick="service_detail({{$v->id}})">Dịch vụ</a></li>
+                            <li class=""><a data-toggle="tab" href="#" onClick="actually_detail({{$v->id}})">Phát sinh</a></li>
                         </ul>
                         @break
                         @endforeach
@@ -43,14 +43,15 @@
                                             <th>Mã đơn hàng</th>
                                             <th>Thời gian hẹn </th>
                                             <th>Trạng thái</th>
-                                            <th>Kết quả</th>
+                                           
                                             
                                         </tr>
                                 
-                                       @foreach($data as $v)
+                                       @foreach($data['billing'] as $v)
                                         <tr>
                                             <td>{{$v->billing_code}}</td>
                                             <td>{{$v->billing_date}}-{{$v->billing_time}}</td>
+
                                             @if($v->billing_status ==1)
                                             <td>Chờ xác nhận</td>
                                             @elseif ($v->billing_status==2)
@@ -63,7 +64,7 @@
                                             <td>Hủy bỏ</td>
                                             @endif
 
-                                            <td ><img alt="image" src="#"> </td>
+                                           
                                         </tr>
                                         @endforeach
                                         </tbody>
@@ -85,23 +86,27 @@
                     <div class="tab-content">
                         <div id="contact-1" class="tab-pane active">
                             <div class="row m-b-lg">
-                            <div class="col-lg-4 text-center">
-                                <h2>Nicki Smith</h2>
-                                <div class="m-b-sm">
-                                    
-                                </div>
+                           
+                            <div >  
+                              <center>  <h1 ><strong> Kết quả </strong> </h1>  </center>
+                              
                             </div>
-                            <div class="col-lg-8">
-                                <strong>
-                                About me
-                                </strong>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua.
-                                </p>
-                                <button type="button" class="btn btn-primary btn-sm btn-block"><i
-                                    class="fa fa-envelope"></i> Send Message
-                                </button>
+                           
+                            <div class="col-lg-12">
+                           
+                            
+                            <center> <h3> <strong style="color:blue;">  </strong> </h3> 
+                            
+                            <div>
+                            @if(isset($data['document']))
+                            @foreach($data['document'] as $v )
+                             <center> <img src="{{ asset($v->image_upload) }}" alt="" height="150" width="150"> </center>
+                             @endforeach
+                            @else
+                            
+                            @endif
+                            </div>
+                            
                             </div>
                             </div>
                             
@@ -112,6 +117,7 @@
                 </div>
                 </div>
             </div>
+
         </div>
     </div>
 <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
@@ -284,7 +290,6 @@ function billing_detail(id)
                 <<th>Mã đơn hàng</th>
                 <th>Thời gian hẹn </th>
                 <th>Trạng thái</th>
-                <th>Kết quả</th>
                 <th style="width:30px;"></th>
             </tr>`;
             $('tbody').html('');
@@ -310,9 +315,6 @@ function billing_detail(id)
                 else
             output+=`<td>Hủy bỏ</td>`;
             output+=`
-                <td class="project-title">
-                    <p><img  src="${item.image_upload}"><p>
-                </td>
                 <td style="width:30px;"></td>
                 
             </tr>`;    

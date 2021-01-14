@@ -61,7 +61,7 @@
                                     <button onClick="history_account_customer({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i>Lịch sử đơn</button>
                                 </td>
                                 <td class="project-actions">
-                                    <button onClick="edit_account_customer({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                                    <button onClick="edit_account_customer({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Xem </button>
                                     <button onClick="delete_account_customer({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                                 </td>
                             </tr>
@@ -181,7 +181,7 @@ function save_account_customer()
         }
     });
 }
-function delete_account_customer(id)
+function delete_account_customer(id) 
 {
     var r=confirm('Waring! Bạn có muốn xóa không !!');
     if(r==true)
@@ -222,7 +222,7 @@ function delete_account_customer(id)
 
                 <td class="project-actions">
                     <button onClick="history_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i>Lịch sử đơn</button>
-                    <button onClick="edit_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                    <button onClick="edit_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Xem </button>
                     <button onClick="delete_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                 </td>
             </tr>`;    
@@ -304,8 +304,8 @@ function edit_account_customer(id)
             <div class="hr-line-dashed"></div>
 
             <div class="form-group">
-            <label class="col-sm-2 control-label">Mật khẩu(*) :</label>
-            <div class="col-sm-10"><input type="text"   id="password_ud" class="form-control"></div>
+            <label class="col-sm-2 control-label">Mật khẩu :</label>
+            <div class="col-sm-10"><input type="text" id="password_ud" class="form-control"></div>
             </div>
             <div class="hr-line-dashed"></div>
 
@@ -427,7 +427,7 @@ function search_customer()
                     <button onClick="history_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i>Lịch sử đơn</button>
                 </td>
                 <td class="project-actions">
-                    <button onClick="edit_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                    <button onClick="edit_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Xem </button>
                     <button onClick="delete_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                 </td>
             </tr>`;    

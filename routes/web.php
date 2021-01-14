@@ -152,6 +152,7 @@ Route::post('/save-billing-actually','BillingController@save_billing_acctually')
 Route::post('/add-prehistoric','BillingController@add_prehistoric');
 // billing document
 Route::post('/save-billing-document','BillingController@save_billing_document');
+Route::post('/remove-img-document','BillingController@remove_img_document');
 //Account admin///////////////////////////////////////////
 Route::get('/all-account-admin','AccountAdminController@all_account_admin');
 Route::get('/disable-account-admin/{id}','AccountAdminController@disable_account_admin');

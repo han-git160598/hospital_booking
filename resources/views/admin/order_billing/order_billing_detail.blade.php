@@ -47,9 +47,10 @@
                             <li class=""><a data-toggle="tab" href="#" onClick="customer_detail({{$v->id}})">Khách hàng</a></li>
                             <li class=""><a data-toggle="tab" href="#" onClick="service_detail({{$v->id}})">Dịch vụ</a></li>
                             <li class=""><a data-toggle="tab" href="#" onClick="actually_detail({{$v->id}})">Phát sinh</a></li>
-                            @if($v->billing_status == 1 || $v->billing_status == 2 || $v->billing_status == 3 )
+                           
                             <li class=""><a data-toggle="tab" href="#" onClick="appointment_detail({{$v->id}})">Tạo lịch trình</a></li>
-                            @endif
+                          
+                         
                         </ul>
                         @break
                         @endforeach
@@ -58,32 +59,7 @@
                             <div class="full-height-scroll">
                                 <div class="table-responsive">
                                     <table class="table table-striped table-hover">
-      {{--  ////////////////////////danh sách dịch vụ/////////////////////////  --}}
-
-        <div id="add_data_Modal" class="modal fade">
-            <div class="modal-dialog">
-             <div class="modal-content">
-              <div class="modal-header">
-               <button type="button" class="close" data-dismiss="modal">&times;</button>
-               <h4 class="modal-title">Danh sách dịch vụ</h4>
-              </div>
-              <div class="modal-body">
-               <form method="post" id="insert_form">
-               <div id="list_service2">    
-               
-               </div>
-
-                
-               </form>
-              </div>
-              <div class="modal-footer">
-               <button type="button" data-dismiss="modal" id="insert_service" onClick="insert_service({{$data['billing'][0]->id}})" class="btn btn-success">Thêm dịch vụ</button>
-               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              </div>
-             </div>
-            </div>
-        </div>
-            {{--  ////////////////////////model/////////////////////////  --}}
+     
                                         <tbody>
                                         <tr>
                                             <th>Mã đơn hàng</th>
@@ -91,11 +67,11 @@
                                             <th>Trạng thái</th>
                                         
                                         </tr>
-                                       {{--  @foreach($data['billing'] as $v)  --}}
+                                       @foreach($data['billing'] as $v)  
                                         <tr>
                                             <td>{{$v->billing_code}}</td>
                                             <td id="date_time">{{$v->billing_date}} | {{$v->billing_time}}
-                                            <button  id="edit_time"  class="btn btn-primary btn-sm"> Sửa</button>
+                                            <button  onClick="edit_time()"  class="btn btn-primary btn-sm"> Sửa</button>
                                    
                                             </td>
                                             @if($v->billing_status ==1)
@@ -111,55 +87,10 @@
                                             @endif
                                            
                                         </tr>
-                                        {{--  @endforeach  --}}
+                                        
+                                       @endforeach 
                                         </tbody>
-                                    
                                     </table>
-                                    <!-- Simple pop-up dialog box containing a form -->
-                                    <dialog id="favDialog">
-                                    <form method="dialog">
-                                        <tr><td>
-                                        <label>Vui lòng nhập lý do hủy đơn !</label>
-                                        </td></tr>
-                                        <tr><td>
-                                        <textarea id="bill_comment" rows="4" cols="50">
-                                        </textarea>
-                                        </td></tr>
-                                        <menu>
-                                        <button>Từ chối</button>
-                                        <button onClick="cancel_order({{$data['billing'][0]->id}})">Hoàn thành</button>
-                                        </menu>
-                                    </form>
-                                    </dialog>
-
-                                    <!-- Simple pop-up dialog box containing a form -->
-
-<dialog id="dialogtime">
-  <form method="dialog">
-    <p><label>Chọn lại thời gian:
-      <input type="date" id="billing_date">
-      <input type="time" id="billing_time">
-    </label></p>
-    <menu>
-      <button>Trở lại</button>
-      <button onClick="update_billing_date({{$data['billing'][0]->id}})">Xác nhận</button>
-    </menu>
-  </form>
-</dialog>
-            {{--  ///// Thêm tiểu sử  --}}
-            <dialog id="prehistoric_model">
-            <form method="dialog">
-               <tr><label><p> Tiểu sử </label></p></tr>
-               <tr> 
-               <textarea rows="8" cols="30" id="add_prehistoric_text"></textarea>
-                </tr>
-                <menu>
-                <button>Trở lại</button>
-                <button onClick="add_prehistoric()">Xác nhận</button>
-                </menu>
-            </form>
-            </dialog>
-            {{--  ////////////  --}}
                                 @if($v->billing_status==5 )
                                 @elseif($v->billing_status==4)
                                 @elseif($v->billing_status==1)
@@ -186,6 +117,99 @@
                 </div>
                 </div>
             </div>
+            <!-- modal dialog -->
+<div id="add_appointment" class="modal fade">
+    <div class="modal-dialog">
+     <div class="modal-content">
+      <div class="modal-header">
+       <button type="button" class="close" data-dismiss="modal">&times;</button>
+       <h4 class="modal-title"> Lịch khám </h4>
+      </div>
+      <div class="modal-body">
+       <form method="post" id="insert_form">
+       <div id="">    
+       
+       </div>
+
+        
+       </form>
+      </div>
+      <div class="modal-footer">
+       <button type="button" data-dismiss="modal" id="insert_service" onClick="insert_service({{$data['billing'][0]->id}})" class="btn btn-success">Thêm dịch vụ</button>
+       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+     </div>
+    </div>
+</div>
+        <!-- {{--  ////////////////////////danh sách dịch vụ/////////////////////////  --}} -->
+
+<div id="add_data_Modal" class="modal fade">
+    <div class="modal-dialog">
+     <div class="modal-content">
+      <div class="modal-header">
+       <button type="button" class="close" data-dismiss="modal">&times;</button>
+       <h4 class="modal-title">Danh sách dịch vụ</h4>
+      </div>
+      <div class="modal-body">
+       <form method="post" id="insert_form">
+       <div id="list_service2">    
+       
+       </div>
+
+        
+       </form>
+      </div>
+      <div class="modal-footer">
+       <button type="button" data-dismiss="modal" id="insert_service" onClick="insert_service({{$data['billing'][0]->id}})" class="btn btn-success">Thêm dịch vụ</button>
+       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+     </div>
+    </div>
+</div>
+    <!-- {{--  ////////////////////////model/////////////////////////  --}} -->
+                                    <!-- Simple pop-up dialog box containing a form -->
+                                    <dialog id="favDialog">
+                                    <form method="dialog">
+                                        <tr><td>
+                                        <label>Vui lòng nhập lý do hủy đơn !</label>
+                                        </td></tr>
+                                        <tr><td>
+                                        <textarea id="bill_comment" rows="4" cols="50">
+                                        </textarea>
+                                        </td></tr>
+                                        <menu>
+                                        <button>Từ chối</button>
+                                        <button onClick="cancel_order({{$data['billing'][0]->id}})">Hoàn thành</button>
+                                        </menu>
+                                    </form>
+                                    </dialog>
+                                    
+
+            <!-- Simple pop-up dialog box containing a form -->
+
+<dialog id="dialogtime">
+<form method="dialog">
+    <p><label>Chọn lại thời gian:
+    <input type="date" id="billing_date">
+    <input type="time" id="billing_time">
+    </label></p>
+    <menu>
+    <button>Trở lại</button>
+    <button onClick="update_billing_date({{$data['billing'][0]->id}})">Xác nhận</button>
+    </menu>
+</form>
+</dialog>
+            <!-- {{--  ///// Thêm tiểu sử  --}} -->
+            <dialog id="prehistoric_model">
+            <form method="dialog">
+                <div> Bạn có muốn thay đổi ?</div>
+                <menu>
+                <button>Trở lại</button>
+                <button onClick="add_prehistoric()">Xác nhận</button>
+                </menu>
+            </form>
+            </dialog>
+            <!-- {{--  ////////////  --}} -->
 <!-- ----------------------------- thanh toán----------------------------------- -->
             <div class="col-sm-4">
                 <div class="inqbox ">
@@ -199,12 +223,15 @@
                               
                             </div>
                            
-                            <div class="col-lg-8">
-
+                            <div class="col-lg-12">
+                            @if($data['billing'][0]->payment_image=='')
+                            
+                            <center> <h3> <strong style="color:blue;"> Thanh toán trực tiếp </strong> </h3> 
+                            @else
                             <div>
-                         <center>    <img src="{{ asset($data['billing'][0]->payment_image) }}" alt="" height="150" width="150"> </center>
+                             <center> <img src="{{ asset($data['billing'][0]->payment_image) }}" alt="" height="150" width="150"> </center>
                             </div>
-                               
+                            @endif
                             </div>
                             </div>
                             
@@ -212,7 +239,7 @@
                     
                         
                     </div>
-                </div>
+                </div> 
                 </div>
             </div>
 <!-- ---------------------------hình ảnh--------------------------------------------------- -->
@@ -226,21 +253,28 @@
                             <center>  <h1 ><strong> Kết quả khám </strong> </h1>  </center>
                               
                             </div>
-                            <div class="col-lg-8">
+                            <div class="col-lg-12">
+                            
                                 <strong>
                                 Hình ảnh <i class="fa fa-file"></i>
                                 </strong>
                                 <form id="insert_img_result" enctype="multipart/form-data">
                                 <input type="file" name ="img_billing_document">
-                                <input type="hidden" name ="id_billing" value="{{$data['billing'][0]->id}}">
+                                <input type="hidden" id="id_billing" name ="id_billing" value="{{$data['billing'][0]->id}}">
                                 <button type="submit" class="btn btn-primary btn-sm btn-block"><i
                                     class="fa fa-file"></i>  Tải hình lên </button>
                                 </form>
                                 <div id="show_img">
+
+                                
                                 
                                 @foreach($data['document'] as $v)
-                           
-                                <img src="{{ asset($v->image_upload) }}" alt="" height="150" width="150">
+                                <div>
+                                
+                                <button onClick="remove_img_document({{$v->id}})"><i class="fa fa-remove"></i></button>
+                                <a href="{{ asset($v->image_upload) }}" class="imgpreview">
+                                <img src="{{ asset($v->image_upload) }}" alt="gallery thumbnail" height="200" width="270" /></a>
+                                <div>   
                                 @endforeach
                                 </div>
                                
@@ -347,19 +381,20 @@ function customer_detail(id)
                     <p>${item.billing_date}<p>
                 </td>
                 <td class="project-title" >
+                
                     <p>${item.customer_sex}<p>
                     <input type="text" hidden id="id_customer" value="${item.id}">
                 </td>
                 
                 <td style="width:30px;"></td>    
-            </tr>`;    
+            </tr>`;     
             });
             output+=`
             <tr id="Tiensu">
-            <th style="width:30px;"></th>
-            <h2><th>Tiểu sử</th></h2>
-            <td>${response[0].prehistoric}</td>
-            <td><button onClick="show_model_prehistoric(${response[0].id})">Thêm TS</button></td>
+            <td colspan="7">
+            <textarea id="add_prehistoric" rows="8" cols="80">${response[0].prehistoric}</textarea>
+            <button onClick="show_model_prehistoric(${response[0].id})">Cập nhật tiền sử</button>
+            </td>
             </tr>
             `;
             $('tbody').html(output); 
@@ -375,7 +410,7 @@ function show_model_prehistoric(id)
 function add_prehistoric()
 {
     
-    var content = $('#add_prehistoric_text').val();
+    var content = $('#add_prehistoric').val();
     var id = $('#id_customer').val();
    // console.log(content);
     $.ajax({
@@ -386,15 +421,16 @@ function add_prehistoric()
         dataType: 'json',
         success: function (response) 
         {
-            console.log(response);
+          console.log(response);
           output=`
-            <th style="width:30px;"></th>
-            <h2><th>Tiểu sử</th></h2>
-            <td>${response}</td>
-            <td><button onClick="show_model_prehistoric(`+id+`)">Thêm TS</button></td>
+            <td colspan="7">
+            <textarea  id="add_prehistoric" rows="8" cols="80">${response}</textarea>
+            <button onClick="show_model_prehistoric(`+id+`)">Thêm tiền sử</button>
+            </td>
             `;   
             $('#Tiensu').html('');
             $('#Tiensu').html(output);
+            alert('Cập nhật tiền sử thành công');
         }
     });
 }
@@ -414,10 +450,10 @@ function actually_detail(id)
             var output=`
             <tr> 
                 <th style="width:30px;"></th>
-                <th>Tên dịch vụ</th>
-                <th>Đơn giá</th>
+                <th> Tên dịch vụ</th>
                 <th> Số lượng</th>
-                <th>Tổng</th>
+                <th> Đơn giá</th>
+                <th> Tổng</th>
                 <th style="width:30px;"></th>
                 <th>
                 <button type="button" onClick="list_service1()" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning"><img src="{{asset ('backend/icon/add.svg')}}"></button>
@@ -431,10 +467,11 @@ function actually_detail(id)
             var output=`
             <tr> 
                 <th style="width:30px;"></th>
-                <th>Tên dịch vụ</th>
-                <th>Đơn giá</th>
+                <th> Tên dịch vụ</th>
                 <th> Số lượng</th>
-                <th>Tổng</th>
+                <th> Giá </th>
+                <th style="width:30px;"></th>
+               
                
                 <th>
                 <button type="button" onClick="list_service1()" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning"><img src="{{asset ('backend/icon/add.svg')}}"></button>
@@ -450,13 +487,10 @@ function actually_detail(id)
                     <p>${item.service}<p>
                 </td>
                 <td class="project-title">
-                    <p>${item.billing_price}<p>
-                </td>
-                <td class="project-title">
                     <p>${item.billing_quantity}<p>
                 </td>
                 <td class="project-title">
-                    <p>${item.id_service}<p>
+                    <p>${item.billing_price}<p>
                 </td>
                 <td class="project-title">
                     <button onClick="remove_service(${item.id_service},${item.id_billing})">Hủy</button>
@@ -467,7 +501,7 @@ function actually_detail(id)
             `;    
             });
             output+=`
-            <tr> <td style="width:30px;"></td><td>Tổng tiền:</td>
+            <tr><td style="width:30px;"></td><td>Tổng tiền:</td>
             <td></td><td></td>
             <td>${response.total[0].total_actually}</td></tr>`;
             $('tbody').html(output); 
@@ -506,9 +540,9 @@ function billing_detail(id)
                 <td class="project-title">
                     <p>${item.billing_code}<p>
                 </td>
-                <td class="project-title">
+                <td class="project-title" id="date_time">
                     ${item.billing_date} | ${item.billing_time}
-                    <button id="edit_time"  class="btn btn-primary btn-sm"> Sửa</button>
+                    <button onClick="edit_time()"  class="btn btn-primary btn-sm"> Sửa</button>
                 </td>`;
                  if(item.billing_status ==1)
             output+=`<td> Chờ xác nhận </td>`;
@@ -544,7 +578,7 @@ function appointment_detail(id)
         success: function (response) 
         {
             console.log(response);
-        var output=`
+            var output=`
             <tr> 
                 <th style="width:30px;"></th>
                 <th>Dịch vụ</th>
@@ -563,8 +597,8 @@ function appointment_detail(id)
                 <td class="project-title">
                     <p>${item.service}<p>
                 </td>
-                <td class="project-title" id="time_appoint">
-                    <p>${item.appointment_time}<p>
+                <td class="project-title">
+                <p>ss<p>
                 </td>
                 <form id="${item.id_service}reset">
                 <td class="project-title">
@@ -573,16 +607,15 @@ function appointment_detail(id)
                 <td class="project-title">
                     <input type="time" id="${item.id_service}ft">
                 </td>
-                <td><input type="button" onclick="add_appointment(${item.id_service})" value="Thay đổi"></td>
                 </form>
                 <td style="width:30px;"></td>
             </tr>
-            `;    
+            `;  
             arrtime.push(item.id_service)
             });
-         // console.log(arrtime);
-            
-            $('tbody').html(output);   
+            output+=`<tr><td colspan="5" ><input type="button" class="btn btn-success btn-sm" onclick="add_appointment(${response['service'].id_service})" value="Đặt lịch"></td></tr>`;
+            $('tbody').html(output); 
+       
         }
     });
 }
@@ -595,10 +628,10 @@ function add_appointment(id)
     for (i = 0; i <a.length; i++){
     var starttime = $('#'+a[i]+"st").val();
     var finishtime = $('#'+a[i]+"ft").val();   
-    var id_bill1 =  $('#id_bill').val();   
+    var id_bill1 =  $('#id_billing').val();   
      console.log(id_bill1);
-   //  console.log(starttime); 
-   //  console.log(finishtime); 
+     console.log(starttime); 
+     console.log(finishtime); 
      arrlich.push({"id":a[i],"starttime":starttime,"finishtime":finishtime});
     }
     console.log(arrlich);
@@ -612,9 +645,9 @@ function add_appointment(id)
         {
             console.log(response);
             alert(response['mes']);
-            var output=``;
-            output = `  
-            <p>${item.appointment_time}<p>`;
+            // var output=``;
+            // output = `  
+            // <p>${item.appointment_time}<p>`;
         }
     });
 }
@@ -681,9 +714,13 @@ function cancel_bill()
 /// chon lai time ////////////
 function update_billing_date(id)
 {
+    var r=confirm('Bạn có muốn thay đổi lịch hẹn không ?');
+    if(r==true)
+    {
     console.log(id);
     var date = $('#billing_date').val();
     var time = $('#billing_time').val();
+    console.log(date);console.log(time);
      $.ajax({
         url: '{{URL::to('/update-billing-date-time')}}',
         type: 'GET',
@@ -697,23 +734,29 @@ function update_billing_date(id)
             output+=`
                 <td class="project-title">
                     <p>${item.billing_date} | ${item.billing_time} 
-                    <button id="edit_time"  class="btn btn-primary btn-sm"> Sửa</button>
+                    <button onClick="edit_time()"  class="btn btn-primary btn-sm"> Sửa</button>
                     <p>
                 </td>`;    
             });
             $('#date_time').html(output);   
         }
     });
+    }else{}
     
 }
-(function() {
-  var updateButton = document.getElementById('edit_time');
-  var favDialog = document.getElementById('dialogtime');
-  // “Update details” button opens the <dialog> modally
-  updateButton.addEventListener('click', function() {
+function edit_time()
+{
+    var favDialog = document.getElementById('dialogtime');
     favDialog.showModal();
-  });
-})();
+}
+// (function() {
+//   var updateButton = document.getElementById('edit_time');
+//   var favDialog = document.getElementById('dialogtime');
+//   // “Update details” button opens the <dialog> modally
+//   updateButton.addEventListener('click', function() {
+//     favDialog.showModal();
+//   });
+// })();
 function list_service1()
 {
     $.ajax({
@@ -722,6 +765,7 @@ function list_service1()
         dataType: 'json',
         success: function (response) 
         {
+            console.log(response);
             var output=`
             <tr> 
                 <th style="width:30px;"></th>
@@ -882,9 +926,8 @@ function remove_service(id_service,id_billing)
             <tr> 
                 <th style="width:30px;"></th>
                 <th>Tên dịch vụ</th>
-                <th>Đơn giá</th>
                 <th>Số lượng</th>
-                <th>Tổng</th>
+                <th>Đơn giá</th>
                 <th style="width:30px;"></th>
                 <th>
                 <button type="button" onClick="list_service1()" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning"><img src="{{asset ('backend/icon/add.svg')}}"></button>
@@ -900,13 +943,10 @@ function remove_service(id_service,id_billing)
                     <p>${item.service}<p>
                 </td>
                 <td class="project-title">
-                    <p>${item.billing_price}<p>
-                </td>
-                <td class="project-title">
                     <p>${item.billing_quantity}<p>
                 </td>
                 <td class="project-title">
-                    <p>${item.id_service}<p>
+                    <p>${item.billing_price}<p>
                 </td>
                 <td class="project-title">
                     <button onClick="remove_service(${item.id_service},${item.id_billing})">Hủy</button>
@@ -922,7 +962,7 @@ function remove_service(id_service,id_billing)
             <td>${response.total[0].total_actually}</td></tr>`;
             $('tbody').html(output); 
             
-        }
+        } 
     });
 }
 $( document ).ready(function() {
@@ -939,23 +979,63 @@ $( document ).ready(function() {
             cache: false,
             processData: false,
             success: function(response) {
-                alert(response['mes']);
-                console.log(response['data']);
-                console.log(response);
+              
+    
+           
             var output =``;
             response['data'].forEach(function (item) {
                 console.log(item);
-            output+=`<img src="{{ asset('${item.image_upload}') }}" alt="" height="150" width="150">
+            output+=`
+            <div>
+            <button onClick="remove_img_document(${item.id})"><i class="fa fa-remove"></i></button>
             
+
+            <a href="{{ asset('${item.image_upload}') }}" class="imgpreview">
+            <img src="{{ asset('${item.image_upload}') }}" alt="gallery thumbnail" height="200" width="270" /></a>
+            </div>
              `;
             });
            
             $('#show_img').html(output);
-          
+            alert(response['mes']);
             }
         });
     });
 });
+function remove_img_document(id)
+{
+    var r=confirm('Waring! Bạn có muốn xóa không !!');
+    if(r==true)
+    {
+    var id_billing = $('#id_billing').val();
+    console.log(id);
+    $.ajax({
+        url: '{{URL::to('/remove-img-document')}}',
+        type: 'POST',
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        data: {id: id, id_billing:id_billing},
+        dataType: 'json',
+        success: function (response) 
+        {
+        alert(response['mes']);
+        var output =``;
+        response['data'].forEach(function (item) {
+            console.log(item);
+        output+=`
+        <div>
+        <button onClick="remove_img_document(${item.id})"><i class="fa fa-remove"></i></button>
+        <a href="{{ asset('${item.image_upload}') }}" class="imgpreview">
+            <img src="{{ asset('${item.image_upload}') }}" alt="gallery thumbnail" height="200" width="270" /></a>
+        </div>
+        `;
+        });
+    
+        $('#show_img').html(output);
+        }
+    });
+    }else{}
+    
+}
 </script>
   
 @endsection

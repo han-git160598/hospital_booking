@@ -84,7 +84,7 @@
                                         @foreach($permission as $key=> $v)
                                         @if($v->permission == 'account_service')
                                         <li class="nav-parent">
-                                            <a href="#"><i><img src="{{asset ('backend/icon/product management.svg')}}"></i> <span class="nav-label"> Quản lý sản phẩm</span></a>
+                                            <a href="#"><i><img src="{{asset ('backend/icon/product management.svg')}}"></i> <span class="nav-label"> {{$v->description}} </span></a>
                                             <ul class="children nav">
                                                 <li><a href="{{URL::to('/all-service-service')}}"> Danh sách dịch vụ khám</a></li>
                                                 <li><a href="{{URL::to('/all-service-packet')}}"> Danh sách gói khám</a></li>
@@ -94,10 +94,12 @@
                                         @endif
                                         @if($v->permission == 'account_news')
                                         <li>
-                                            <a href="{{URL::to('/news')}}"><i><img src="{{asset ('backend/icon/Post management.svg')}}"></i><span class="nav-label"> Quản lý bài viết</span></a>                                           
+                                            <a href="{{URL::to('/news')}}"><i><img src="{{asset ('backend/icon/Post management.svg')}}"></i><span class="nav-label"> {{$v->description}} </span></a>                                           
                                         </li>
+                                        @endif
+                                        @if($v->permission == 'account_control')
                                         <li class="nav-parent">
-                                            <a href="#"><i><img src="{{asset ('backend/icon/employee management.svg')}}"></i> <span class="nav-label"> Quản lý nhân viên</span></a>
+                                            <a href="#"><i><img src="{{asset ('backend/icon/employee management.svg')}}"></i> <span class="nav-label"> {{$v->description}} </span></a>
                                             <ul class="children nav">
                                                 <li><a href="{{URL::to('/all-account-admin')}}"> Danh sách tài khoản</a></li>
                                                 <li><a href="{{URL::to('/all-account-permission')}}"> Quản lý quyền hạn module</a></li>
@@ -107,22 +109,22 @@
                                         @endif
                                          @if($v->permission == 'account_orders')
                                         <li >
-                                            <a href="{{URL::to('/all-billing')}}"><i><img src="{{asset ('backend/icon/order management.svg')}}"></i> <span class="nav-label"> Quản lý đơn khám</span></a>
+                                            <a href="{{URL::to('/all-billing')}}"><i><img src="{{asset ('backend/icon/order management.svg')}}"></i> <span class="nav-label"> {{$v->description}} </span></a>
                                         </li>
                                         @endif
                                          @if($v->permission == 'account_slide')
                                         <li >
-                                            <a href="{{URL::to('/all-slide')}}"><i><img src="{{asset ('backend/icon/slide management.svg')}}"></i> <span class="nav-label"> Quản lý slide</span></a>
+                                            <a href="{{URL::to('/all-slide')}}"><i><img src="{{asset ('backend/icon/slide management.svg')}}"></i> <span class="nav-label"> {{$v->description}} </span></a>
                                         </li>
                                         @endif
                                         @if($v->permission == 'account_customer')
                                         <li>
-                                            <a href="{{URL::to('/all-account-customer')}}"><i><img src="{{asset ('backend/icon/customer manager.svg')}}"></i> <span class="nav-label"> Quản lý khách hàng</span></a>
+                                            <a href="{{URL::to('/all-account-customer')}}"><i><img src="{{asset ('backend/icon/customer manager.svg')}}"></i> <span class="nav-label"> {{$v->description}} </span></a>
                                         </li>
                                         @endif
                                         @if($v->permission == 'account_force_signout') 
                                         <li >
-                                            <a href="{{URL::to('/force-sign-out')}}"><i><img class="nav-label" src="{{asset ('backend/icon/force sign out.svg')}}"></i> <span class="nav-label">Cưỡng chế đăng xuất</span></a>
+                                            <a href="{{URL::to('/force-sign-out')}}"><i><img  src="{{asset ('backend/icon/force sign out.svg')}}"></i> <span class="nav-label"> {{$v->description}} </span></a>
                                         </li>
                                         @endif
                                      @endforeach
@@ -186,12 +188,12 @@
                     </nav>
                 </div>
                 <!-- END HEADER -->
- <div id="change_password" class="modal fade">
+    <div id="change_password" class="modal fade">
             <div class="modal-dialog">
              <div class="modal-content">
               <div class="modal-header">
                <button type="button" class="close" data-dismiss="modal">&times;</button>
-               <h4 class="modal-title">Thêm sản phẩm</h4>
+               <h4 class="modal-title"> Thay đổi mật khẩu</h4>
               </div>
               <div class="modal-body">
 
@@ -201,13 +203,16 @@
             <input type="password" name="old_password" id="old_password" class="form-control" />
             <br/>
              <label> Mật khẩu mới (<font style="color: red">*</font>)</label>
-             <input type="password" name="new_password" id="new_password" class="form-control" />
+             <input type="password" onkeyup="checkPass()" name="new_password" id="new_password" class="form-control" />
             <br/>
             <label> Xác nhận mật khẩu  (<font style="color: red">*</font>)</label>
-            <input type="password" name="confirm_password" id="confirm_password" class="form-control" />
-            <input type="hidden" name="id_admin" value="{{$id}}" id="name_news" class="form-control" />
+            <input type="password" onkeyup="checkPass()"  name="confirm_password" id="confirm_password" class="form-control" />
+            <input type="hidden" name="id_admin" value="{{$id}}" id="id_admin" class="form-control" />
             <br/>
+            <div id="error-nwl"></div>
             <br/>
+            <button class="btn btn-default" type="button" onclick="show_password()"><i class="fa fa-eye"></i></button>
+            <br/><br/>
             <input type="submit"  name="update" id="insert_category" value="Xác nhận" class="btn btn-success" />
            </form>
               </div>
@@ -280,6 +285,10 @@
             $('#change_password').modal('show');
             }
             $( document ).ready(function() {
+                $('#change_password').on('hidden.bs.modal', function () {
+                $(this).find("input,textarea").val('').end();
+                });
+
             $('#change_password_form').on('submit', function(event) {
                     event.preventDefault();
                     var new_password = $('#new_password').val();
@@ -304,9 +313,76 @@
                     }else{
                         alert('Mật khẩu không trùng khớp');
                     }
-                    
+                });
             });
-            });
+
+            function show_password(){
+            var x = document.getElementById("confirm_password");
+            var y = document.getElementById("old_password");
+            var z = document.getElementById("new_password");
+            if (x.type === "password" ) {
+                x.type = "text";
+                y.type = "text";
+                z.type = "text";
+            } else {
+                x.type = "password";
+                y.type = "password";
+                z.type = "password";
+                }
+            }
+            
+            function checkPass() {
+            var neutralColor = '#fff'; // 'white';
+            var badColor     = '#f66'; // 'red';
+            var goodColor    = '#6f6'; // 'green';
+            
+            var password1 = getElm('new_password').value;
+            var password2 = getElm('confirm_password').value;
+
+            //if password length is less than 6
+            if (password1.length < 6) {
+                feedback('Mật khẩu tối thiểu 6 kí tự');
+                //we do not care about pass2 when pass1 is too short
+                setBGColor('confirm_password', neutralColor);
+                //if pass1 is blank, set neutral background
+                if (password1.length === 0) {
+                setBGColor('new_password', neutralColor);
+                } else {
+                setBGColor('new_password', badColor);
+                }
+            //else if passwords do not match
+            } else if (password2 !== password1) {
+                //we now know that pass1 is long enough
+                feedback('Xác nhận mật khẩu');
+                setBGColor('new_password', goodColor);
+                //if pass2 is blank, set neutral background
+                if (password2.length === 0) {
+                setBGColor('confirm_password', neutralColor);
+                } else {
+                setBGColor('confirm_password', badColor);
+                }
+            //else all is well
+            } else {
+                feedback('Mật khẩu trùng khớp');
+                setBGColor('new_password', goodColor);
+                setBGColor('confirm_password', goodColor);
+            }
+            }
+
+            //helper function for document.getElementById()
+            function getElm(id) {
+            return document.getElementById(id);
+            }
+
+            //helper function for setting background color
+            function setBGColor(id, value) {
+            getElm(id).style.backgroundColor = value;
+            }
+
+            //helper function for feedback message
+            function feedback(msg) {
+            getElm('error-nwl').innerHTML = msg;
+            }
 
 
         </script>        

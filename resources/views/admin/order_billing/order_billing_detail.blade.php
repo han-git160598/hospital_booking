@@ -9,18 +9,7 @@
                 <div class="inqbox float-e-margins">
                 <div class="inqbox-content">
                     <h2> CHI TIẾT HÓA ĐƠN </h2>
-                    <ol class="breadcrumb">
-                        <li>
-                            <a href="index.html">Home</a>
-                        </li>
-                        <li>
-                            <a>Apps</a>
-                        </li>
-                        <li class="active">
-                            
-                            <strong>Clients</strong>
-                        </li>
-                    </ol>
+                   
                 </div>
                 </div>
             </div>
@@ -239,7 +228,7 @@
                             <div id="show_img_payment">
                             <div class="hr-line-dashed"></div>     
                             @foreach($data['billing'] as $value)
-                            <a href="{{ asset($value->payment_image) }}" class="imgpreview">
+                            <a target="_blank" href="{{ asset($value->payment_image) }}" class="imgpreview">
                             <img src="{{ asset($value->payment_image) }}" alt="gallery thumbnail" height="200" width="270" /></a>
                             <div class="hr-line-dashed"></div>                           
                             @endforeach
@@ -286,7 +275,7 @@
                                 @foreach($data['document'] as $v)
                                 <a class="prop-entry d-block">
                                 <button onClick="remove_img_document({{$v->id}})"><i class="fa fa-remove"></i></button>
-                                <a href="{{ asset($v->image_upload) }}" class="imgpreview">
+                                <a target="_blank" href="{{ asset($v->image_upload) }}" class="imgpreview">
                                 <img src="{{ asset($v->image_upload) }}" alt="gallery thumbnail" height="200" width="270" /></a>
                                 </a>  
                                 <div class="hr-line-dashed"></div>         
@@ -419,7 +408,7 @@ function customer_detail(id)
                 <td class="project-title" >
                 
                     <p>${item.customer_sex}<p>
-                    <input type="hidden" id="id_customer${item.id}" value="${item.id}">
+                    <input type="hidden" id="${item.id}id_customer" value="${item.id}">
                 </td>
                 
                 <td style="width:30px;"></td>    
@@ -427,8 +416,8 @@ function customer_detail(id)
              output+=`
             <tr id="Tiensu">    
             <td colspan="7">
-            <textarea id="add_prehistoric" rows="4" cols="80">${item.prehistoric}</textarea>
-            <button onClick="add_prehistoric(${item.id})">Cập nhật tiền sử</button>
+            <textarea id="add_prehistoric${item.id}" rows="4" cols="80">${item.prehistoric}</textarea>
+            <button class="btn btn-success btn-sm" onClick="add_prehistoric(${item.id})">Cập nhật tiền sử</button>
             </td>
             </tr>
             `;
@@ -442,9 +431,9 @@ function add_prehistoric(id)
 { 
     var r = confirm('Xác thực')
     if(r==true)
-    {
-        var content = $('#add_prehistoric').val();
-        var id = $('#id_customer'+id).val();
+    { 
+        var content = $('#add_prehistoric'+id).val();
+        var id = $('#'+id+"id_customer").val();
         console.log(id);
         $.ajax({
             url: '{{URL::to('/add-prehistoric')}}',
@@ -458,7 +447,7 @@ function add_prehistoric(id)
             output=`
                 <td colspan="7">
                 <textarea  id="add_prehistoric" rows="4" cols="80">${response}</textarea>
-                <button onClick="add_prehistoric(`+id+`)">Cập nhật tiền sử</button>
+                <button class="btn btn-success btn-sm" onClick="add_prehistoric(`+id+`)">Cập nhật tiền sử</button>
                 </td>
                 `;   
                 $('#Tiensu').html('');
@@ -1027,7 +1016,7 @@ $( document ).ready(function() {
             <button onClick="remove_img_document(${item.id})"><i class="fa fa-remove"></i></button>
             
 
-            <a href="{{ asset('${item.image_upload}') }}" class="imgpreview">
+            <a target="_blank" href="{{ asset('${item.image_upload}') }}" class="imgpreview">
             <img src="{{ asset('${item.image_upload}') }}" alt="gallery thumbnail" height="200" width="270" /></a>
              <div class="hr-line-dashed"></div>
             </div>
@@ -1059,7 +1048,7 @@ $( document ).ready(function() {
                 output+=`
                 <div>
                  <div class="hr-line-dashed"></div> 
-                <a href="{{ asset('${item.payment_image}') }}" class="imgpreview">
+                <a target="_blank" href="{{ asset('${item.payment_image}') }}" class="imgpreview">
                 <img src="{{ asset('${item.payment_image}') }}" alt="gallery thumbnail" height="200" width="270" /></a>
                 
                 </div>`;  
@@ -1095,7 +1084,7 @@ function remove_img_document(id)
         output+=`
         <div>
         <button onClick="remove_img_document(${item.id})"><i class="fa fa-remove"></i></button>
-        <a href="{{ asset('${item.image_upload}') }}" class="imgpreview">
+        <a target="_blank" href="{{ asset('${item.image_upload}') }}" class="imgpreview">
         <img src="{{ asset('${item.image_upload}') }}" alt="gallery thumbnail" height="200" width="270" /></a>
         <div class="hr-line-dashed"></div>
         </div>

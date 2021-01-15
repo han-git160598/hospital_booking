@@ -123,7 +123,7 @@
                                 </td>
                                 <td class="project-actions">
                                     <button onClick="edit_slide({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
-                                    <!-- <button type="button" name="x" id="{{$value->id}}" data-toggle="modal" data-target="#update_data_Modal" class="btn btn-white btn-sm" ><i class="fa fa-remove"></i> Sửa Slide</button> -->
+                                   
                                 </td>                               
                                 <td class="project-actions">       
                                     <button onClick="delete_slide({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
@@ -144,6 +144,13 @@
 <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
 <script>
 $( document ).ready(function() {
+
+     //clear data model
+     $('#add_data_Modal').on('hidden.bs.modal', function () {
+    $(this).find("input,textarea").val('').end();
+    });
+    
+  
     $('#insert_category_form').on('submit', function(event) {
         event.preventDefault();
         $.ajax({
@@ -266,7 +273,7 @@ $('#update_category_form').on('submit', function(event) {
                 </tr>`;    
                 });
                 $('tbody').html(output);
-                location.reload();
+               
                 }
             }
            

@@ -157,6 +157,13 @@
 <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
 <script>
 $( document ).ready(function() {
+
+     //clear data model
+     $('#add_data_Modal').on('hidden.bs.modal', function () {
+    $(this).find("input,textarea").val('').end();
+    });
+    
+   
     $('#insert_news_form').on('submit', function(event) {
         event.preventDefault();
         $.ajax({

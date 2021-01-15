@@ -258,13 +258,15 @@ $.ajax({
             <form method="dialog">
                 <p><label>Mật khẩu:
                 </label></p>
-                <input type="password" minlength="6"  id="pass_admin">
+                <input type="password" minlength="6"  id="pass_admin" name="pass_admin">
                 <p><label>Nhập lại mật khẩu:
                 </label></p>
-                <input type="password" minlength="6"  id="pass_admin_again">
+                <input type="password" minlength="6"  id="pass_admin_again" name="pass_admin_again">
                 <p><label>
                 <smal id="erro_pass"></smal>
                 </label></p>
+                <button class="btn btn-default" type="button" onclick="show_password1()"><i class="fa fa-eye"></i></button>
+                <br/>
                  <menu>
                 <button type="submit">Hủy</button>
                 <button type="submit" onClick="update_password_admin(${item[0].id})">Xác nhận</button>
@@ -306,11 +308,11 @@ $.ajax({
                                 <dt>Họ & Tên:</dt>
                                 <dd><input value="${item[0].full_name}" type="text" id="full_name_admin_ud"></dd>
                                 <dt>Số điện thoại</dt>
-                                <dd><input value="${item[0].phone_number}" type="number" id="phone_number_ud"></dd>
+                                <dd><input value="${item[0].phone_number}" type="number" onKeyPress="if(this.value.length==10) return false;" id="phone_number_ud"></dd>
                                 <dt>Tên đăng nhập:</dt>
                                 <dd><input value="${item[0].username}" type="text" id="username_admin_ud"></dd>
                                 <dt>Email:</dt>
-                                <dd><input value="${item[0].email}" type="text" id="email_admin_ud"></dd>
+                                <dd><input value="${item[0].email}" type="email" id="email_admin_ud"></dd>
                             </dl>
                             </div>
                             <div class="col-lg-7" id="cluster_info">
@@ -484,6 +486,7 @@ function update_password_admin(id)
         });   
        
     }
+    
 }
 function update_account_admin(id)
 {
@@ -584,7 +587,7 @@ $('#create_account_admin').click(function(){
                             <dd><input type="text" id="username_admin"></dd>
                             <dt>Số điện thoại:</dt>
                             <dd>
-                            <input type="number" id="phone_number" >
+                            <input type="number" onKeyPress="if(this.value.length==10) return false;" id="phone_number" >
                             </dd>
                         </dl>
                         </div>
@@ -803,5 +806,24 @@ function search_account_admin()
        }, 500); //5 seconds
          
 }
+
+
+
+//// pass
+        function show_password1(){
+            var x = document.getElementById("pass_admin");
+            var y = document.getElementById("pass_admin_again");
+            if (x.type === "password" ) {
+                x.type = "text";
+                y.type = "text";
+            
+            } else {
+                x.type = "password";
+                y.type = "password";
+             
+                }
+            }
+            
+           
 </script>
 @endsection

@@ -263,6 +263,7 @@ class AccountAdminController extends Controller
         $data= array();
         $check = DB::table('tbl_account_admin')->where('id',$request->id_admin)->where('password',md5($request->old_password))->get();
         $count = count($check);
+        $min = $request->new_password;
         if($count > 0 )
         {
             $data['password']=md5($request->new_password);

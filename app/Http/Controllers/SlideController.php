@@ -59,6 +59,7 @@ class SlideController extends Controller
     }
     public function update_slide(Request $request)
     {
+      $slide = DB::table('tbl_slide') ->where('id',$request->id)->get();
       $image = $request->file('img_slide_ud');
       if($request->stt_slide_ud =='' || !isset($image))
         {
@@ -66,17 +67,18 @@ class SlideController extends Controller
         $mes['data']='faild';
         return json_encode($mes);    
         }
-      $checkt =  DB::table('tbl_slide')->where('order_slide',$request->stt_slide_ud)->get();
-      if(count($checkt) > 1 )
-      {
-        $mes['mes']='Số thứ tự đã tồn tại';
-        $mes['data']='faild';
-        return json_encode($mes);     
-      } 
+      // $checkt =  DB::table('tbl_slide')
+      // ->whereNotIn('order_slide',$slide[0]->order_slide)
+      // ->get();
+      // if(count($checkt) > 0 )
+      // {
+      //   $mes['mes']='Số thứ tự đã tồn tại';
+      //   $mes['data']='faild';
+      //   return json_encode($mes);     
+      // } 
         // $validation = Validator::make($request->all(), [
         // 'img_slide_ud' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         // ]);
-        
         
         $new_name = rand() . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('images/slide/'), $new_name);

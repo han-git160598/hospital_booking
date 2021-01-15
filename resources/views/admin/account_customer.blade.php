@@ -120,7 +120,7 @@ $("#create_account_customer").click( function(){
 
         <div class="form-group">
         <label class="col-sm-2 control-label"> SDT liên hệ :</label>
-        <div class="col-sm-10"><input type="text"  id="phone_number" class="form-control"></div>
+        <div class="col-sm-10"><input type="number" onKeyPress="if(this.value.length==10) return false;"  id="phone_number" class="form-control"></div>
         </div>
         <div class="hr-line-dashed"></div>
 
@@ -287,7 +287,7 @@ function edit_account_customer(id)
 
             <div class="form-group">
             <label class="col-sm-2 control-label"> SDT liên hệ :</label>
-            <div class="col-sm-10"><input type="text" value="${response[0].phone_number}"  id="phone_number_ud" class="form-control"></div>
+            <div class="col-sm-10"><input type="number" onKeyPress="if(this.value.length==10) return false;" value="${response[0].phone_number}"  id="phone_number_ud" class="form-control"></div>
             </div>
             <div class="hr-line-dashed"></div>
 

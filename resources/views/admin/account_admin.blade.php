@@ -422,6 +422,7 @@ function list_permission(id)
     }
   });
 }
+
 function add_permission(id)
 {
     console.log(id);
@@ -448,10 +449,9 @@ function add_permission(id)
         `;
         });   
         $('#list_premission').append(output); 
-
-      
     }
     });
+    list_permission(id);
 }
 /// dat mat khau
 
@@ -538,11 +538,8 @@ if(r==true)
             $('#list_premission').html(output); 
         }
         });
-
-        
-      
-}else{  }
-  console.log(list_permission(id_admin));  
+    }else{  }
+  list_permission(id_admin); 
 }
 $('#create_account_admin').click(function(){
    //  document.getElementById("form_admin").reset();

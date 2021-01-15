@@ -10,11 +10,13 @@ class ServicePacketController extends Controller
     public function data_service_packet()
     {
         $all_service_packet_detail= DB::table('tbl_service_packet_detail')
-        ->join('tbl_service_packet','tbl_service_packet.id','=','tbl_service_packet_detail.id_service_packet')
-        ->join('tbl_service_service','tbl_service_service.id','=','tbl_service_packet_detail.id_service_packet')
+        ->leftjoin('tbl_service_packet','tbl_service_packet.id','=','tbl_service_packet_detail.id_service_packet')
+        ->leftjoin('tbl_service_service','tbl_service_service.id','=','tbl_service_packet_detail.id_service_service')
         ->where('status_service','Y')->get();
         $all_service_packet = DB::table('tbl_service_packet')->get();  
         $tam=array();
+
+        
 
         foreach($all_service_packet as $packet)
         {
@@ -38,7 +40,7 @@ class ServicePacketController extends Controller
         $model->AuthLogin();
         $permission=$model->permission();
         $tam =$this->data_service_packet();
-       //dd($tam);
+   
         return view('admin.service_packet',compact('tam','permission'));
     }
     public function list_service_packet_detail(Request $request) // edit service packet
@@ -118,7 +120,7 @@ class ServicePacketController extends Controller
 
     $data['service'] =DB::table('tbl_service_packet_detail')
     ->join('tbl_service_packet','tbl_service_packet.id','=','tbl_service_packet_detail.id_service_packet')
-    ->join('tbl_service_service','tbl_service_service.id','=','tbl_service_packet_detail.id_service_packet')
+    ->join('tbl_service_service','tbl_service_service.id','=','tbl_service_packet_detail.id_service_service')
     ->where('status_service','Y')
     ->where('tbl_service_packet_detail.id_service_packet',$id)
     
@@ -138,7 +140,7 @@ class ServicePacketController extends Controller
 
          $all_service_packet_detail= DB::table('tbl_service_packet_detail')
         ->join('tbl_service_packet','tbl_service_packet.id','=','tbl_service_packet_detail.id_service_packet')
-        ->join('tbl_service_service','tbl_service_service.id','=','tbl_service_packet_detail.id_service_packet')->get();
+        ->join('tbl_service_service','tbl_service_service.id','=','tbl_service_packet_detail.id_service_service')->get();
         $all_service_packet = DB::table('tbl_service_packet')->get();  
         $tam=array();
 
@@ -245,7 +247,7 @@ class ServicePacketController extends Controller
         }else{
             $all_service_packet_detail= DB::table('tbl_service_packet_detail')
             ->join('tbl_service_packet','tbl_service_packet.id','=','tbl_service_packet_detail.id_service_packet')
-            ->join('tbl_service_service','tbl_service_service.id','=','tbl_service_packet_detail.id_service_packet')
+            ->join('tbl_service_service','tbl_service_service.id','=','tbl_service_packet_detail.id_service_service')
             ->where('status_service','Y')
             ->where('packet_service', 'LIKE', "%{$keyword}%")
             ->orWhere('packet_content', 'LIKE', "%{$keyword}%")

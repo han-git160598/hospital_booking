@@ -28,7 +28,7 @@ Route::get('/dashboard',function()
     $model = new AuthModel;
     $model->AuthLogin();
     $permission=$model->permission();
- //   dd($permission);
+    dd($permission);
     return view('/dashboard',compact('permission'));
 });
 //  QL service_service---------------------------------------------------------------------

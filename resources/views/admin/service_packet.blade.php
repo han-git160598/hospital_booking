@@ -122,8 +122,7 @@ function create_service_packet()
         <div class="form-group">
         <label class="col-sm-2 control-label">Mô tả</label>
         <div class="col-sm-10">
-        
-        <input type="text"  id="packet_content" class="form-control"></div>
+        <textarea id="packet_content" name="packet_content" rows="6" class="form-control"></textarea></div>
         </div>
         <div class="hr-line-dashed"></div>
 
@@ -143,7 +142,7 @@ function create_service_packet()
         <div class="hr-line-dashed"></div>
         <div class="form-group">
         <div class="col-sm-6 col-sm-offset-2">
-            <button class="btn btn-primary" onClick="save_service_packet()"" type="btn" id="save_news">Lưu gói kham</button>
+            <button class="btn btn-primary" onClick="save_service_packet()"" type="btn" id="save_news"> Lưu gói khám</button>
         </div>
         </div>
     </div>
@@ -232,14 +231,17 @@ function edit_service_packet(id)
 
             <div class="form-group">
             <label class="col-sm-2 control-label">Mô tả</label>
-            <div class="col-sm-10"><input type="text" value="${response[0].packet_content}"  id="packet_content_ud" class="form-control"></div>
+            <div class="col-sm-10">
+            <textarea id="packet_content_ud" name="packet_content_ud" rows="6" class="form-control">${response[0].packet_content}</textarea>
             </div>
+            </div>
+
             <div class="hr-line-dashed"></div>
             <div class="form-group">
             <label class="col-sm-2 control-label">Danh sách </label>
-            <div class="col-sm-10"><button class="btn btn-white btn-sm" type="btn" onClick="list_service_packet_detail(${response[0].id})" ><i class="fa fa-folder"></i> Xem dịch vụ đã có </button>
+            <div class="col-sm-10"><button class="btn btn-primary fa fa-views" type="btn" onClick="list_service_packet_detail(${response[0].id})" ><i class="fa fa-folder"></i> Xem dịch vụ đã có </button>
             <input type="hidden" id="id_packet" in value="${response[0].id}" > 
-            <a onClick="list_service_in_packet(${response[0].id})" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning">Thêm dịch vụ<img src="{{asset ('backend/icon/add.svg')}}"></a>
+            <button onClick="list_service_in_packet(${response[0].id})" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-primary fa fa-plus"> Thêm dịch vụ </button>
             </div>
             </div>
 

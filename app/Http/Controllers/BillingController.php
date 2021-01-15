@@ -69,17 +69,13 @@ class BillingController extends Controller
     }
     public function appointment_detail(Request $request) 
     {
-        $data['service'] = DB::table('tbl_billing_appointment')    
-        ->leftjoin('tbl_service_service','tbl_service_service.id','=','tbl_billing_appointment.id_service_service')
-        ->leftjoin('tbl_billing_billing','tbl_billing_billing.id','=','tbl_billing_appointment.id_billing')
+        $data['service'] = DB::table('tbl_billing_detail')    
+        ->leftjoin('tbl_billing_billing','tbl_billing_billing.id','=','tbl_billing_detail.id_billing')
+        ->leftjoin('tbl_service_service','tbl_service_service.id','=','tbl_billing_detail.id_service')
         ->where('tbl_billing_billing.id',$request->id)
-        ->select('service','tbl_billing_appointment.id_billing','tbl_billing_appointment.id_service_service','appointment_time')
+        ->select('service','tbl_service_service.id','tbl_billing_detail.id_billing')
         ->get();
-        // $appointment = DB::table('tbl_billing_billing')   
-        // ->leftjoin('tbl_billing_appointment','tbl_billing_appointment.id_billing','=','tbl_billing_billing.id')
-        // ->where('tbl_billing_appointment.id_billing',$request->id)
-        // ->select('tbl_billing_appointment.id_billing','tbl_billing_appointment.id','id_service_service','appointment_time')
-        // ->get(); 
+
         $data['appointment'] = DB::table('tbl_billing_appointment')    
         ->leftjoin('tbl_service_service','tbl_service_service.id','=','tbl_billing_appointment.id_service_service')
         ->leftjoin('tbl_billing_billing','tbl_billing_billing.id','=','tbl_billing_appointment.id_billing')
@@ -93,8 +89,8 @@ class BillingController extends Controller
             $data['service'] = DB::table('tbl_billing_appointment')    
             ->leftjoin('tbl_service_service','tbl_service_service.id','=','tbl_billing_appointment.id_service_service')
             ->leftjoin('tbl_billing_billing','tbl_billing_billing.id','=','tbl_billing_appointment.id_billing')
-            ->where('tbl_billing_billing.id',$request->id)
-            ->select('service','tbl_billing_appointment.id_billing','tbl_billing_appointment.id_service_service','appointment_time')
+            ->where('tbl_billing_appointment.id_billing',$request->id)
+            ->select('service','tbl_billing_appointment.id_billing','tbl_service_service.id','appointment_time')
             ->get(); 
             return json_encode($data);
         }
@@ -119,6 +115,7 @@ class BillingController extends Controller
             $mes['mes']='Không được bỏ trống !';
             return json_encode($mes);          
         }else{
+            
             foreach($arraylich as $v)
             {   
                 $check = DB::table('tbl_billing_appointment')->where('id_billing',$request->id)

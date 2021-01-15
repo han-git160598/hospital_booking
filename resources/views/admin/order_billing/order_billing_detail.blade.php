@@ -636,21 +636,24 @@ function appointment_detail(id)
                 <td class="project-title">
                 <p>${item.appointment_time}<p>
                 </td>
-                <form id="${item.id_service}reset">
+                <form id="${item.id}reset">
                 <td class="project-title">
-                    <input type="time"  id="${item.id_service}st">
+                    <input type="time"  id="${item.id}st">
                 </td>
                 <td class="project-title">
-                    <input type="time" id="${item.id_service}ft">
+                    <input type="time" id="${item.id}ft">
                 </td>
                 </form>
                 <td style="width:30px;"></td>
-            </tr>
-            `;  
-            arrtime.push(item.id_service)
+            </tr>`;  
+            arrtime.push(item.id)
             });
-            output+=`<tr><td colspan="5" ><input type="button" class="btn btn-success btn-sm" onclick="add_appointment(${response['service'].id_service})" value="Đặt lịch"></td></tr>`;
+            output+=`<tr><td colspan="5" >
+            <center ><input type="button" class="btn btn-success btn-sm" onclick="add_appointment(${response['service'].id})" value="Đặt lịch">
+           </center>
+            </td></tr>`;
             $('tbody').html(output); 
+            console.log(arrtime);
        
         }
     });
@@ -665,9 +668,9 @@ function add_appointment(id)
     var starttime = $('#'+a[i]+"st").val();
     var finishtime = $('#'+a[i]+"ft").val();   
     var id_bill1 =  $('#id_billing').val();   
-     console.log(id_bill1);
-     console.log(starttime); 
-     console.log(finishtime); 
+   //  console.log(id_bill1);
+     //console.log(starttime); 
+     //console.log(finishtime); 
      arrlich.push({"id":a[i],"starttime":starttime,"finishtime":finishtime});
     }
     console.log(arrlich);

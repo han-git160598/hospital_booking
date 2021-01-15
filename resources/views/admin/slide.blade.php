@@ -26,9 +26,7 @@
                     <div class="row m-b-sm m-t-sm">
                         
                         <div class="col-md-11">
-                            <div class="input-group"><input type="text" placeholder="Tìm kiếm" class="input-sm form-control"> <span class="input-group-btn">
-                            <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-search"></i></button> </span>
-                            </div>
+                          
                         </div>
                     </div>
                     

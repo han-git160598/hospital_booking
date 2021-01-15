@@ -27,7 +27,7 @@ class LoginController extends Controller
     		return Redirect::to('/dashboard');
            //return Redirect()->back();
     	}else{
-    		Session::put('message','Mật Khẩu Hoặc Tài Khoản Không Chính Xác!!! Vui long Nhập Lại ');
+    		Session::put('message','Mật khẩu hoặc tài khoản không chính xác!!! Vui lòng nhập lại ');
     		return Redirect::to('/');
     	}
     }

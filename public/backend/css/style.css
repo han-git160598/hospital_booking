@@ -1,4 +1,7 @@
 @import "http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;lang=en";
+img{
+    max-width: 100%!important;
+}
 h1,h2,h3,h4,h5,h6 {
     font-weight:100
 }

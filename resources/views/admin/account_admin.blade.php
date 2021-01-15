@@ -8,17 +8,7 @@
                 <div class="inqbox float-e-margins">
                 <div class="inqbox-content">
                     <h2> Tài khoản nhân viên </h2>
-                    <ol class="breadcrumb">
-                        <li>
-                            <a href="index.html">Home</a>
-                        </li>
-                        <li>
-                            <a>Apps</a>
-                        </li>
-                        <li class="active">
-                            <strong>Tài khoản nhân viên</strong>
-                        </li>
-                    </ol>
+                   
                 </div>
                 </div>
             </div>
@@ -80,7 +70,6 @@
                                 <th>Số điện thoại</th>
                                 <th>Chức vụ</th>
                                 <th style="width:30px;"></th>
-                                
                             </tr>
                             @foreach($data as $key=> $value)
                             <tr>
@@ -105,6 +94,7 @@
                                 </td>
                                 <td class="project-actions">
                                     <button onClick="account_admin_detail({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết</button>
+                                </td><td >   
                                     <button onClick="delete_account_admin({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                                 </td>
                                 
@@ -166,6 +156,7 @@ function disable_account_admin(id)
                 </td>
                 <td class="project-actions">
                     <button onClick="account_admin_detail(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết</button>
+                </td><td >   
                     <button onClick="delete_account_admin(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                 </td>
                 
@@ -220,6 +211,7 @@ function enable_account_admin(id)
                 </td>
                 <td class="project-actions">
                     <button onClick="account_admin_detail(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết</button>
+                </td><td >   
                     <button onClick="delete_account_admin(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                 </td>
                 
@@ -523,7 +515,7 @@ function popup_remove_authorize(id_pre,id_admin)
 
 function remove_authorize(id_pre,id_admin)
 {
-    console.log(id_pre);console.log(id_admin);
+   // console.log(id_pre);console.log(id_admin);
 var r=confirm('Waring! Bạn có muốn xóa không !!');
 if(r==true)
 {
@@ -535,7 +527,7 @@ if(r==true)
         dataType: 'json',
         success: function (response) 
         {
-            console.log(response);
+           // console.log(response);
             output=``;
             $('#list_premission').html('');
             response.forEach(function (item) {
@@ -546,9 +538,11 @@ if(r==true)
             $('#list_premission').html(output); 
         }
         });
-       
+
+        
+      
 }else{  }
-    
+  console.log(list_permission(id_admin));  
 }
 $('#create_account_admin').click(function(){
    //  document.getElementById("form_admin").reset();
@@ -737,6 +731,7 @@ function delete_account_admin(id)
       
         <td class="project-actions">
             <button onClick="account_admin_detail(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết</button>
+           </td><td >   
             <button onClick="delete_account_admin(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
         </td>
         </tr>`;
@@ -799,6 +794,7 @@ function search_account_admin()
         
             <td class="project-actions">
                 <button onClick="account_admin_detail(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết</button>
+              </td><td >   
                 <button onClick="delete_account_admin(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
             </td>
             </tr>`;

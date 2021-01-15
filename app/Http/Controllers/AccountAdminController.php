@@ -258,4 +258,21 @@ class AccountAdminController extends Controller
         }
 
     }
+    public function change_password_admin(Request $request)
+    {
+        $data= array();
+        $check = DB::table('tbl_account_admin')->where('id',$request->id_admin)->where('password',md5($request->old_password))->get();
+        $count = count($check);
+        if($count > 0 )
+        {
+            $data['password']=md5($request->new_password);
+            DB::table('tbl_account_admin')->where('id',$request->id_admin)->update($data);
+            $mes['mes']='Thay đổi mật khẩu thành công';
+            return json_encode($mes);
+        }else{
+            $mes['mes']='Mật khẩu cũ không chính xác';
+            return json_encode($mes);
+        }
+       
+    }
 }

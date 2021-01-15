@@ -17,9 +17,9 @@
             <div class="col-lg-12">
                 <div class="inqbox">
                 <div class="inqbox-title">
-                <a href="{{URL::to('all-service-service')}}" class="btn btn-white" type="btn">Quay lại danh sách</a>
+                <a href="{{URL::to('all-service-service')}}" class="btn btn-primary" type="btn"> Quay lại </a>
                     <div class="inqbox-tools">
-                        <a href="{{URL::to('/add-service-service')}}" class="btn btn-primary btn-xs">Tạo sản phẩm</a>
+                        <a href="{{URL::to('/add-service-service')}}" class="btn btn-primary btn-xs"> Thêm dịch vụ </a>
                     </div>
                 </div>
                 <div class="inqbox-content">
@@ -70,6 +70,9 @@
 
 <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
 <script>
+function formatNumber(num) {
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
 function delete_service(id)
 {
     var r=confirm('Waring! Bạn có muốn xóa không !!');
@@ -101,11 +104,9 @@ function delete_service(id)
                     <p>${item.service}</p>  
                 </td>
                 <td class="project-title">
-                    <p> ${item.price} VND</p> 
+                    <p> ${formatNumber(item.price)} VND</p> 
                 </td>
-                <td class="project-title">
-                    <p> ${item.status_service} VND</p> 
-                </td>
+            
                 <td class="project-actions">
            
                     <button onClick="edit_service(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
@@ -200,11 +201,9 @@ function update_service(id)
                     <p>${item.service}</p>  
                 </td>
                 <td class="project-title">
-                    <p> ${item.price} VND</p> 
+                    <p> ${formatNumber(item.price)} VND</p> 
                 </td>
-                <td class="project-title">
-                    <p> ${item.status_service} VND</p> 
-                </td>
+             
                 <td class="project-actions">
                     
                     <button onClick="edit_service(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
@@ -239,11 +238,9 @@ function disable_service(id)
                     <p>${item.service}</p>  
                 </td>
                 <td class="project-title">
-                    <p> ${item.price} VND</p> 
+                    <p> ${formatNumber(item.price)} VND</p> 
                 </td>
-                <td class="project-title">
-                    <p> ${item.status_service} VND</p> 
-                </td>
+             
                 <td class="project-actions">
                    
                     <button onClick="edit_service(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
@@ -255,6 +252,7 @@ function disable_service(id)
         }
     });
 }
+
 function search_service()
 {
     var search_service1 = $('#search_service').val();
@@ -284,7 +282,7 @@ function search_service()
                     <p>${item.service}</p>  
                 </td>
                 <td class="project-title">
-                    <p>${item.price} VND</p> 
+                    <p>${formatNumber(item.price)} VND</p> 
                 </td>
 
                 <td class="project-actions">

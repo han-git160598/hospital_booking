@@ -103,6 +103,9 @@
     @endsection
 <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
 <script>
+function formatNumber(num) {
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
 function create_service_packet()
 {
    var output=``;
@@ -172,7 +175,7 @@ function list_service()
                         <p>${item.service}</p>  
                     </td>
                     <td class="project-title">
-                        <p> ${item.price}</p> 
+                        <p> ${formatNumber(item.price)} VND</p> 
                     </td>
                     <td class="project-actions">
                         <input type="checkbox" value="${item.id}">
@@ -284,7 +287,7 @@ function list_service_in_packet(id) {
                         <p>${item.service}</p>  
                     </td>
                     <td class="project-title">
-                        <p> ${item.price}</p> 
+                        <p> ${formatNumber(item.price)} VND</p> 
                     </td>
                     <td class="project-actions">
                     <input type="checkbox" value="${item.id}">
@@ -362,7 +365,7 @@ function list_service_packet_detail(id)
                     <p>${item.service}</p>  
                 </td>
                 <td class="project-title">
-                    <p> ${item.price}</p> 
+                    <p> ${formatNumber(item.price)} VND</p> 
                 </td>
                 <td class="project-actions">
                   <button 
@@ -402,7 +405,7 @@ function remove_service(id_ser,id_packet)//remove service trong packet
                     <p>${item.service}</p>  
                 </td>
                 <td class="project-title">
-                    <p> ${item.price}</p> 
+                    <p> ${formatNumber(item.price)} VND</p> 
                 </td>
                 <td class="project-actions">
                   <button 

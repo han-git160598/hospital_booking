@@ -153,6 +153,10 @@ Route::post('/add-prehistoric','BillingController@add_prehistoric');
 // billing document
 Route::post('/save-billing-document','BillingController@save_billing_document');
 Route::post('/remove-img-document','BillingController@remove_img_document');
+
+// payment 
+Route::post('/save-img-payment','BillingController@save_img_payment');
+Route::post('/remove-img-payment','BillingController@remove_img_payment');
 //Account admin///////////////////////////////////////////
 Route::get('/all-account-admin','AccountAdminController@all_account_admin');
 Route::get('/disable-account-admin/{id}','AccountAdminController@disable_account_admin');
@@ -170,6 +174,8 @@ Route::post('/save-account-admin','AccountAdminController@save_account_admin');
 Route::post('/delete-account-admin','AccountAdminController@delete_account_admin');
 
 Route::post('/update-account-admin','AccountAdminController@update_account_admin');
+
+Route::post('/change-password-admin','AccountAdminController@change_password_admin');
 //// /force-sign-out
 Route::get('/force-sign-out',function(){
     $model = new AuthModel;

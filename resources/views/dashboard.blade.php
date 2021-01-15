@@ -120,9 +120,9 @@
                                             <a href="{{URL::to('/all-account-customer')}}"><i><img src="{{asset ('backend/icon/customer manager.svg')}}"></i> <span class="nav-label"> Quản lý khách hàng</span></a>
                                         </li>
                                         @endif
-                                        @if($v->permission == 'account_force_signout')
+                                        @if($v->permission == 'account_force_signout') 
                                         <li >
-                                            <a href="{{URL::to('/force-sign-out')}}"><i><img src="{{asset ('backend/icon/force sign out.svg')}}"></i> <span class="nav-label">Cưỡng chế đăng xuất</span></a>
+                                            <a href="{{URL::to('/force-sign-out')}}"><i><img class="nav-label" src="{{asset ('backend/icon/force sign out.svg')}}"></i> <span class="nav-label">Cưỡng chế đăng xuất</span></a>
                                         </li>
                                         @endif
                                      @endforeach
@@ -160,13 +160,15 @@
                            
                             <li class="dropdown pull-right">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-                                    <span class="pl15">  <?php
+                                    <span class="pl15">
+                                    <i  class="fa fa-user"></i>
+                                      <?php
                                         $full_name = Session::get('full_name');
                                         $id =Session::get('id');
                                         if($id)
                                         {
                                             echo $full_name." ";
-                                            echo $id;
+                                          //  echo $id;
                                         }
                                     
                                     ?>  </span>
@@ -175,6 +177,8 @@
                                 <ul class="dropdown-menu animated m-t-xs">
                            
                                     <li class="divider"></li>
+                                     
+                                    <li><a onClick="show_modal()" class="animated animated-short fadeInUp"><i class="fa fa-sign"></i> Thay đổi mật khẩu </a></li>
                                     <li><a href="{{URL::to('/logout-admin')}}" class="animated animated-short fadeInUp"><i class="fa fa-sign-out"></i> Đăng xuất </a></li>
                                 </ul>
                             </li>
@@ -182,8 +186,39 @@
                     </nav>
                 </div>
                 <!-- END HEADER -->
-                
-           
+ <div id="change_password" class="modal fade">
+            <div class="modal-dialog">
+             <div class="modal-content">
+              <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+               <h4 class="modal-title">Thêm sản phẩm</h4>
+              </div>
+              <div class="modal-body">
+
+            <form id="change_password_form" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <label> Mật khẩu cũ (<font style="color: red">*</font>)</label>
+            <input type="password" name="old_password" id="old_password" class="form-control" />
+            <br/>
+             <label> Mật khẩu mới (<font style="color: red">*</font>)</label>
+             <input type="password" name="new_password" id="new_password" class="form-control" />
+            <br/>
+            <label> Xác nhận mật khẩu  (<font style="color: red">*</font>)</label>
+            <input type="password" name="confirm_password" id="confirm_password" class="form-control" />
+            <input type="hidden" name="id_admin" value="{{$id}}" id="name_news" class="form-control" />
+            <br/>
+            <br/>
+            <input type="submit"  name="update" id="insert_category" value="Xác nhận" class="btn btn-success" />
+           </form>
+              </div>
+              <div class="modal-footer">
+               <button type="button" class="btn btn-default" data-dismiss="modal"> Đóng </button>
+              </div>
+             </div>
+            </div>
+           </div>
+
+   
               
                   
                            
@@ -203,14 +238,13 @@
              
 
       
-     
-      
             <!-- Mainly scripts -->
             <script src="{{ asset('backend/js/jquery-2.1.1.js')}}"></script>
             <script src="{{ asset('backend/js/bootstrap.min.js')}}"></script>
             <script src="{{ asset('backend/js/plugins/metisMenu/jquery.metisMenu.js')}}"></script>
             <script src="{{ asset('backend/js/plugins/slimscroll/jquery.slimscroll.min.js')}}"></script>
             <!-- Morris -->
+            
            
             <script src="{{ asset('backend/js/plugins/morris/morris.js')}}"></script>
             <!-- Chartist -->
@@ -239,6 +273,43 @@
                 });
             });
             </script>
+            <script>
+
+            function show_modal()
+            {
+            $('#change_password').modal('show');
+            }
+            $( document ).ready(function() {
+            $('#change_password_form').on('submit', function(event) {
+                    event.preventDefault();
+                    var new_password = $('#new_password').val();
+                    var confirm_password = $('#confirm_password').val();
+                   // console.log(new_password); console.log(confirm_password);
+                    if(new_password == confirm_password)
+                    {
+                        $.ajax({
+                        url: '{{URL::to('/change-password-admin')}}',
+                        method: "POST",
+                        data: new FormData(this),
+                        dataType: 'JSON',
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function(response) 
+                        {
+                            alert(response['mes']);
+                        }
+                    });
+                    $('#change_password').modal('hide');
+                    }else{
+                        alert('Mật khẩu không trùng khớp');
+                    }
+                    
+            });
+            });
+
+
+        </script>        
                 
     </body>
 </html>

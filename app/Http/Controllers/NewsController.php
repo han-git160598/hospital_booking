@@ -9,8 +9,6 @@ class NewsController extends Controller
 {
     public function save_news(Request $request)
     {
-        
-        
         // $validation = Validator::make($request->all(), [
         //     'img_news' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         // ]);

@@ -14,7 +14,7 @@ class BillingController extends Controller
         $model->AuthLogin();
         $permission=$model->permission(); 
         $all_bill = DB::table('tbl_billing_billing')->orderby('id','desc')->get();
-        //dd($all_bill);
+     //   dd($all_bill);
         return view('admin.order_billing.billing_billing',compact('all_bill','permission'));
     }
     public function status_filter_billing(Request $request)
@@ -33,12 +33,12 @@ class BillingController extends Controller
     public function order_billing_detail($id)
     { 
        // dd($id);
-       $a = $id;
+        $a = $id;
         $model = new AuthModel;
         $model->AuthLogin();
         $permission=$model->permission();
         $id = session::get('id');
-    //    dd($id);
+      //  dd($a);
         $data['document'] = DB::table('tbl_billing_billing')    
         ->join('tbl_billing_document','tbl_billing_document.id_billing','=','tbl_billing_billing.id')
         ->where('tbl_billing_billing.id',$a)
@@ -49,7 +49,7 @@ class BillingController extends Controller
       //  ->join('tbl_billing_document','tbl_billing_document.id_billing','=','tbl_billing_billing.id')
         ->where('tbl_billing_billing.id',$a)
         ->get();
-       //dd($data);
+    //   dd($data);
        // return json_encode($data); 
         return view('admin.order_billing.order_billing_detail',compact('data','permission'));
     }
@@ -69,35 +69,36 @@ class BillingController extends Controller
     }
     public function appointment_detail(Request $request) 
     {
-        $data['service'] = DB::table('tbl_billing_billing')    
-        ->join('tbl_billing_detail','tbl_billing_detail.id_billing','=','tbl_billing_billing.id')    
-        ->join('tbl_service_service','tbl_service_service.id','=','tbl_billing_detail.id_service')
+        $data['service'] = DB::table('tbl_billing_appointment')    
+        ->leftjoin('tbl_service_service','tbl_service_service.id','=','tbl_billing_appointment.id_service_service')
+        ->leftjoin('tbl_billing_billing','tbl_billing_billing.id','=','tbl_billing_appointment.id_billing')
         ->where('tbl_billing_billing.id',$request->id)
-        ->select('service','tbl_billing_detail.id_billing','tbl_billing_detail.id_service')
+        ->select('service','tbl_billing_appointment.id_billing','tbl_billing_appointment.id_service_service','appointment_time')
         ->get();
         // $appointment = DB::table('tbl_billing_billing')   
         // ->leftjoin('tbl_billing_appointment','tbl_billing_appointment.id_billing','=','tbl_billing_billing.id')
         // ->where('tbl_billing_appointment.id_billing',$request->id)
         // ->select('tbl_billing_appointment.id_billing','tbl_billing_appointment.id','id_service_service','appointment_time')
         // ->get(); 
+        $data['appointment'] = DB::table('tbl_billing_appointment')    
+        ->leftjoin('tbl_service_service','tbl_service_service.id','=','tbl_billing_appointment.id_service_service')
+        ->leftjoin('tbl_billing_billing','tbl_billing_billing.id','=','tbl_billing_appointment.id_billing')
+        ->where('tbl_billing_billing.id',$request->id)
+        ->select('service','tbl_billing_appointment.id_billing','tbl_billing_appointment.id_service_service','appointment_time')
+        ->get();
+        
+        $check = count($data['appointment']);
+        if($check > 0 )
+        {
+            $data['service'] = DB::table('tbl_billing_appointment')    
+            ->leftjoin('tbl_service_service','tbl_service_service.id','=','tbl_billing_appointment.id_service_service')
+            ->leftjoin('tbl_billing_billing','tbl_billing_billing.id','=','tbl_billing_appointment.id_billing')
+            ->where('tbl_billing_billing.id',$request->id)
+            ->select('service','tbl_billing_appointment.id_billing','tbl_billing_appointment.id_service_service','appointment_time')
+            ->get(); 
+            return json_encode($data);
+        }
 
-        // $data = DB::table('tbl_billing_billing')    
-        // ->leftjoin('tbl_billing_detail','tbl_billing_detail.id_billing','=','tbl_billing_billing.id')    
-        // ->leftjoin('tbl_service_service','tbl_service_service.id','=','tbl_billing_detail.id_service')
-        // //->leftjoin('tbl_billing_appointment','tbl_billing_appointment.id_billing','=','tbl_billing_billing.id')
-        // ->where('tbl_billing_billing.id',$request->id)
-        // ->select('service','tbl_billing_detail.id_billing','tbl_billing_detail.id_service')
-        // ->get();
-        // foreach($data as $key=>$value)
-        // {
-        //     foreach($appointment as $key=>$v)
-        //     {
-        //         if($value->id_billing == $v->id_billing && $value->id_service == $v->id_service_service )
-        //         {
-        //             s;
-        //         }
-        //     }   
-        //}
 
       // dd($data);
         return json_encode($data);
@@ -221,20 +222,54 @@ class BillingController extends Controller
 
     public function update_status_bill(Request $request)
     {
-      $status  = DB::table('tbl_billing_billing') ->where('id',$request->id)->get();
-      $a = $status[0]->billing_status;
-      if($a > 5 )
-      $data = array();
-      $data['billing_status']=$a+1;
-      DB::table('tbl_billing_billing')->where('id',$request->id)->update($data);
-      return json_encode($a);
+        $status  = DB::table('tbl_billing_billing')->where('id',$request->id)->get();
+        $a = $status[0]->billing_status;
+        $payed = DB::table('tbl_billing_document')->where('id',$request->id)->get();
+        $payment_type= DB::table('tbl_billing_billing')->where('id',$request->id)->get();
+      //  return json_encode(count($payed));
+
+        if($payment_type[0]->payment_type == 2)
+        {
+            if($a < 2 ){
+            $data = array();
+            $data['billing_status']=$a+2;
+            DB::table('tbl_billing_billing')->where('id',$request->id)->update($data);
+            $message['mes']='Cập nhật trạng thái hóa đơn thành công';
+            return json_encode($message);
+            }elseif($a == 3 )
+            {
+            $data = array();
+            $data['billing_status']=$a+1;
+            DB::table('tbl_billing_billing')->where('id',$request->id)->update($data);
+            $message['mes']='Cập nhật trạng thái hóa đơn thành công';
+            return json_encode($message); 
+            }
+        }else{
+            if($a == 1 )
+            {
+            $data = array();
+            $data['billing_status']=$a+1;
+            DB::table('tbl_billing_billing')->where('id',$request->id)->update($data);
+            $message['mes']='Cập nhật trạng thái hóa đơn thành công';
+            return json_encode($message);
+            }
+            elseif($a == 2 ){
+            $data = array();
+            $data['billing_status']=$a+2;
+            DB::table('tbl_billing_billing')->where('id',$request->id)->update($data);
+            $message['mes']='Cập nhật trạng thái hóa đơn thành công';
+            return json_encode($message);
+            }
+
+        }
     }
     public function add_prehistoric(Request $request)
     {
         $data = array();
-        $check = DB::table('tbl_billing_customer')->where('id',$request->id)
+        $check = DB::table('tbl_billing_customer')
+        ->where('id',$request->id)
         ->where('prehistoric',$request->prehistoric)
-        ->get();
+        ->get();    
         if(count($check) > 0)
         {
             $data['prehistoric']=$request->content;
@@ -269,4 +304,18 @@ class BillingController extends Controller
         $data['data']=DB::table('tbl_billing_document')->where('id_billing',$request->id_billing)->get();
         return json_encode($data);
     }
+    public function save_img_payment(Request $request)
+    {
+        $image = $request->file('img_payment');
+        $new_name = rand() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images/slide/'), $new_name);
+        $url='images/slide/'.$new_name;
+        $data = array();
+        $data['payment_image']=$url;
+        DB::table('tbl_billing_billing')->where('id',$request->id_billing)->update($data);
+        $mes['mes']='Thêm hình ảnh thành công';
+        $mes['data'] = DB::table('tbl_billing_billing')->where('id',$request->id_billing)->get();
+        return json_encode($mes); 
+    }
+    
 }

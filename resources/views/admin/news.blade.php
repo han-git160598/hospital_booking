@@ -62,7 +62,7 @@
            </form>
               </div>
               <div class="modal-footer">
-               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+               <button type="button" class="btn btn-default" data-dismiss="modal"> Đóng </button>
               </div>
              </div>
             </div>
@@ -97,7 +97,7 @@
            </form>
               </div>
               <div class="modal-footer">
-               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+               <button type="button" class="btn btn-default" data-dismiss="modal"> Đóng </button>
               </div>
              </div>
             </div>
@@ -133,7 +133,7 @@
                                     <p>{{substr($value->content, 0, 200)}} <p>
                                 </td>
                                 <td >
-                                <img alt="Image" height="100" width="100" src="{{$value->image_upload}}">
+                                <img alt="" height="150" width="150" src="{{$value->image_upload}}">
                                 </td>
                                 <td class="project-actions">
                                     <button onClick="edit_news({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
@@ -215,6 +215,7 @@ $( document ).ready(function() {
                 });
             }
             $('tbody').html(output);   
+            $('#add_data_Modal').modal('hide');
             }
         })
     });
@@ -232,6 +233,7 @@ $( document ).ready(function() {
              processData: false,
              success: function(data) 
              {
+                 alert(data['mes']);
                  console.log(data);
                  var output=``;
              
@@ -257,12 +259,12 @@ $( document ).ready(function() {
                     </td>
                     <td class="project-actions">
                         <button onClick="edit_news(${data['data'][0].id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
-                        
                     </td>
                     <td class="project-actions">
                         <button onClick="delete_news(${data['data'][0].id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                     </td>`;
                    $('#'+data['data'][0].id).html(output);   
+                   $('#update_data_Modal').modal('hide');
              }
          });
     });
@@ -286,7 +288,7 @@ $.ajax({
             <br/>
              <label>Nội dung bài viết (<font style="color: red">*</font>)</label>
              <textarea name="content_news_ud" rows="8" id="content_news" class="form-control">${response[0].content}</textarea>
-            <input type="text" name="id_news" value="${response[0].id}" class="form-control" />
+            <input type="hidden" name="id_news" value="${response[0].id}" class="form-control" />
             <br/>
             <label><label>Hình ảnh (<font style="color: red">*</font>)</label>
             <input type="file" id="img_news" value="${response[0].image_upload}" accept="image/png, image/jpeg" name="img_news_ud" class="form-control" multiple="multiple"  placeholder="Hình ảnh">

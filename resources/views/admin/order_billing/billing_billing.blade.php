@@ -59,7 +59,7 @@
                                 @elseif ($v->billing_status==2)
                                 <td>Lên kế hoạch</td>
                                 @elseif ($v->billing_status==3)
-                                <td>Chuyển nhượng</td>
+                                <td> Đã chuyển khoản</td>
                                 @elseif ($v->billing_status==4)
                                 <td>Hoàn tất</td>
                                 @else
@@ -94,7 +94,7 @@ function stt_billing()
         dataType: 'json',
         success: function (response) 
         {
-           
+          // console.log(response);
         var output=`
             <tr> 
                 <th style="width:30px;"></th>
@@ -144,7 +144,7 @@ function stt_billing()
 function search_bill()
 {
     var result = $('#search_bill').val();
-   
+  
     $.ajax({
         url: '{{URL::to('/search-bill')}}',
         type: 'POST',
@@ -153,6 +153,7 @@ function search_bill()
         dataType: 'json',
         success: function (response) 
         {
+              console.log(response);
             var output=`
             <tr> 
                 <th style="width:30px;"></th>
@@ -189,7 +190,7 @@ function search_bill()
             output+=`<td>Đã hủy</td>`;
              output+=`
                 <td class="project-actions">
-                    <a href="{{URL::to('/order-billing-detail')}}/{{$v->id}}"  class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết </a>
+                    <a href="{{URL::to('/order-billing-detail')}}/${item.id}"  class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết </a>
                 </td>
             </tr>
             `;

@@ -21,7 +21,7 @@
              <div class="modal-content">
               <div class="modal-header">
                <button type="button" class="close" data-dismiss="modal">&times;</button>
-               <h4 class="modal-title">Danh sách dịch vụ</h4>
+               <h4 class="modal-title"> Quyền bạn có thể thêm </h4>
               </div>
               <div class="modal-body">
                <form method="post" id="insert_form">
@@ -248,7 +248,7 @@ $.ajax({
                 Bạn có muốn xóa không
                 </label></p>
                  <menu>
-                <button>Hủy</button>
+                <button>Hủy </button>
                 <button onClick="remove_authorize(id_pre,id_admin)">Xác nhận</button>
                 </menu>
             </form>
@@ -268,8 +268,8 @@ $.ajax({
                 <button class="btn btn-default" type="button" onclick="show_password1()"><i class="fa fa-eye"></i></button>
                 <br/>
                  <menu>
-                <button type="submit">Hủy</button>
-                <button type="submit" onClick="update_password_admin(${item[0].id})">Xác nhận</button>
+                <button type="submit" >Hủy </button>
+                <button type="submit" onClick="update_password_admin(${item[0].id})"> Xác nhận </button>
                 </menu>
             </form>
             </dialog>
@@ -402,21 +402,23 @@ function list_permission(id)
        console.log(response)
     var output=`
     <tr> 
+        <th style="width:80px;"></th>
+        <th> Chọn :</th>
         <th style="width:30px;"></th>
-        <th>Chọn :</th>
-        <th style="width:50px;"></th>
         <th style="width:30px;"></th>
-    </tr>`;
+    </tr>`; 
     $('#permission').html('');
     response.forEach(function (item) {
         //console.log(item);
     output+=`
     <tr>
-        <td style="width:30px;"></td>
+        <td style="width:80px;"></td>
         <td class="project-title">
             <p>${item.description}</p>  
         </td>
-        <td><input type="checkbox" value="${item.id}" id="${item.id}"></td>
+        <td class="project-title">
+        <p><input type="checkbox" value="${item.id}" id="${item.id}"></p>
+        </td>
         <td style="width:30px;"></td>
     </tr>`;    
     });
@@ -470,6 +472,7 @@ function update_password_admin(id)
     var pass_admin_again1= $('#pass_admin_again').val();
     if(pass_admin_again1 !=pass_admin1){
     $('#erro_pass').html('Mật khẩu không trùng khớp');
+    alert(' Mật khẩu không trùng khớp')
     }else{
 
         $.ajax({
@@ -480,6 +483,7 @@ function update_password_admin(id)
         dataType: 'json',
         success: function (response) 
         {
+           // console.log(response);
             alert(response['mes']);    
 
         }
@@ -541,6 +545,7 @@ if(r==true)
             $('#list_premission').html(output); 
         }
         });
+        alert('Xóa quyền thành công')
     }else{  }
   list_permission(id_admin); 
 }
@@ -740,6 +745,7 @@ function delete_account_admin(id)
       $('tbody').html(output);
     }
     });
+    alert('Xóa nhân viên thành công')
     }else{
         
     }

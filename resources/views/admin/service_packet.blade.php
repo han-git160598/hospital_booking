@@ -72,7 +72,7 @@
     </div>
     </body>
 
-         {{--  ////////////////////////danh sách quyền/////////////////////////  --}}
+         <!-- {{--  ////////////////////////danh  sách dịch vụ/////////////////////////  --}} -->
 
         <div id="add_data_Modal" class="modal fade">
             <div class="modal-dialog">
@@ -83,11 +83,11 @@
               </div>
               <div class="modal-body">
                <form method="post" id="insert_form">
-           
+               <div class="pre-scrollable">
                <div id="list_service_in_packet">    
                
                </div>
-
+                </div>
                 
                </form>
               </div>
@@ -134,8 +134,10 @@ function create_service_packet()
         <div class="form-group">
         <label class="col-sm-2 control-label"></label>
         <div class="col-sm-10" >
+        <div class="pre-scrollable">
         <div id="show_list"></div>
         
+        </div>
         </div>
         </div>
 
@@ -248,7 +250,9 @@ function edit_service_packet(id)
             <div class="form-group">
             <label class="col-sm-2 control-label"></label>
             <div class="col-sm-10" >
+            <div class="pre-scrollable">
             <div id="show_list_edit"></div>
+            </div>
             </div>
             </div>
 
@@ -275,16 +279,19 @@ function list_service_in_packet(id) {
         dataType: 'json',
         success: function (response) 
         {
-            var output=`<tr> 
+            var output=`
+            <tr> 
+            <th style="width:55px;"></th>
             <th>Tên dịch vụ</th>
             <th>Giá tiền</th>
             <th style="width:30px;"></th>
             </tr>`;
             $('#list_service_in_packet').html('');
-            response.forEach(function (item) {
+            response.forEach(function (item) {  
             // console.log(item);
                 output+=`
                 <tr>
+                <td style="width:55px;"></td>
                     <td class="project-title">
                         <p>${item.service}</p>  
                     </td>
@@ -292,7 +299,7 @@ function list_service_in_packet(id) {
                         <p> ${formatNumber(item.price)} VND</p> 
                     </td>
                     <td class="project-actions">
-                    <input type="checkbox" value="${item.id}">
+                    <p> <input type="checkbox" value="${item.id}"> </p>
                     </td>
                 </tr>
                 `;
@@ -354,6 +361,7 @@ function list_service_packet_detail(id)
     success: function (response) 
     {
      var output=`<tr> 
+        <th style="width:30px;"></th>
             <th>Tên dịch vụ</th>
             <th>Giá tiền</th>
             <th style="width:30px;"></th>
@@ -363,6 +371,7 @@ function list_service_packet_detail(id)
            // console.log(item);
             output+=`
             <tr>
+            <td style="width:30px;"></td>
                 <td class="project-title">
                     <p>${item.service}</p>  
                 </td>
@@ -449,7 +458,7 @@ function delete_service_packet(id)
                 <p>${item.name}</p>  
             </td>
             <td class="project-title">
-                <p> ${item.total} VND</p> 
+                <p> ${formatNumber(item.total)} VND</p> 
             </td>
 
             <td class="project-actions">
@@ -495,7 +504,7 @@ function search_packet()
                 <p>${item.name}</p>  
             </td>
             <td class="project-title">
-                <p> ${item.total} VND</p> 
+                <p> ${formatNumber(item.total)} VND</p> 
             </td>
 
             <td class="project-actions">

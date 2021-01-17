@@ -181,6 +181,7 @@ class BillingController extends Controller
         ->select([DB::raw("SUM(billing_price) as total_actually")])
         ->groupBy('id_billing')
         ->get();
+        $param['mes']='Thêm dịch vụ phát sinh thành công';
         return json_encode($param);    
         
     }
@@ -221,16 +222,24 @@ class BillingController extends Controller
     {
         $status  = DB::table('tbl_billing_billing')->where('id',$request->id)->get();
         $a = $status[0]->billing_status;
-        $payed = DB::table('tbl_billing_document')->where('id',$request->id)->get();
+        $payed = DB::table('tbl_billing_billing')->where('id',$request->id)->get();
         $payment_type= DB::table('tbl_billing_billing')->where('id',$request->id)->get();
       //  return json_encode(count($payed));
-
+      
+      
         if($payment_type[0]->payment_type == 2)
         {
+            if($payed[0]->payment_image == NULL)
+            {
+                $message['img']='not_img';
+                $message['mes']='Vui lòng thêm hình ảnh thanh toán trước khi xác nhận';
+                return json_encode($message);   
+            }
             if($a < 2 ){
             $data = array();
             $data['billing_status']=$a+2;
             DB::table('tbl_billing_billing')->where('id',$request->id)->update($data);
+            $message['data']=DB::table('tbl_billing_billing')->where('id',$request->id)->select('billing_status')->get();
             $message['mes']='Cập nhật trạng thái hóa đơn thành công';
             return json_encode($message);
             }elseif($a == 3 )
@@ -238,6 +247,7 @@ class BillingController extends Controller
             $data = array();
             $data['billing_status']=$a+1;
             DB::table('tbl_billing_billing')->where('id',$request->id)->update($data);
+            $message['data']=DB::table('tbl_billing_billing')->where('id',$request->id)->select('billing_status')->get();
             $message['mes']='Cập nhật trạng thái hóa đơn thành công';
             return json_encode($message); 
             }
@@ -247,6 +257,7 @@ class BillingController extends Controller
             $data = array();
             $data['billing_status']=$a+1;
             DB::table('tbl_billing_billing')->where('id',$request->id)->update($data);
+            $message['data']=DB::table('tbl_billing_billing')->where('id',$request->id)->select('billing_status')->get();
             $message['mes']='Cập nhật trạng thái hóa đơn thành công';
             return json_encode($message);
             }
@@ -254,6 +265,7 @@ class BillingController extends Controller
             $data = array();
             $data['billing_status']=$a+2;
             DB::table('tbl_billing_billing')->where('id',$request->id)->update($data);
+            $message['data']=DB::table('tbl_billing_billing')->where('id',$request->id)->select('billing_status')->get();
             $message['mes']='Cập nhật trạng thái hóa đơn thành công';
             return json_encode($message);
             }
@@ -281,7 +293,7 @@ class BillingController extends Controller
      
     } 
     public function save_billing_document(Request $request)
-    {
+    {   
         $image = $request->file('img_billing_document');
         $new_name = rand() . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('images/slide/'), $new_name);
@@ -289,6 +301,7 @@ class BillingController extends Controller
         $data = array();
         $data['id_billing']=$request->id_billing;
         $data['image_upload']=$url;
+       
         DB::table('tbl_billing_document')->insert($data);
         $mes['mes']='Thêm hình ảnh thành công';
         $mes['data'] = DB::table('tbl_billing_document')->where('id_billing',$request->id_billing)->get();
@@ -296,22 +309,31 @@ class BillingController extends Controller
     }
     public function remove_img_document(Request $request)
     {
+        $image_path = DB::table('tbl_billing_document')->where('id',$request->id)->get();
         DB::table('tbl_billing_document')->where('id',$request->id)->delete();
+        if (file_exists("images/slide/" . $image_path[0]->image_upload)) {
+            unlink("images/slide/" . $image_path[0]->image_upload);
+        }
         $data['mes']='Xóa hình ảnh thành công';
         $data['data']=DB::table('tbl_billing_document')->where('id_billing',$request->id_billing)->get();
         return json_encode($data);
     }
     public function save_img_payment(Request $request)
     {
+        
         $image = $request->file('img_payment');
         $new_name = rand() . '.' . $image->getClientOriginalExtension();
+
         $image->move(public_path('images/slide/'), $new_name);
         $url='images/slide/'.$new_name;
+        
+        
         $data = array();
         $data['payment_image']=$url;
         DB::table('tbl_billing_billing')->where('id',$request->id_billing)->update($data);
         $mes['mes']='Thêm hình ảnh thành công';
         $mes['data'] = DB::table('tbl_billing_billing')->where('id',$request->id_billing)->get();
+    
         return json_encode($mes); 
     }
     

@@ -19,7 +19,7 @@
                 <div class="inqbox-title">
                     <h5></h5>
                     <div class="inqbox-tools">
-                        <button id="create_account_permission" class="btn btn-primary btn-xs">Tạo Module</button>
+                        <!-- <button id="create_account_permission" class="btn btn-primary btn-xs">Tạo Module</button> -->
                     </div>
                 </div>
                 <div class="inqbox-content">
@@ -52,7 +52,7 @@
                                 </td>
                                 <td class="project-actions">
                                     <button onClick="edit_account_permission({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
-                                    <button onClick="delete_account_permission({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
+                                    <!-- <button onClick="delete_account_permission({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button> -->
                                 </td>
                             </tr>
                             @endforeach
@@ -118,51 +118,51 @@ function save_account_permission()
         }
     });
 }
-function delete_account_permission(id)
-{
-    var r=confirm('Waring! Bạn có muốn xóa không !!');
-    if(r==true)
-    {
-     $.ajax({
-            type:"GET",
-            url:'{{URL::to('/delete-account-permission')}}'+'/'+id,
-            dataType:"json",
-            success: function(response)
-            {
-            var output=`
-                <tr> 
-                    <th style="width:30px;"></th>
-                    <th>Tên Module(*)</th>
-                    <th>Mô tả</th>
+// function delete_account_permission(id)
+// {
+//     var r=confirm('Waring! Bạn có muốn xóa không !!');
+//     if(r==true)
+//     {
+//      $.ajax({
+//             type:"GET",
+//             url:'{{URL::to('/delete-account-permission')}}'+'/'+id,
+//             dataType:"json",
+//             success: function(response)
+//             {
+//             var output=`
+//                 <tr> 
+//                     <th style="width:30px;"></th>
+//                     <th>Tên Module(*)</th>
+//                     <th>Mô tả</th>
                     
-                </tr>`;
-                $('tbody').html('');
-                response.forEach(function (item) {
-                    console.log(item);
-                output+=`
-                <tr>
-                    <td style="width:30px;"></td>
-                    <td class="project-title">
-                        <p>${item.permission}</p>  
-                    </td>
-                    <td class="project-title">
-                        <p> ${item.description} </p> 
-                    </td>
+//                 </tr>`;
+//                 $('tbody').html('');
+//                 response.forEach(function (item) {
+//                     console.log(item);
+//                 output+=`
+//                 <tr>
+//                     <td style="width:30px;"></td>
+//                     <td class="project-title">
+//                         <p>${item.permission}</p>  
+//                     </td>
+//                     <td class="project-title">
+//                         <p> ${item.description} </p> 
+//                     </td>
 
-                    <td class="project-actions">
-                        <button onClick="edit_account_permission(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
-                        <button onClick="delete_account_permission(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
-                    </td>
-                </tr>`;    
-                });
-                $('tbody').html(output);
+//                     <td class="project-actions">
+//                         <button onClick="edit_account_permission(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+//                          <button onClick="delete_account_permission(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
+//                     </td>
+//                 </tr>`;    
+//                 });
+//                 $('tbody').html(output);
                 
-            }
-        });   
-    }else{
-     alert(r); 
-    }
-}
+//             }
+//         });   
+//     }else{
+//      alert(r); 
+//     }
+// }
 function edit_account_permission(id)
 {
     console.log(id);
@@ -253,8 +253,8 @@ $('#search_account_permission').keyup(function(){
                 </td>
 
                 <td class="project-actions">
-                    <button onClick="edit_account_permission(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </button>
-                    <button onClick="delete_account_permission(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Delete </button>
+                    <button onClick="edit_account_permission(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
+                  
                 </td>
             </tr>`;    
             });

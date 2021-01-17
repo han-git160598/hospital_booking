@@ -77,6 +77,7 @@
     </body>
 <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
 <script>
+
 $("#create_account_customer").click( function(){
     
     var output=``;
@@ -138,7 +139,7 @@ $("#create_account_customer").click( function(){
 
         <div class="form-group">
         <label class="col-sm-2 control-label">Mật khẩu(*) :</label>
-        <div class="col-sm-10"><input type="text"  id="password" class="form-control"></div>
+        <div class="col-sm-10"><input type="password"  id="password" class="form-control"></div>
         </div>
         <div class="hr-line-dashed"></div>
 
@@ -203,6 +204,7 @@ function delete_account_customer(id)
                 <th>Số điện thoại</th>
                 <th>Địa chỉ</th>
                 <th style="width:30px;"></th>
+                <th style="width:30px;"></th>
             </tr>`;
             $('tbody').html('');
             response['customer'].forEach(function (item) {
@@ -217,17 +219,20 @@ function delete_account_customer(id)
                     <p> ${item.phone_active} </p> 
                 </td>
                 <td class="project-title">
-                    <p>${item.address} </p> 
+                    <p>${item.address} </p>     
                 </td>
 
                 <td class="project-actions">
                     <button onClick="history_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i>Lịch sử đơn</button>
+                </td>
+                <td class="project-actions">   
                     <button onClick="edit_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Xem </button>
                     <button onClick="delete_account_customer(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                 </td>
             </tr>`;    
             });
             $('tbody').html(output);
+            alert('Xóa tài khoản khách hàng thành công')
         }else{
             alert(response['mes']);
         }
@@ -305,7 +310,7 @@ function edit_account_customer(id)
 
             <div class="form-group">
             <label class="col-sm-2 control-label">Mật khẩu :</label>
-            <div class="col-sm-10"><input type="text" id="password_ud" class="form-control"></div>
+            <div class="col-sm-10"><input type="password" id="password_ud" class="form-control"></div>
             </div>
             <div class="hr-line-dashed"></div>
 
@@ -436,5 +441,6 @@ function search_customer()
         }
     });
 }
+
 </script>
 @endsection

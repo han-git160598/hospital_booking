@@ -118,7 +118,7 @@ class AccountAdminController extends Controller
         // }
         if($request->pass_admin== '')
         {
-        $mes['mes']='Vui lòng không để trông !';
+        $mes['mes']='Vui lòng không để trống !';
         return json_encode($mes);    
         }
         $data= array();

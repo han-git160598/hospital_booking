@@ -26,7 +26,7 @@ class ServiceController extends Controller
         $kt = DB::table('tbl_service_service')->where('service',$request->service)->count();
         if($kt>0)
         {
-        $mes['mes']='dịch vụ đã tồn tại';
+        $mes['mes']='Tên dịch vụ này đã tồn tại';
         return json_encode($mes);   
         }
         $mes=array('mes'=>'kh');
@@ -40,16 +40,17 @@ class ServiceController extends Controller
         $data['content'] = $request->content;
         $data['price'] = $request->price;
         DB::table('tbl_service_service')->insert($data);
-        $mes['mes']='Thêm thành công';
+        $mes['mes']='Thêm dịch vụ thành công';
         return json_encode($mes);  
     }
     public function deleteservice_service($id)
     {
        
         $check = DB::table('tbl_billing_detail')->where('id_service',$id)->count();
-        if($check >0)
+        $check_actually = DB::table('tbl_billing_actually')->where('id_service',$id)->count();
+        if($check > 0 && $check_actually > 0)
         {
-            $mes['mes']='Dịch vụ này không thể xóa';
+            $mes['mes']='Dịch vụ này không thể xóa, chỉ được phép vô hiệu hóa';
             $mes['sucsses']='Cannot';
             return json_encode($mes);     
         }

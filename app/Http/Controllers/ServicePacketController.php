@@ -49,7 +49,9 @@ class ServicePacketController extends Controller
         ->leftjoin('tbl_service_service','tbl_service_service.id','=','tbl_service_packet_detail.id_service_service')
         ->leftjoin('tbl_service_packet','tbl_service_packet.id','=','tbl_service_packet_detail.id_service_packet')
         ->where('status_service','Y')
-        ->where('tbl_service_packet_detail.id_service_packet',$request->id)->get();
+        ->where('tbl_service_packet_detail.id_service_packet',$request->id)
+        ->orderby('service','ASC')
+        ->get();
         return json_encode($data);
     }
     public function listservice_service()
@@ -57,14 +59,15 @@ class ServicePacketController extends Controller
 
         $stt ='Y';
         $data= DB::table('tbl_service_service')
-         ->where('status_service',$stt)->get();
+        ->where('status_service',$stt)
+        ->orderby('service','ASC')->get();
         return json_encode($data);
     }
     public function select_list(Request $request)
     {
         
         $data=DB::table('tbl_service_service')
-        ->where('id',$request->idservice)->get();
+        ->where('id',$request->idservice) ->orderby('service','ASC')->get();
        // dd($data);
         return json_encode($data);
     }
@@ -188,7 +191,9 @@ class ServicePacketController extends Controller
         {
             array_push($array_service,$v->id_service_service);
         }
-        $data = DB::table('tbl_service_service')->where('status_service','Y')->WhereNotIn('id',$array_service)->get();
+        $data = DB::table('tbl_service_service')->where('status_service','Y')->WhereNotIn('id',$array_service)
+        ->orderby('service','ASC')
+        ->get();
         return json_encode($data);
     }
     public function update_service_packet_detail(Request $request)
@@ -205,7 +210,9 @@ class ServicePacketController extends Controller
         ->leftjoin('tbl_service_service','tbl_service_service.id','=','tbl_service_packet_detail.id_service_service')
         ->leftjoin('tbl_service_packet','tbl_service_packet.id','=','tbl_service_packet_detail.id_service_packet')
         ->where('status_service','Y')
-        ->where('tbl_service_packet_detail.id_service_packet',$request->id_packet)->get();
+        ->where('tbl_service_packet_detail.id_service_packet',$request->id_packet)
+        ->orderby('service','ASC')
+        ->get();
         return json_encode($list_service);
     }
     public function update_service_packet(Request $request)

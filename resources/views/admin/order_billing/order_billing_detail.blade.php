@@ -36,7 +36,7 @@
                          
                             <li class=""><a data-toggle="tab" href="#" onClick="customer_detail({{$v->id}})">Khách hàng</a></li>
                             <li class=""><a data-toggle="tab" href="#" onClick="service_detail({{$v->id}})">Dịch vụ</a></li>
-                            @if($v->billing_status == 2|| $v->billing_status == 3 || $v->billing_status == 4 )
+                            @if($v->billing_status != 5 )
                             <li class=""><a data-toggle="tab" href="#" onClick="actually_detail({{$v->id}})">Phát sinh</a></li>
                            @endif
                            @if($v->billing_status == 1 || $v->billing_status == 2|| $v->billing_status == 3 )
@@ -54,31 +54,36 @@
      
                                         <tbody>
                                         <tr>
-                                            <th>Mã đơn hàng</th>
+                                            <th style="width:30px;"></th>
+                                            <th>Mã đơn hàng </th>
                                             <th>Thời gian hẹn </th>
                                             <th>Trạng thái</th>
+                                            <th style="width:30px;"></th>
                                         
                                         </tr>
                                        @foreach($data['billing'] as $v)  
                                         <tr>
-                                        
-                                         <td>{{$v->billing_code}}</td>
-                                            <td id="date_time">{{$v->billing_date}} | {{$v->billing_time}}
+                                            <td style="width:30px;"></td>
+                                            <td><p> {{$v->billing_code}}</p></td>
+                                            <td  id="date_time">{{$v->billing_date}} | {{$v->billing_time}} 
                                             @if($v->billing_status == 1)
                                             <button  onClick="edit_time()"  class="btn btn-primary btn-sm"> Sửa</button>
                                             @endif
                                             </td>
+                                            <td id="status_bill">
                                             @if($v->billing_status ==1)
-                                            <td>Chờ xác nhận</td>
+                                            <p>Chờ xác nhận</p>
                                             @elseif ($v->billing_status==2)
-                                            <td>Đã đặt lịch</td>
+                                            <p>Đã đặt lịch</p>
                                             @elseif ($v->billing_status==3)
-                                            <td> Đã chuyển khoản </td>
+                                            <p> Đã chuyển khoản </p>
                                             @elseif ($v->billing_status==4)
-                                            <td>Hoàn tất</td>
+                                            <p>Hoàn tất</p>
                                             @else
-                                            <td> Hủy bỏ</td>
+                                            <p> Hủy bỏ</p>
                                             @endif
+                                            </td>
+                                            <td style="width:30px;"></td>
                                            
                                         </tr>
                                         
@@ -125,7 +130,7 @@
        <h4 class="modal-title"> Lịch khám </h4>
       </div>
       <div class="modal-body">
-       <form method="post" id="insert_form">
+       <form method="post" id="insert_form_appointment">
        <div id="">    
        
        </div>
@@ -150,13 +155,15 @@
        <h4 class="modal-title">Danh sách dịch vụ</h4>
       </div>
       <div class="modal-body">
-       <form method="post" id="insert_form">
+       <form method="post" id="insert_form_service">
+       <div class="pre-scrollable">
        <div id="list_service2">    
        
        </div>
 
         
        </form>
+       </div>
       </div>
       <div class="modal-footer">
        <button type="button" data-dismiss="modal" id="insert_service" onClick="insert_service({{$data['billing'][0]->id}})" class="btn btn-success">Thêm dịch vụ</button>
@@ -165,16 +172,15 @@
      </div>
     </div>
 </div>
-     {{--  ////////////////////////model/////////////////////////  --}}
-                                    {{--  <!-- Simple pop-up dialog box containing a form -->  --}}
+     <!-- {{--  ////////////////////////model/////////////////////////  --}} -->
+                                    <!-- {{--  <!-- Simple pop-up dialog box containing a form -->  --}} -->
                                     <dialog id="favDialog">
                                     <form method="dialog">
                                         <tr><td>
                                         <label>Vui lòng nhập lý do hủy đơn !</label>
                                         </td></tr>
                                         <tr><td>
-                                        <textarea id="bill_comment" rows="4" cols="50">
-                                        </textarea>
+                                        <textarea id="bill_comment" rows="4" cols="50"></textarea>
                                         </td></tr>
                                         <menu>
                                         <button>Từ chối</button>
@@ -222,15 +228,17 @@
                             <center> <h3> <span style="color:blue;"><i><img src="{{asset ('backend/icon/online payment.svg')}}"></i> <i><img src="{{asset ('backend/icon/Thanh toán chi phí qua chuyển khoản.svg')}}"></i> </span> </h3>
                             <form id="insert_img_payment" enctype="multipart/form-data">
                             <input type="file" name ="img_payment"></br>
-                            <input type="hidden" id="id_billing" name ="id_billing" value="{{$data['billing'][0]->id}}">
-                            <button type="submit" class="btn btn-primary btn-sm btn-block">  Đăng hình </button>
+                            <input type="hidden" id="id_billing1" name ="id_billing" value="{{$data['billing'][0]->id}}">
+                            <button type="submit" class="btn btn-primary btn-sm btn-block">  Tải hình lên </button>
                             </form>
                             <div id="show_img_payment">
                             <div class="hr-line-dashed"></div>     
-                            @foreach($data['billing'] as $value)
-                            <a target="_blank" href="{{ asset($value->payment_image) }}" class="imgpreview">
-                            <img src="{{ asset($value->payment_image) }}" alt="gallery thumbnail" height="200" width="270" /></a>
-                            <div class="hr-line-dashed"></div>                           
+                            @foreach($data['billing'] as $va)
+                            @if(isset($va->payment_image))
+                            <a target="_blank" href="{{ asset($va->payment_image) }}" class="imgpreview">
+                            <img src="{{ asset($va->payment_image) }}" alt="gallery thumbnail" height="200" width="270" /></a>
+                          
+                            @endif                      
                             @endforeach
                             </div>
 
@@ -246,28 +254,28 @@
                 </div>
             </div>
       
-<!-- ---------------------------hình ảnh--------------------------------------------------- -->
+<!-- ---------------------------hình ảnh kết quả--------------------------------------------------- -->
             <div class="col-sm-4">
                 <div class="inqbox ">
                 <div class="inqbox-content">
                     <div class="tab-content">
                         <div id="contact-1" class="tab-pane active">
                         
-                            <div class="row m-b-lg">
-                            <div >
+                            <div class="row m-b-lg" >
+                            <div>
                             <center>  <h1 ><strong> Kết quả khám </strong> </h1>  </center>
-                              
                             </div>
                             <div class="col-lg-12">
                             
                                 <strong>
-                               <h3> Hình ảnh <i class="fa fa-file"></i></h3>
+                                <h3> Hình ảnh <i class="fa fa-image"></i></h3>
                                 </strong>
                                 <form id="insert_img_result" enctype="multipart/form-data">
                                 <input type="file" name ="img_billing_document"></br>
                                 <input type="hidden" id="id_billing" name ="id_billing" value="{{$data['billing'][0]->id}}">
-                                <button type="submit" class="btn btn-primary btn-sm btn-block">  Đăng hình </button>
+                                <button type="submit" class="btn btn-primary btn-sm btn-block">  Tải hình lên </button>
                                 </form>
+                                <div class="pre-scrollable">
                                 <div id="show_img">
 
                               
@@ -301,8 +309,16 @@
                             <div class="row m-b-lg">
 
                             <div >  
-                              <center>  <h3> Lý do hủy đơn </h3>  </center>
-                             <strong> <label> {{$data['billing'][0]->billing_comment}} </label></strong>
+                              <center>  <h3> <header>Lý do</header> </h3>  </center>
+                              
+
+                            <main role="main">
+                               <blockquote><p> {{$data['billing'][0]->billing_comment}}</p></blockquote>
+                            
+                                
+                            </main>
+
+                             
                         </div>
                     
                         
@@ -318,6 +334,9 @@
 <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
 
 <script>   
+function formatNumber(num) {
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
 function service_detail(id)
 {
   //  console.log(id);
@@ -336,7 +355,7 @@ function service_detail(id)
                 <th style="width:30px;"></th>
                 <th>STT</th>
                 <th>Dịch vụ</th>
-                <th>Giá</th>
+                <th>Giá dịch vụ</th>
                 <th style="width:30px;"></th>   
             </tr>`;
             $('tbody').html('');
@@ -353,16 +372,16 @@ function service_detail(id)
                     <p>${item.service}<p>
                 </td>
                 <td class="project-title">
-                    <p>${item.price}<p>
+                    <p>${formatNumber(item.price)} VND<p>
                 </td>
                 <td style="width:30px;"></td>    
             </tr>`;
-            sum +=parseInt(item.price);// billing_price
+            sum +=parseInt(item.price); // billing_price
             });
              output+=`
-            <tr> <td style="width:30px;"></td><td>Tổng tiền:</td>
-            <td></td>
-            <td>${sum}</td></tr>`;
+            <tr><td style="width:30px;"></td><td colspan="2"><strong> Tổng tiền: </strong></td>
+            
+            <td><strong> ${formatNumber(sum)} VND </strong></td></tr>`;
             $('tbody').html(output);   
         }
     });
@@ -412,12 +431,16 @@ function customer_detail(id)
                 </td>
                 
                 <td style="width:30px;"></td>    
-            </tr>`;     
-             output+=`
+            </tr>`;    
+         
+            output+=`
             <tr id="Tiensu">    
             <td colspan="7">
-            <textarea id="add_prehistoric${item.id}" rows="4" cols="80">${item.prehistoric}</textarea>
-            <button class="btn btn-success btn-sm" onClick="add_prehistoric(${item.id})">Cập nhật tiền sử</button>
+            <textarea id="add_prehistoric${item.id}" rows="4" cols="80">${item.prehistoric}</textarea>`;
+            if(item.billing_status != 5 )
+            output+=`
+            <button class="btn btn-success btn-sm" onClick="add_prehistoric(${item.id})">Cập nhật tiền sử</button>`;
+            output+=`
             </td>
             </tr>
             `;
@@ -468,6 +491,7 @@ function actually_detail(id)
         dataType: 'json',
         success: function (response) 
         {
+            console.log(response)
          
             if(response.service == '')
             {
@@ -475,11 +499,13 @@ function actually_detail(id)
             <tr> Sửa
                 <th style="width:30px;"></th>
                 <th> Tên dịch vụ</th>
-                <th> Số lượng</th>
                 <th> Đơn giá</th>
+                <th> Số lượng</th>
                 <th> Tổng</th>
                 <th style="width:30px;"></th>
-                
+                 <th>
+                <button type="button" onClick="list_service1()" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning"><i class="fa fa-plus"></i></button>
+                </th>
             </tr>`;
             $('tbody').html('');
             $('tbody').html(output); 
@@ -491,12 +517,10 @@ function actually_detail(id)
                 <th style="width:30px;"></th>
                 <th> Tên dịch vụ</th>
                 <th> Số lượng</th>
-                <th> Giá </th>
+                <th> Đơn giá </th>
                 <th style="width:30px;"></th>
-               
-               
                 <th>
-                <button type="button" onClick="list_service1()" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning"><img src="{{asset ('backend/icon/add.svg')}}"></button>
+                <button type="button" onClick="list_service1()" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning"><i class="fa fa-plus"></i></button>
                 </th>
             </tr>`;
             $('tbody').html('');
@@ -512,20 +536,18 @@ function actually_detail(id)
                     <p>${item.billing_quantity}<p>
                 </td>
                 <td class="project-title">
-                    <p>${item.billing_price}<p>
+                    <p>${formatNumber(item.billing_price)} VND<p>
                 </td>
                 <td class="project-title">
                     <button onClick="remove_service(${item.id_service},${item.id_billing})">Hủy</button>
                 </td>
-           
               
             </tr>
             `;    
             });
             output+=`
-            <tr><td style="width:30px;"></td><td>Tổng tiền:</td>
-            <td></td><td></td>
-            <td>${response.total[0].total_actually}</td></tr>`;
+            <tr><td style="width:30px;"></td><td colspan="2"><strong> Tổng tiền:</strong></td>
+            <td colspan="2"><strong> ${formatNumber(response.total[0].total_actually)} VND</strong></td></tr>`;
             $('tbody').html(output); 
             }
         
@@ -591,7 +613,7 @@ function billing_detail(id)
 }
 var arrtime= [];
 function appointment_detail(id)
-{
+{ 
     arrtime =[];
   //  console.log(arrtime)
     $.ajax({
@@ -650,6 +672,9 @@ function appointment_detail(id)
 /// đặt thời gian khám
 function add_appointment(id)
 {
+    var r = confirm('Bạn có thực sự muốn đặt lịch trình này, chỉ có thể thay đổi, không hủy được')
+    if(r==true)
+    {
     var a = arrtime;
     var arrlich =[];
     console.log(a); 
@@ -678,10 +703,11 @@ function add_appointment(id)
             // <p>${item.appointment_time}<p>`;
         }
     });
+    }else{}
 }
 function update_status_bill(id){
     console.log(id)
-    var r = confirm('Xác thực')
+    var r = confirm('Kiểm tra lại thông tin trước khi xác nhận')
     if(r==true)
     {
         $.ajax({
@@ -692,11 +718,34 @@ function update_status_bill(id){
         dataType: 'json',
         success: function (response) 
         {
+            if(response['img']=='not_img'){
+                alert(response['mes']);   
+            }else{
+            var output = ``;
+            $('#status_bill').html('');
             console.log(response);
             alert(response['mes']);
+            if(response['data'][0].billing_status ==1)
+             output+= ` <p>Chờ xác nhận</p>`;
+            else if (response['data'][0].billing_status==2)
+             output+= `<p>Đã đặt lịch</p>`;
+            else if (response['data'][0].billing_status==3)
+            output+=` <p> Đã chuyển khoản </p>`;
+            else if (response['data'][0].billing_status==4)
+            {
+            output+=`<p>Hoàn tất</p>`;
+            location.reload();
+            }
+            else
+            {
+            output+= `<p> Hủy bỏ</p>`;
+            location.reload();
+            }
+            $('#status_bill').html(output);
+            }
         }
     });
-    location.reload();
+   // location.reload();
     }else{
     }
 }
@@ -731,14 +780,14 @@ function cancel_bill()
     favDialog.showModal();
     
 }
-{{--  (function() {
-  var updateButton = document.getElementById('cancel_bill');
-  var favDialog = document.getElementById('favDialog');
-  // “Update details” button opens the <dialog> modally
-  updateButton.addEventListener('click', function() {
-    favDialog.showModal();
-  });
-})();  --}}
+// {{--  (function() {
+//   var updateButton = document.getElementById('cancel_bill');
+//   var favDialog = document.getElementById('favDialog');
+//   // “Update details” button opens the <dialog> modally
+//   updateButton.addEventListener('click', function() {
+//     favDialog.showModal();
+//   });
+// })();  --}}
 /// chon lai time ////////////
 function update_billing_date(id)
 {
@@ -772,6 +821,7 @@ function update_billing_date(id)
                 </td>`;    
             });
             $('#date_time').html(output);   
+            alert('Thay đổi thời gian thành công')
         }
     });
     }else{}
@@ -798,15 +848,16 @@ function list_service1()
         dataType: 'json',
         success: function (response) 
         {
+            
             console.log(response);
             var output=`
             <tr> 
-                <th style="width:30px;"></th>
-                <th>Tên dịch vụ</th>
+                <th style="width:20px;"></th>
+                <th >Tên dịch vụ</th>
                 <th>Giá tiền</th>
-    
+                <th>Số lượng</th>
                 <th style="width:30px;"></th>
-                <th style="width:30px;"></th>
+                <th style="width:20px;"></th>
       
             </tr>`;
             $('#list_service2').html('');
@@ -814,19 +865,20 @@ function list_service1()
                 //console.log(item);
             output+=`
             <tr>
-                <td style="width:30px;"></td>
+                <td style="width:20px;"></td>
                 <td class="project-title">
                     <p>${item.service}</p>  
                 </td>
                 <td class="project-title">
-                    <p> ${item.price}</p> 
+                    <p> ${formatNumber(item.price)} VND</p> 
                 </td>  
-                <td class="project-actions">
-                    <input type="checkbox" id="checked_ck" value="${item.id}">
+                <td class="quantity">
+                <p><input type="number" min="1" max="9" id="${item.id}"  value="1"></p>
                 </td>
-           
-                
-             <td style="width:30px;"></td>
+                <td class="project-title">
+                    <p><input type="checkbox" autocomplete="off" id="checked_ck" value="${item.id}"> </p> 
+                </td>
+                <td style="width:20px;"></td>
             </tr>`;    
             });
             $('#list_service2').html(output); 
@@ -879,6 +931,9 @@ function list_service1()
 // }  --}}
 function insert_service(id)
 {
+    var r = confirm('Kiểm tra lại thông tin trước khi xác nhận')
+    if(r==true)
+    {
    // console.log(id);
     var arr=[];
     $(':checkbox:checked').each(function(i){
@@ -895,7 +950,7 @@ function insert_service(id)
         dataType: 'json',
         success: function (response) 
         {
-           // alert(response['mes']);
+           alert(response['mes']);
             console.log(response);
             var output=`
             <tr> 
@@ -905,7 +960,7 @@ function insert_service(id)
                 <th>Đơn giá</th>
                 <th style="width:30px;"></th>
                 <th>
-                <button type="button" onClick="list_service1()" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning"><img src="{{asset ('backend/icon/add.svg')}}"></button>
+                <button type="button" onClick="list_service1()" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning"><i class="fa fa-plus"> </i></button>
                 </th>
             </tr>`;
             $('tbody').html('');
@@ -921,7 +976,7 @@ function insert_service(id)
                     <p>${item.billing_quantity}<p>
                 </td>
                 <td class="project-title">
-                    <p>${item.billing_price}<p>
+                    <p>${formatNumber(item.billing_price)} VND<p>
                 </td>
                 <td class="project-title">
                     <button onClick="remove_service(${item.id_service},${item.id_billing})">Hủy</button>
@@ -932,16 +987,20 @@ function insert_service(id)
             `;    
             });
             output+=`
-            <tr> <td style="width:30px;"></td><td>Tổng tiền:</td>
-            <td></td><td></td>
-            <td>${response.total[0].total_actually}</td></tr>`;
+            <tr> <td style="width:30px;"></td><td colspan="2"><strong> Tổng tiền:</strong></td>
+        
+            <td colspan="2"><strong> ${formatNumber(response.total[0].total_actually)} VND </strong></td></tr>`;
             $('tbody').html(output); 
             
         }
     });
+    }else{}
 }
 function remove_service(id_service,id_billing)
 {
+    var r = confirm('Bạn có muốn hủy dịch vụ phát sinh này không ?')
+    if(r==true)
+    {
     $.ajax({
         url: '{{URL::to('/remove-service-actually')}}',
         type: 'POST',
@@ -959,7 +1018,7 @@ function remove_service(id_service,id_billing)
                 <th>Đơn giá</th>
                 <th style="width:30px;"></th>
                 <th>
-                <button type="button" onClick="list_service1()" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning"><img src="{{asset ('backend/icon/add.svg')}}"></button>
+                <button type="button" onClick="list_service1()" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning"><i class="fa fa-plus"></i></button>
                 </th>
             </tr>`;
             $('tbody').html('');
@@ -975,24 +1034,25 @@ function remove_service(id_service,id_billing)
                     <p>${item.billing_quantity}<p>
                 </td>
                 <td class="project-title">
-                    <p>${item.billing_price}<p>
+                    <p>${formatNumber(item.billing_price)} VND<p>
                 </td>
                 <td class="project-title">
                     <button onClick="remove_service(${item.id_service},${item.id_billing})">Hủy</button>
                 </td>
-           
                 <td style="width:30px;"></td>
             </tr>
             `;    
             });
             output+=`
-            <tr> <td style="width:30px;"></td><td>Tổng tiền:</td>
-            <td></td><td></td>
-            <td>${response.total[0].total_actually}</td></tr>`;
+            <tr> <td style="width:30px;"></td><td colspan="2"><strong> Tổng tiền: </strong></td>
+            <
+            <td colspan="2"><strong> ${formatNumber(response.total[0].total_actually)} VND</strong></td></tr>`;
             $('tbody').html(output); 
             
         } 
     });
+    alert('Hủy dịch vụ phát sinh thành công');
+    }else{}
 }
 $( document ).ready(function() {
     $('#insert_img_result').on('submit', function(event) {
@@ -1008,6 +1068,7 @@ $( document ).ready(function() {
             cache: false,
             processData: false,
             success: function(response) {
+                console.log(response);
             var output =``;
             response['data'].forEach(function (item) {
                 console.log(item);
@@ -1031,7 +1092,9 @@ $( document ).ready(function() {
 
     $('#insert_img_payment').on('submit', function(event) {
         event.preventDefault();
-      
+        var r = confirm('Hình ảnh thanh toán sau khi thêm chỉ được cập nhật ảnh mới, không thể xóa')
+        if(r = true)
+        {
         $.ajax({
             url: '{{URL::to('/save-img-payment')}}',
             method: "POST",
@@ -1042,6 +1105,7 @@ $( document ).ready(function() {
             cache: false,
             processData: false,
             success: function(response) {
+                console.log(response);
                 alert(response['mes']);
                 var output =``;
                 response['data'].forEach(function (item) {
@@ -1058,6 +1122,8 @@ $( document ).ready(function() {
             }
             
         });
+    }else{ }
+
     });
 
 });

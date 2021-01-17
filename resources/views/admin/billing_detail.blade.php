@@ -88,7 +88,7 @@
                             <div class="row m-b-lg">
                            
                             <div >  
-                              <center>  <h1 ><strong> Kết quả </strong> </h1>  </center>
+                              <center>  <h1 ><strong> Kết quả khám </strong> </h1>  </center>
                               
                             </div>
                            
@@ -100,7 +100,10 @@
                             <div>
                             @if(isset($data['document']))
                             @foreach($data['document'] as $v )
-                             <center> <img src="{{ asset($v->image_upload) }}" alt="" height="150" width="150"> </center>
+                             <center>
+                             <a target="_blank" href="{{ asset($v->image_upload) }}" class="imgpreview">
+                              <img src="{{ asset($v->image_upload) }}" alt="gallery thumbnail" height="150" width="150"> 
+                              </center>
                              @endforeach
                             @else
                             
@@ -122,6 +125,9 @@
     </div>
 <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
 <script>   
+function formatNumber(num) {
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
 function service_detail(id)
 {
    // console.log(id);
@@ -157,16 +163,16 @@ function service_detail(id)
                     <p>${item.service}<p>
                 </td>
                 <td class="project-title">
-                    <p>${item.price}<p>
+                    <p>${formatNumber(item.price)}<p>
                 </td>
                 <td style="width:30px;"></td>    
             </tr>`;
             sum +=parseInt(item.price);
             });
              output+=`
-            <tr> <td style="width:30px;"></td><td>Tổng tiền:</td>
-            <td></td>
-            <td>${sum}</td></tr>`;
+            <tr> <td style="width:30px;"></td><td colspan="2"><strong> Tổng tiền:</strong></td>
+            
+            <td><strong> ${formatNumber(sum)} </strong></td></tr>`;
             $('tbody').html(output);   
         }
     });
@@ -186,9 +192,9 @@ function customer_detail(id)
                 <th style="width:30px;"></th>
                 <th>Họ & Tên</th>
                 <th>Số điện thoại</th>
-                <th>địa chỉ</th>
+                <th>Địa chỉ</th>
                 <th>Ngày sinh</th>
-                <th>Giới tinh</th>
+                <th>Giới tính</th>
                 <th style="width:30px;"></th>
             </tr>`;
             $('tbody').html('');
@@ -236,9 +242,8 @@ function actually_detail(id)
             <tr> 
                 <th style="width:30px;"></th>
                 <th>Tên dịch vụ</th>
-                <th>Đơn giá</th>
                 <th>Số lượng</th>
-                <th>Tổng</th>
+                <th>Đơn giá</th>
                 <th style="width:30px;"></th>
             </tr>`;
             $('tbody').html('');
@@ -250,23 +255,18 @@ function actually_detail(id)
                     <p>${item.service}<p>
                 </td>
                 <td class="project-title">
-                    <p>${item.billing_price}<p>
-                </td>
-                <td class="project-title">
                     <p>${item.billing_quantity}<p>
                 </td>
                 <td class="project-title">
-                    <p>${item.billing_quantity}<p>
+                    <p>${formatNumber(item.billing_price)} VND<p>
                 </td>
-           
                 <td style="width:30px;"></td>
                 
             </tr>`;    
             });
             output+=`
-            <tr> <td style="width:30px;"></td><td>Tổng tiền:</td>
-            <td></td><td></td>
-            <td>${response.total[0].total_actually}</td></tr>`;
+            <tr><td style="width:30px;"></td><td  colspan="2"><strong> Tổng tiền:</strong></td>
+            <td ><strong>${formatNumber(response.total[0].total_actually)} VND </strong></td></tr>`;
 
             $('tbody').html(output); 
         }
@@ -287,7 +287,7 @@ function billing_detail(id)
         var output=`
             <tr> 
                 <th style="width:30px;"></th>
-                <<th>Mã đơn hàng</th>
+                <th>Mã đơn hàng</th>
                 <th>Thời gian hẹn </th>
                 <th>Trạng thái</th>
                 <th style="width:30px;"></th>
@@ -307,9 +307,9 @@ function billing_detail(id)
                  if(item.billing_status ==1)
             output+=`<td>Chờ xác nhận</td>`;
                 else if (item.billing_status==2)
-            output+=`<td>Lên kế hoạch</td>`;
+            output+=`<td>Đã xác nhận</td>`;
                 else if (item.billing_status==3)
-            output+=`<td>Chuyển nhượng</td>`;
+            output+=`<td>Đã chuyển khoản</td>`;
                 else if (item.billing_status==4)
             output+=`<td>Hoàn tất</td>`;
                 else

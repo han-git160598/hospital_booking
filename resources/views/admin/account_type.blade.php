@@ -17,20 +17,20 @@
             <div class="col-lg-12">
                 <div class="inqbox">
                 <div class="inqbox-title">
-                    <h5></h5>
+                    <h5><a class="btn btn-sm btn-primary" href="{{URL::to('/all-account-type')}}"> Danh sách </a> </h5>
                     <div class="inqbox-tools">
                         <button id="create_account_type" class="btn btn-primary btn-xs">Tạo loại account</button>
                     </div>
                 </div>
                 <div class="inqbox-content">
-                    <div class="row m-b-sm m-t-sm">
-                        
-                        <div class="col-md-11">
-                            <div class="input-group"><input type="text" placeholder="Tìm kiếm" class="input-sm form-control"> <span class="input-group-btn">
-                            <button type="button" class="btn btn-sm btn-primary"> <i class="fa fa-search"></i></button> </span>
-                            </div>
+                        <div class="row m-b-sm m-t-sm">
+                            
+                            <!-- <div class="col-md-11">
+                                <div class="input-group"><input type="text" placeholder="Tìm kiếm" class="input-sm form-control"> <span class="input-group-btn">
+                                <button type="button" class="btn btn-sm btn-primary"> <i class="fa fa-search"></i></button> </span>
+                                </div>
+                            </div> -->
                         </div>
-                    </div>
                     
                     <div class="project-list">
                         <table class="table table-hover">
@@ -78,13 +78,13 @@ $("#create_account_type").click( function(){
     <div class="inqbox-content">
     <div  class="form-horizontal">
         <div class="form-group">
-        <label class="col-sm-2 control-label">Loại tài khoản</label>
+        <label class="col-sm-2 control-label">Chức vụ (*)</label>
         <div class="col-sm-10"><input type="text"  id="type_account" class="form-control"></div>
         </div>
         <div class="hr-line-dashed"></div>
         
         <div class="form-group">
-        <label class="col-sm-2 control-label">Mô tả</label>
+        <label class="col-sm-2 control-label">Mô tả (*)</label>
         <div class="col-sm-10">
         <div id="ckeditor-inline2" contenteditable="true">
         <textarea id="wmd-input" name="post-text" class="wmd-input s-input bar0 js-post-body-field processed" data-post-type-id="2" cols="90" rows="10" tabindex="101" data-min-length=""></textarea>
@@ -118,15 +118,20 @@ function save_account_type()
 }
 function delete_account_type(id)
 {
-    var r=confirm('Waring! Bạn có muốn xóa không !!');
+    var r=confirm('Waring! Bạn có muốn xóa không ?');
     if(r==true)
     {
     $.ajax({
-        url: '{{URL::to('/delete-account-type')}}'+'/'+id,
-        type: 'GET',
+        url: '{{URL::to('/delete-account-type')}}',
+        type: 'POST',
+        data: {id:id},
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         dataType: 'json',
         success: function (response) 
         {
+            console.log(response);
+            if(response['mes']=='sucsses')
+            {
             var output=`
             <tr> 
                 <th style="width:30px;"></th>
@@ -135,7 +140,7 @@ function delete_account_type(id)
                 <th></th>
                 <th style="width:30px;"></th>
             </tr>`;
-            response.forEach(function (item) {
+            response['data'].forEach(function (item) {
             output+=`
             <tr>
                 <td  style="width:30px;"</td>
@@ -153,6 +158,10 @@ function delete_account_type(id)
             </tr>`;       
             });
             $('tbody').html(output);  
+            alert('Xóa chức vụ thành công');
+            }else{
+                alert(response['mes']);
+            }
         }
     }); 
     }else{
@@ -173,13 +182,13 @@ function edit_account_type(id)
         <div class="inqbox-content">
         <div  class="form-horizontal">
             <div class="form-group">
-            <label class="col-sm-2 control-label">Loại tài khoản</label>
+            <label class="col-sm-2 control-label"> Chức vụ (*)</label>
             <div class="col-sm-10"><input type="text" value="${response[0].type_account}" id="type_account_ud" class="form-control"></div>
             </div>
             <div class="hr-line-dashed"></div>
             
             <div class="form-group">
-            <label class="col-sm-2 control-label">Mô tả</label>
+            <label class="col-sm-2 control-label">Mô tả (*)</label>
             <div class="col-sm-10">
             <div id="ckeditor-inline2" contenteditable="true">
             <textarea id="wmd-input_ud" name="post-text" class="wmd-input s-input bar0 js-post-body-field processed" data-post-type-id="2" cols="90" rows="10" tabindex="101" data-min-length="">${response[0].description}</textarea>

@@ -89,6 +89,7 @@ function delete_service(id)
         {
             alert(response['mes']);
         }else{
+           
          var output=`
              <tr> 
                 <th>Tên dịch vụ</th>
@@ -115,6 +116,7 @@ function delete_service(id)
             </tr>`;    
             });
             $('tbody').html(output); 
+            alert('Xóa dịch vụ thành công')
         }   
         }
     });

@@ -25,7 +25,7 @@ class AccountTypeController extends Controller
         $check=DB::table('tbl_account_type')->where('type_account',$request->type_account)->count();
         if($check>0)
         {
-        $mes['mes']='Loại tài khoản đã tồn tại!';
+        $mes['mes']='Chức vụ này đã tồn tại';
         return json_encode($mes);     
         }
         $data = array();
@@ -35,10 +35,18 @@ class AccountTypeController extends Controller
         $mes['mes']='Thêm thành công!';
         return json_encode($mes);    
     }
-    public function delete_account_type($id)
+    public function delete_account_type(Request $request)
     {
-        DB::table('tbl_account_type')->where('id',$id)->delete();
-        $data=DB::table('tbl_account_type')->orderby('id','desc')->get();
+
+        $check = DB::table('tbl_account_admin')->where('id_type',$request->id)->count();
+        if($check > 0)
+        {
+            $data['mes']='Không thể xóa chức vụ này';
+            return json_encode($data);
+        }
+        DB::table('tbl_account_type')->where('id',$request->id)->delete();
+        $data['data'] = DB::table('tbl_account_type')->orderby('id','desc')->get();
+        $data['mes']="sucsses";
         return json_encode($data);
     }
     public function edit_account_type($id)
@@ -56,7 +64,7 @@ class AccountTypeController extends Controller
         $check=DB::table('tbl_account_type')->where('type_account',$request->type_account)->count();
         if($check>0)
         {
-        $mes['mes']='Loại tài khoản đã tồn tại!';
+        $mes['mes']='Chức vụ đã tồn tại';
         return json_encode($mes);     
         }
         $data = array();

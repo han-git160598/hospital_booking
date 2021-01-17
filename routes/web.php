@@ -120,7 +120,7 @@ Route::post('/update-slide','SlideController@update_slide');
 //QL Account type
 Route::get('/all-account-type','AccountTypeController@all_account_type');
 Route::get('/save-account-type','AccountTypeController@save_account_type');
-Route::get('/delete-account-type/{id}','AccountTypeController@delete_account_type');
+Route::post('/delete-account-type','AccountTypeController@delete_account_type');
 Route::get('/edit-account-type/{id}','AccountTypeController@edit_account_type');
 Route::get('/update-account-type/{id}','AccountTypeController@update_account_type');
 

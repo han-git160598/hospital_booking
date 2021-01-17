@@ -26,7 +26,8 @@ class AccountCustomerController extends Controller
     public function save_account_customer(Request $request)
     {  
         
-        if($request->allFiles()=='')
+        if($request->phone_active == '' || $request->full_name == '' || $request->address=='' 
+        || $request->password =='' )
         {
         $mes['mes']='Không được bỏ trống !';
         return json_encode($mes);     
@@ -34,7 +35,7 @@ class AccountCustomerController extends Controller
         $checkphone = DB::table('tbl_account_customer')->where('phone_active',$request->phone_active)->count();
         if($checkphone>0 )
         {
-        $mes['mes']='SDT đã tồn tại';
+        $mes['mes']='Số điện thoại này đã được đăng ký trước đó';
         return json_encode($mes);   
         }
         $data =array();
@@ -58,7 +59,7 @@ class AccountCustomerController extends Controller
         $check = DB::table('tbl_billing_billing')->where('id_customer',$request->id)->get();
         if(count($check)>0)
         {
-            $data['mes']='Không thể xóa khách hàng này';
+            $data['mes']='Không thể xóa khách hàng này vì đã có đơn hàng';
             return json_encode($data);
         }
         DB::table('tbl_account_customer')->where('id',$request->id)->delete();

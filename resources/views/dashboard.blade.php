@@ -5,8 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title> HOSPITAL BOOKING </title>
-        <!-- img -->
-   
+     
         <!--  -->
         <link href="{{ asset('backend/css/bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ asset('backend/fonts/font-awesome/css/font-awesome.css')}}" rel="stylesheet">
@@ -180,7 +179,7 @@
                            
                                     <li class="divider"></li>
                                      
-                                    <li><a onClick="show_modal()" class="animated animated-short fadeInUp"><i class="fa fa-sign"></i> Thay đổi mật khẩu </a></li>
+                                    <li><a onClick="show_modal()" class="animated animated-short fadeInUp"><i class="fa fa-key"></i> Thay đổi mật khẩu </a></li>
                                     <li><a href="{{URL::to('/logout-admin')}}" class="animated animated-short fadeInUp"><i class="fa fa-sign-out"></i> Đăng xuất </a></li>
                                 </ul>
                             </li>
@@ -188,6 +187,22 @@
                     </nav>
                 </div>
                 <!-- END HEADER -->
+
+<!-- Simple pop-up dialog box containing a form -->
+<dialog id="change_pass_dialog">
+  <form method="dialog">
+    <h3><strong>Thay đổi mật khẩu thành công </strong></h2>
+    
+    <center>  <button class="btn btn-success btn-sm"> OK </button> </center>
+    
+  </form>
+</dialog>
+
+<menu>
+  <button id="updateDetails">Update details</button>
+</menu>
+
+
     <div id="change_password" class="modal fade">
             <div class="modal-dialog">
              <div class="modal-content">
@@ -269,6 +284,8 @@
             <script src="{{ asset('backend/js/plugins/ckeditor/ckeditor.js')}}"></script>
             <!-- Summernote Plugin -->
             <script src="{{ asset('backend/js/plugins/summernote/summernote.min.js')}}"></script>
+    
+
             <script>
             $(document).ready(function () {
                 "use strict";
@@ -285,12 +302,13 @@
             $('#change_password').modal('show');
             }
             $( document ).ready(function() {
-                $('#change_password').on('hidden.bs.modal', function () {
-                $(this).find("input,textarea").val('').end();
+                $('#change_password').on('hidden.bs.modal', function(){
+                $(this).find('form')[0].reset();
                 });
 
             $('#change_password_form').on('submit', function(event) {
                     event.preventDefault();
+                   
                     var new_password = $('#new_password').val();
                     var confirm_password = $('#confirm_password').val();
                    // console.log(new_password); console.log(confirm_password);
@@ -306,7 +324,11 @@
                         processData: false,
                         success: function(response) 
                         {
-                            alert(response['mes']);
+                            
+                            if(response['mes']== 'Thay đổi mật khẩu thành công')
+                            {
+                                change_pass_dialog.showModal()
+                            }else{alert(response['mes']);}
                         }
                     });
                     $('#change_password').modal('hide');
@@ -385,7 +407,9 @@
             }
 
 
-        </script>        
-                
+        </script>     
+      
+            
+    
     </body>
 </html>

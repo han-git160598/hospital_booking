@@ -21,7 +21,7 @@
                 <div class="inqbox-content">
                 <span class="text-muted big pull-right"><a href="{{URL::to('/all-billing')}}" ></a></span>
                     <h2> @if($data['billing'][0]->billing_type == 1)
-                                <strong>Khám cá nhân <i class="fa fa-clock-o"></i></strong>
+                                <strong>Khám cá nhân </strong>
                             @else
                                 <strong>Khám hộ</strong>
                             @endif
@@ -67,7 +67,7 @@
                                             <td><p> {{$v->billing_code}}</p></td>
                                             <td  id="date_time">{{$v->billing_date}} | {{$v->billing_time}} 
                                             @if($v->billing_status == 1)
-                                            <button  onClick="edit_time()"  class="btn btn-primary btn-sm"> Sửa</button>
+                                            <button  onClick="edit_time()"  class="btn btn-success btn-sm"> Sửa</button>
                                             @endif
                                             </td>
                                             <td id="status_bill">
@@ -176,16 +176,18 @@
                                     <!-- {{--  <!-- Simple pop-up dialog box containing a form -->  --}} -->
                                     <dialog id="favDialog">
                                     <form method="dialog">
-                                        <tr><td>
-                                        <label>Vui lòng nhập lý do hủy đơn !</label>
-                                        </td></tr>
+                                     
+                                        <h2><strong> Vui lòng nhập lý do hủy đơn !</strong></h2>
+                                     
                                         <tr><td>
                                         <textarea id="bill_comment" rows="4" cols="50"></textarea>
                                         </td></tr>
+                                       
                                         <menu>
                                         <button>Từ chối</button>
                                         <button onClick="cancel_order({{$data['billing'][0]->id}})">Hoàn thành</button>
                                         </menu>
+                                        
                                     </form>
                                     </dialog>
                                     
@@ -229,7 +231,7 @@
                             <form id="insert_img_payment" enctype="multipart/form-data">
                             <input type="file" name ="img_payment"></br>
                             <input type="hidden" id="id_billing1" name ="id_billing" value="{{$data['billing'][0]->id}}">
-                            <button type="submit" class="btn btn-primary btn-sm btn-block">  Tải hình lên </button>
+                            <button type="submit" class="btn btn-primary btn-sm btn-block"><i class="fa fa-upload"></i>  Tải hình lên </button>
                             </form>
                             <div id="show_img_payment">
                             <div class="hr-line-dashed"></div>     
@@ -273,7 +275,7 @@
                                 <form id="insert_img_result" enctype="multipart/form-data">
                                 <input type="file" name ="img_billing_document"></br>
                                 <input type="hidden" id="id_billing" name ="id_billing" value="{{$data['billing'][0]->id}}">
-                                <button type="submit" class="btn btn-primary btn-sm btn-block">  Tải hình lên </button>
+                                <button type="submit" class="btn btn-primary btn-sm btn-block"><i class="fa fa-upload"></i>  Tải hình lên </button>
                                 </form>
                                 <div class="pre-scrollable">
                                 <div id="show_img">
@@ -535,11 +537,12 @@ function actually_detail(id)
                 <td class="project-title">
                     <p>${item.billing_quantity}<p>
                 </td>
+                
                 <td class="project-title">
                     <p>${formatNumber(item.billing_price)} VND<p>
                 </td>
-                <td class="project-title">
-                    <button onClick="remove_service(${item.id_service},${item.id_billing})">Hủy</button>
+                <td >
+                    <button type="button" class="btn btn-success btn-sm" onClick="remove_service(${item.id_service},${item.id_billing})"> Hủy </button>
                 </td>
               
             </tr>
@@ -588,7 +591,7 @@ function billing_detail(id)
                     ${item.billing_date} | ${item.billing_time}`;
                 if(item.billing_status ==1)
                  output+=`
-                    <button onClick="edit_time()"  class="btn btn-primary btn-sm"> Sửa </button>`;
+                    <button onClick="edit_time()"  class="btn btn-success btn-sm"> Sửa </button>`;
                  output+=`
                 </td>`;
                  if(item.billing_status ==1)
@@ -813,7 +816,7 @@ function update_billing_date(id)
                     <p>${item.billing_date} | ${item.billing_time}`; 
                     if(item.billing_status ==1)
                  output+=`
-                    <button onClick="edit_time()"  class="btn btn-primary btn-sm"> Sửa</button>`;
+                    <button onClick="edit_time()"  class="btn btn-success btn-sm"> Sửa</button>`;
                  output+=`
                 </td>
                     
@@ -855,7 +858,7 @@ function list_service1()
                 <th style="width:20px;"></th>
                 <th >Tên dịch vụ</th>
                 <th>Giá tiền</th>
-                <th>Số lượng</th>
+    
                 <th style="width:30px;"></th>
                 <th style="width:20px;"></th>
       
@@ -872,9 +875,7 @@ function list_service1()
                 <td class="project-title">
                     <p> ${formatNumber(item.price)} VND</p> 
                 </td>  
-                <td class="quantity">
-                <p><input type="number" min="1" max="9" id="${item.id}"  value="1"></p>
-                </td>
+            
                 <td class="project-title">
                     <p><input type="checkbox" autocomplete="off" id="checked_ck" value="${item.id}"> </p> 
                 </td>
@@ -979,7 +980,7 @@ function insert_service(id)
                     <p>${formatNumber(item.billing_price)} VND<p>
                 </td>
                 <td class="project-title">
-                    <button onClick="remove_service(${item.id_service},${item.id_billing})">Hủy</button>
+                    <button type="button" class="btn btn-success btn-sm"  onClick="remove_service(${item.id_service},${item.id_billing})">Hủy</button>
                 </td>
            
                 <td style="width:30px;"></td>
@@ -1037,7 +1038,7 @@ function remove_service(id_service,id_billing)
                     <p>${formatNumber(item.billing_price)} VND<p>
                 </td>
                 <td class="project-title">
-                    <button onClick="remove_service(${item.id_service},${item.id_billing})">Hủy</button>
+                    <button type="button" class="btn btn-success btn-sm" onClick="remove_service(${item.id_service},${item.id_billing})">Hủy</button>
                 </td>
                 <td style="width:30px;"></td>
             </tr>
@@ -1161,8 +1162,9 @@ function remove_img_document(id)
         }
     });
     }else{}
-    
 }
+
+
 </script>
   
 @endsection

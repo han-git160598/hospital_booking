@@ -21,7 +21,7 @@
              <div class="modal-content">
               <div class="modal-header">
                <button type="button" class="close" data-dismiss="modal">&times;</button>
-               <h4 class="modal-title"> Quyền bạn có thể thêm </h4>
+               <h4 class="modal-title"> Danh sách quyền hạn </h4>
               </div>
               <div class="modal-body">
                <form method="post" id="insert_form">
@@ -258,10 +258,10 @@ $.ajax({
             <form method="dialog">
                 <p><label>Mật khẩu:
                 </label></p>
-                <input type="password" minlength="6"  id="pass_admin" name="pass_admin">
+                <input type="password"  id="pass_admin" name="pass_admin">
                 <p><label>Nhập lại mật khẩu:
                 </label></p>
-                <input type="password" minlength="6"  id="pass_admin_again" name="pass_admin_again">
+                <input type="password"   id="pass_admin_again" name="pass_admin_again">
                 <p><label>
                 <smal id="erro_pass"></smal>
                 </label></p>
@@ -361,7 +361,7 @@ $.ajax({
             </div>
             <div class="col-lg-3">
                 <div class="project-manager">
-                <h1 > Phân quyền </h1>`;
+                <h1 ><strong> Phân quyền </strong></h1>`;
                 output+=`   <div id="list_premission">`;
               // console.log(item[1]);
                 //console.log(item[0]);
@@ -372,11 +372,10 @@ $.ajax({
                 `;
                 arr_author.push(v.id);
                 });
-                
                 output+=`  </div>`;
                 output+=`
                 <div class="text-center m-t-md">
-                    <a onClick="list_permission(${item[0].id})" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning">Thêm quyền</a>
+                    <a onClick="list_permission(${item[0].id})" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning"> Danh sách </a>
                 </div>
                 </div>
             </div>
@@ -472,8 +471,9 @@ function update_password_admin(id)
     var pass_admin_again1= $('#pass_admin_again').val();
     if(pass_admin_again1 !=pass_admin1){
     $('#erro_pass').html('Mật khẩu không trùng khớp');
-    alert(' Mật khẩu không trùng khớp')
-    }else{
+    alert(' Mật khẩu không trùng khớp');
+    }
+    else{
 
         $.ajax({
         url: '{{URL::to('/reset-password-admin')}}',
@@ -483,7 +483,7 @@ function update_password_admin(id)
         dataType: 'json',
         success: function (response) 
         {
-           // console.log(response);
+            console.log(response);
             alert(response['mes']);    
 
         }
@@ -522,6 +522,7 @@ function popup_remove_authorize(id_pre,id_admin)
 
 function remove_authorize(id_pre,id_admin)
 {
+    var arr_author2=[];
    // console.log(id_pre);console.log(id_admin);
 var r=confirm('Waring! Bạn có muốn xóa không !!');
 if(r==true)
@@ -541,13 +542,15 @@ if(r==true)
             output+=`
             <p><span><button onClick="remove_authorize(${item.id},${item.id_admin})" class="label label-primary" ><i class="fa fa-remove"></i></button> ${item.description}</span></p>
             `;
+            arr_author2.push(item.id);
             });   
+            arr_author=arr_author2;
             $('#list_premission').html(output); 
         }
         });
         alert('Xóa quyền thành công')
     }else{  }
-  list_permission(id_admin); 
+  //list_permission(id_admin); 
 }
 $('#create_account_admin').click(function(){
    //  document.getElementById("form_admin").reset();
@@ -753,7 +756,7 @@ function delete_account_admin(id)
 function search_account_admin()
 {
    
-     setInterval(function() {
+   //  setInterval(function() {
        
 
     var result = $('#search_account_admin').val();
@@ -809,7 +812,7 @@ function search_account_admin()
         $('tbody').html(output);
         }
      });
-       }, 500); //5 seconds
+      // }, 500); //5 seconds
          
 }
 

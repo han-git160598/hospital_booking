@@ -121,6 +121,11 @@ class AccountAdminController extends Controller
         $mes['mes']='Vui lòng không để trống !';
         return json_encode($mes);    
         }
+        if(strlen($request->pass_admin) < 6)
+        {
+        $mes['mes']='Mật khẩu phải tối thiểu 6 kí tự ';
+        return json_encode($mes);  
+        }
         $data= array();
         $data['password']=md5($request->pass_admin);
         DB::table('tbl_account_admin')->where('id',$request->id_admin)->update($data);

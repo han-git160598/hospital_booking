@@ -19,7 +19,7 @@
                 <div class="inqbox-title">
                     <h5></h5>
                     <div class="inqbox-tools">
-                          <button type="button" name="x" id="x" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning">Thêm Slide</button>
+                          <button type="button" name="x" id="x" data-toggle="modal" data-target="#add_slide_Modal" class="btn btn-warning">Thêm Slide</button>
                     </div>
                 </div>
                 <div class="inqbox-content">
@@ -32,7 +32,7 @@
                     
                     <div class="project-list">
                     {{--  model thêm  --}}
-    <div id="add_data_Modal" class="modal fade">
+    <div id="add_slide_Modal" class="modal fade">
             <div class="modal-dialog">
              <div class="modal-content">
               <div class="modal-header">
@@ -146,10 +146,9 @@
 $( document ).ready(function() {
 
      //clear data model
-     $('#add_data_Modal').on('hidden.bs.modal', function () {
-    $(this).find("input,textarea").val('').end();
+    $('#add_slide_Modal').on('hidden.bs.modal', function(){
+    $(this).find('form')[0].reset();
     });
-    
   
     $('#insert_category_form').on('submit', function(event) {
         event.preventDefault();
@@ -189,7 +188,7 @@ $( document ).ready(function() {
                     </td>
                     <td class="project-actions">
                     <button onClick="edit_slide(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
-                </td>
+                    </td>
                     <td class="project-actions">
                         <button onClick="delete_slide(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                     </td>
@@ -217,7 +216,8 @@ $.ajax({
         success: function (response) 
         {   
             var output=`
-            <input type="hidden" name="id_slide" value="${id}" class="form-control" /> `;
+            <input type="hidden" name="id_slide" value="${id}" class="form-control" /> 
+            <img src="${response[0].image_upload}" height="150" width="150" alt="Image">`;
            $('#id_slide').html(output); 
         }
     });
@@ -236,7 +236,7 @@ $('#update_category_form').on('submit', function(event) {
             processData: false,
             success: function(data) 
             {
-            // console.log(data);
+             console.log(data);
                     alert(data['mes']);
                 if(data['data'] == 'faild')
                 {
@@ -263,7 +263,7 @@ $('#update_category_form').on('submit', function(event) {
                     <td >
                     <img src="${item.image_upload}" height="150" width="150" alt="Image">
                     </td>
-                        <td class="project-actions">
+                    <td class="project-actions">
                         <button onClick="edit_slide(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
                     </td>
                     <td class="project-actions">
@@ -292,6 +292,7 @@ function delete_slide(id)
         dataType: 'json',
         success: function (response) 
         {
+           // console.log(response);  
             var output=`
             <tr> 
                 <th style="width:30px;"></th>
@@ -305,7 +306,7 @@ function delete_slide(id)
             response.forEach(function (item) {
                
             output+=`
-            <tr> <th style="width:30px;"></th>
+            <tr> <td style="width:30px;"></td>
                 <td  style="width:30px;"></td>
                 <td class="project-title">
                     <p>${item.order_slide}<p>
@@ -319,14 +320,12 @@ function delete_slide(id)
                 <td class="project-actions">
                     <button onClick="delete_slide(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                 </td>
-                
-                
-                
             </tr>`;    
             });
             $('tbody').html(output);   
         }
     }); 
+    alert('Xóa slide thành công');
     }else{
         
     }

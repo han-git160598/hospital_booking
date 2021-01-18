@@ -36,12 +36,17 @@ class NewsController extends Controller
         $data['image_upload']=$url;
         DB::table('tbl_news')->insert($data);
         $mes['mes']='Thêm bài viết thành công';
-        $mes['data']= DB::table('tbl_news')->orderby('id','desc')->get();
+        $mes['data']= DB::table('tbl_news')->orderby('id','desc')   ->get();
         return json_encode($mes); 
     }
     public function delete_news($id)
     {
+        $image_path = DB::table('tbl_news')->where('id',$id)->get();
+       // return json_encode($image_path);
         DB::table('tbl_news')->where('id',$id)->delete();
+        if (file_exists('../public/'. $image_path[0]->image_upload)) {
+          @unlink('../public/'. $image_path[0]->image_upload);
+        }
         $data = DB::table('tbl_news')->orderby('id','desc')->get();
         return json_encode($data);
     } 

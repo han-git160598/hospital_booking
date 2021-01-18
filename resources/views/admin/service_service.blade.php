@@ -116,7 +116,7 @@ function delete_service(id)
             </tr>`;    
             });
             $('tbody').html(output); 
-            alert('Xóa dịch vụ thành công')
+            alert('Xóa dịch vụ thành công');
         }   
         }
     });
@@ -219,6 +219,8 @@ function update_service(id)
 }
 function disable_service(id)
 {
+    var r = confirm('Bạn có muốn vô hiệu hóa dịch vụ này')
+    if(r = true){
     $.ajax({
         url: '{{URL::to('/disable-service-service')}}'+'/'+id,
         type: 'GET',
@@ -251,8 +253,11 @@ function disable_service(id)
             </tr>`;    
             });
             $('tbody').html(output);        
+
         }
     });
+    alert('Vô hiệu hóa dịch vụ thành công');
+    }else{}
 }
 
 function search_service()

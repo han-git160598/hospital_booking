@@ -59,31 +59,28 @@ class SlideController extends Controller
     }
     public function update_slide(Request $request)
     {
-      $slide = DB::table('tbl_slide') ->where('id',$request->id)->get();
+      $slide = DB::table('tbl_slide') ->where('id',$request->id_slide)->get();
       $image = $request->file('img_slide_ud');
-      if($request->stt_slide_ud =='' || !isset($image))
+      if($request->stt_slide_ud =='')
         {
-        $mes['mes']='Vui lòng điền đủ trường!';
+        $mes['mes']='Vui lòng điền số thứ tự !';
         $mes['data']='faild';
         return json_encode($mes);    
         }
-      // $checkt =  DB::table('tbl_slide')
-      // ->whereNotIn('order_slide',$slide[0]->order_slide)
-      // ->get();
-      // if(count($checkt) > 0 )
-      // {
-      //   $mes['mes']='Số thứ tự đã tồn tại';
-      //   $mes['data']='faild';
-      //   return json_encode($mes);     
-      // } 
-        // $validation = Validator::make($request->all(), [
-        // 'img_slide_ud' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
-        // ]);
-        
+        if(!isset($image))
+        {
+          $data['order_slide']=$request->stt_slide_ud;
+          DB::table('tbl_slide')->where('id',$request->id_slide)->update($data);
+          $mes['mes']='Cập nhật Slide thành công';
+          $mes['data']= DB::table('tbl_slide')->orderby('id','desc')->get();
+          return json_encode($mes); 
+        }
         $new_name = rand() . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('images/slide/'), $new_name);
         $url='images/slide/'.$new_name;
-
+        if (file_exists('../public/'. $slide[0]->image_upload)) {
+          @unlink('../public/'. $slide[0]->image_upload);
+        }
         $data['order_slide']=$request->stt_slide_ud;
         $data['image_upload']=$url;
         DB::table('tbl_slide')->where('id',$request->id_slide)->update($data);
@@ -93,7 +90,12 @@ class SlideController extends Controller
     }
     public function delete_slide($id)
     {
+       
+        $image_path = DB::table('tbl_slide')->where('id',$id)->get();
         $a= DB::table('tbl_slide')->where('id',$id)->delete();
+        if (file_exists('../public/'. $image_path[0]->image_upload)) {
+          @unlink('../public/'. $image_path[0]->image_upload);
+        }
         $data = DB::table('tbl_slide')->orderby('id','desc')->get();
         return json_encode($data);
     }

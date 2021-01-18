@@ -19,7 +19,7 @@
                 <div class="inqbox-title">
                   
                     <div class="inqbox-tools">
-                        <a href="{{URL::to('/add-service-service')}}" class="btn btn-primary">Tạo sản phẩm</a>
+                        <a href="{{URL::to('/add-service-service')}}" class="btn btn-primary"> Tạo dịch vụ </a>
                     </div>
                 </div>
                 <div class="inqbox-content">
@@ -67,6 +67,9 @@
 <script>
 function enable_service(id)
 {
+    var r = confirm('Bạn có muốn khôi phục dịch vụ này')
+    if(r = true)
+    {
     console.log(id);
     $.ajax({
         url: '{{URL::to('/enable-service-service')}}'+'/'+id,
@@ -100,6 +103,8 @@ function enable_service(id)
             $('tbody').html(output);        
         }
     });
+    alert('Khôi phục dịch vụ thành công');
+    }else{}
 }
 function search_service_disable()
 {

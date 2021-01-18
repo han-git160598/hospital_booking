@@ -311,8 +311,8 @@ class BillingController extends Controller
     {
         $image_path = DB::table('tbl_billing_document')->where('id',$request->id)->get();
         DB::table('tbl_billing_document')->where('id',$request->id)->delete();
-        if (file_exists("images/slide/" . $image_path[0]->image_upload)) {
-            unlink("images/slide/" . $image_path[0]->image_upload);
+        if (file_exists('../public/'. $image_path[0]->image_upload)) {
+            @unlink('../public/'. $image_path[0]->image_upload);
         }
         $data['mes']='Xóa hình ảnh thành công';
         $data['data']=DB::table('tbl_billing_document')->where('id_billing',$request->id_billing)->get();
@@ -320,17 +320,18 @@ class BillingController extends Controller
     }
     public function save_img_payment(Request $request)
     {
-        
+        $payed = DB::table('tbl_billing_billing')->where('id',$request->id_billing)->get();
         $image = $request->file('img_payment');
         $new_name = rand() . '.' . $image->getClientOriginalExtension();
 
         $image->move(public_path('images/slide/'), $new_name);
         $url='images/slide/'.$new_name;
-        
-        
         $data = array();
         $data['payment_image']=$url;
         DB::table('tbl_billing_billing')->where('id',$request->id_billing)->update($data);
+        if (file_exists('../public/'. $payed[0]->payment_image)) {
+            @unlink('../public/'. $payed[0]->payment_image);
+        }
         $mes['mes']='Thêm hình ảnh thành công';
         $mes['data'] = DB::table('tbl_billing_billing')->where('id',$request->id_billing)->get();
     

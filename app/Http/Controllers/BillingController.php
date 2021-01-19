@@ -32,26 +32,46 @@ class BillingController extends Controller
     }
     public function order_billing_detail($id)
     { 
-       // dd($id);
+        $total = DB::table('tbl_billing_actually')->where('id_billing',$id)
+        ->select([DB::raw("SUM(billing_price) as total_actually")])
+        ->groupBy('id_billing')
+        ->get()
+        ->toArray(); //total_actually
+     //   dd($total);
+        if(empty($total))
+        {
+        $data= DB::table('tbl_billing_detail')    
+        ->where('id_billing',$id)
+        ->select([DB::raw("SUM(billing_price) as total_service")])
+        ->groupBy('id_billing')
+        ->get();
+         $total_billing =$data[0]->total_service ;
+        }else{
+        $data= DB::table('tbl_billing_detail')    
+        ->where('id_billing',$id)
+        ->select([DB::raw("SUM(billing_price) as total_service")])
+        ->groupBy('id_billing')
+        ->get();
+         $total_billing = $total[0]->total_actually + $data[0]->total_service ; 
+        }
+        //   dd($total_billing);
         $a = $id;
         $model = new AuthModel;
         $model->AuthLogin();
         $permission=$model->permission();
         $id = session::get('id');
-      //  dd($a);
+        //  dd($a);
         $data['document'] = DB::table('tbl_billing_billing')    
         ->join('tbl_billing_document','tbl_billing_document.id_billing','=','tbl_billing_billing.id')
         ->where('tbl_billing_billing.id',$a)
         ->select('image_upload','tbl_billing_document.id_billing','tbl_billing_document.id')
         ->orderby('tbl_billing_document.id','desc')
         ->get();
-         $data['billing'] = DB::table('tbl_billing_billing')    
-      //  ->join('tbl_billing_document','tbl_billing_document.id_billing','=','tbl_billing_billing.id')
+
+        $data['billing'] = DB::table('tbl_billing_billing')    
         ->where('tbl_billing_billing.id',$a)
         ->get();
-    //   dd($data);
-       // return json_encode($data); 
-        return view('admin.order_billing.order_billing_detail',compact('data','permission'));
+        return view('admin.order_billing.order_billing_detail',compact('data','permission','total_billing'));
     }
     public function cancel_bill($id,Request $request)
     {  
@@ -157,7 +177,6 @@ class BillingController extends Controller
     {
         $data=array();
         $arr = $request->arrayservice;
-       
         foreach($arr as  $k => $v) 
         {   
             $price = DB::table('tbl_service_service')->where('id',$v)->get();
@@ -166,21 +185,31 @@ class BillingController extends Controller
             $data['billing_price']=$price[0]->price;
             DB::table('tbl_billing_actually')->insert($data); 
         }
-        // $param = DB::table('tbl_billing_actually')    
-        // ->join('tbl_billing_billing','tbl_billing_billing.id','=','tbl_billing_actually.id_billing')
-        // ->join('tbl_service_service','tbl_service_service.id','=','tbl_billing_actually.id_service')
-        // ->where('tbl_billing_actually.id_billing',$request->id_billing)
-        // ->select('service','price','billing_quantity','id_billing','id_service')
-        // ->get();
         $param['service'] = DB::table('tbl_billing_actually')    
         ->join('tbl_billing_billing','tbl_billing_billing.id','=','tbl_billing_actually.id_billing')
         ->join('tbl_service_service','tbl_service_service.id','=','tbl_billing_actually.id_service')
         ->where('tbl_billing_actually.id_billing',$request->id_billing)
         ->get();
         $param['total'] = DB::table('tbl_billing_actually')->where('id_billing',$request->id_billing)
+        ->select([DB::raw("SUM(billing_price) as total_actually")])->groupBy('id_billing')->get();
+        //// total_billing //////////////////////
+        $total_actually = DB::table('tbl_billing_actually')->where('id_billing',$request->id_billing)
         ->select([DB::raw("SUM(billing_price) as total_actually")])
-        ->groupBy('id_billing')
-        ->get();
+        ->groupBy('id_billing')->get()->toArray(); //total_actually
+        if(empty($total_actually))
+        {
+        $total_service= DB::table('tbl_billing_detail')    
+        ->where('id_billing',$request->id_billing)
+        ->select([DB::raw("SUM(billing_price) as total_service")])->groupBy('id_billing')->get();
+         $total_billing =$data[0]->total_service ;
+        }else{
+        $total_service= DB::table('tbl_billing_detail')    
+        ->where('id_billing',$request->id_billing)
+        ->select([DB::raw("SUM(billing_price) as total_service")])->groupBy('id_billing')->get();
+         $total_billing = $total_actually[0]->total_actually + $total_service[0]->total_service ; 
+        }
+        ///////////////////////////////////////////////////////////////////////
+        $param['total_biliing']=$total_billing;
         $param['mes']='Thêm dịch vụ phát sinh thành công';
         return json_encode($param);    
         
@@ -201,20 +230,34 @@ class BillingController extends Controller
     {
         DB::table('tbl_billing_actually')->where('id_service',$request->id_service)
         ->where('id_billing',$request->id_billing)->delete();
+
         $data['service'] = DB::table('tbl_billing_actually')    
         ->join('tbl_billing_billing','tbl_billing_billing.id','=','tbl_billing_actually.id_billing')
         ->join('tbl_service_service','tbl_service_service.id','=','tbl_billing_actually.id_service')
-        ->where('tbl_billing_actually.id_billing',$request->id_billing)
-        ->get();
+        ->where('tbl_billing_actually.id_billing',$request->id_billing)->get();
         $data['total'] = DB::table('tbl_billing_actually')->where('id_billing',$request->id_billing)
         ->select([DB::raw("SUM(billing_price) as total_actually")])
-        ->groupBy('id_billing')
-        ->get();
-        // $data = DB::table('tbl_billing_actually')    
-        // ->join('tbl_billing_billing','tbl_billing_billing.id','=','tbl_billing_actually.id_billing')
-        // ->join('tbl_service_service','tbl_service_service.id','=','tbl_billing_actually.id_service')
-        // ->where('tbl_billing_actually.id_billing',$request->id_billing)
-        // ->get();
+        ->groupBy('id_billing') ->get();
+
+         //// total_billing //////////////////////
+         $total_actually = DB::table('tbl_billing_actually')->where('id_billing',$request->id_billing)
+         ->select([DB::raw("SUM(billing_price) as total_actually")])
+         ->groupBy('id_billing')->get()->toArray(); //total_actually
+         
+         if(empty($total_actually))
+         {
+         $total_service= DB::table('tbl_billing_detail')    
+         ->where('id_billing',$request->id_billing)
+         ->select([DB::raw("SUM(billing_price) as total_service")])->groupBy('id_billing')->get();
+        $total_billing =$total_service[0]->total_service ;
+         }else{
+         $total_service= DB::table('tbl_billing_detail')    
+         ->where('id_billing',$request->id_billing)
+         ->select([DB::raw("SUM(billing_price) as total_service")])->groupBy('id_billing')->get();
+          $total_billing = $total_actually[0]->total_actually + $total_service[0]->total_service ; 
+         }
+         ///////////////////////////////////////////////////////////////////////
+         $data['total_biliing']=$total_billing;
         return json_encode($data);
     }
 
@@ -334,8 +377,40 @@ class BillingController extends Controller
         }
         $mes['mes']='Thêm hình ảnh thành công';
         $mes['data'] = DB::table('tbl_billing_billing')->where('id',$request->id_billing)->get();
-    
         return json_encode($mes); 
     }
-    
+    public function update_billing_quanlity(Request $request)
+    {
+        $service = DB::table('tbl_service_service')->where('id',$request->id_service)->get();
+        $data = array();
+        $data['billing_quantity']= $request->billing_quantity;
+        $data['billing_price']=$service[0]->price * $request->billing_quantity;
+        DB::table('tbl_billing_actually')->where('id_billing',$request->id_billing)
+        ->where('id_service',$request->id_service)->update($data);
+      
+
+        //// total_billing //////////////////////
+        $total_actually = DB::table('tbl_billing_actually')->where('id_billing',$request->id_billing)
+        ->select([DB::raw("SUM(billing_price) as total_actually")])
+        ->groupBy('id_billing')->get()->toArray(); //total_actually
+        if(empty($total_actually))
+        {
+        $total_service= DB::table('tbl_billing_detail')    
+        ->where('id_billing',$request->id_billing)
+        ->select([DB::raw("SUM(billing_price) as total_service")])->groupBy('id_billing')->get();
+        $total_billing =$data[0]->total_service ;
+        }else{
+        $total_service= DB::table('tbl_billing_detail')    
+        ->where('id_billing',$request->id_billing)
+        ->select([DB::raw("SUM(billing_price) as total_service")])->groupBy('id_billing')->get();
+        $total_billing = $total_actually[0]->total_actually + $total_service[0]->total_service ; 
+        }
+        ///////////////////////////////////////////////////////////////////////
+        
+        $data['total_biliing']=$total_billing;
+        $data['total']=$total_actually[0]->total_actually;
+        
+        return json_encode($data);
+    }
+
 }

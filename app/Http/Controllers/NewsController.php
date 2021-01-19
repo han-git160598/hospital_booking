@@ -9,9 +9,6 @@ class NewsController extends Controller
 {
     public function save_news(Request $request)
     {
-        // $validation = Validator::make($request->all(), [
-        //     'img_news' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
-        // ]);
         $check = DB::table('tbl_news')->where('title',$request->name_news)->get();
         if(count($check) > 0 )
         {
@@ -19,7 +16,7 @@ class NewsController extends Controller
         $mes['data']= 'faild';
         return json_encode($mes); 
         }
-        if($request->content_news ==''|| $request->name_news =='' )
+        if($request->content_news ==''|| $request->name_news =='' || $request->file('img_news')==null)
         {
         $mes['mes']='Vui lòng điền đầy đủ thông tin';
         $mes['data']= 'faild';

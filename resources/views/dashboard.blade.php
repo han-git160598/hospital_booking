@@ -194,13 +194,10 @@
     <h3><strong>Thay đổi mật khẩu thành công </strong></h2>
     
     <center>  <button class="btn btn-success btn-sm"> OK </button> </center>
-    
   </form>
 </dialog>
 
-<menu>
-  <button id="updateDetails">Update details</button>
-</menu>
+
 
 
     <div id="change_password" class="modal fade">
@@ -215,25 +212,24 @@
             <form id="change_password_form" enctype="multipart/form-data">
             {{ csrf_field() }}
             <label> Mật khẩu cũ (<font style="color: red">*</font>)</label>
+            <a type="button" onclick="show_old_password()" href="#"><i class="fa fa-eye"></i></a>
             <input type="password" name="old_password" id="old_password" class="form-control" />
             <br/>
              <label> Mật khẩu mới (<font style="color: red">*</font>)</label>
+             <a type="button" onclick="show_new_password()" href="#"><i class="fa fa-eye"></i></a>
              <input type="password" onkeyup="checkPass()" name="new_password" id="new_password" class="form-control" />
             <br/>
             <label> Xác nhận mật khẩu  (<font style="color: red">*</font>)</label>
+            <a type="button" onclick="show_confirm_password()" href="#"><i class="fa fa-eye"></i></a>
             <input type="password" onkeyup="checkPass()"  name="confirm_password" id="confirm_password" class="form-control" />
             <input type="hidden" name="id_admin" value="{{$id}}" id="id_admin" class="form-control" />
             <br/>
             <div id="error-nwl"></div>
             <br/>
-            <button class="btn btn-default" type="button" onclick="show_password()"><i class="fa fa-eye"></i></button>
-            <br/><br/>
             <input type="submit"  name="update" id="insert_category" value="Xác nhận" class="btn btn-success" />
            </form>
               </div>
-              <div class="modal-footer">
-               <button type="button" class="btn btn-default" data-dismiss="modal"> Đóng </button>
-              </div>
+            
              </div>
             </div>
            </div>
@@ -338,19 +334,17 @@
                 });
             });
 
-            function show_password(){
-            var x = document.getElementById("confirm_password");
-            var y = document.getElementById("old_password");
+            function show_old_password(){
+            var x = document.getElementById("old_password");
+                if(x.type === "password" ){x.type = "text";} else { x.type = "password";}
+            }
+            function show_new_password(){
             var z = document.getElementById("new_password");
-            if (x.type === "password" ) {
-                x.type = "text";
-                y.type = "text";
-                z.type = "text";
-            } else {
-                x.type = "password";
-                y.type = "password";
-                z.type = "password";
-                }
+            if (z.type === "password" ) {z.type = "text";} else {z.type = "password";}
+            }
+            function show_confirm_password(){
+            var y = document.getElementById("confirm_password");
+            if (y.type === "password" ) {y.type = "text";} else {y.type = "password";}
             }
             
             function checkPass() {

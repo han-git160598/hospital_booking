@@ -17,14 +17,14 @@
             </div>
             <div class="col-md-6">
                <div class="inqbox-content">
-               <h2><center><span style="color: red"> <?php
+               <h4><center><span style="color: red"> <?php
                               $message=Session::get('message');
                               if($message)
                               {
                                  echo $message;
                                  Session::put('message',null);
                               }
-                            ?></span></center> </h2>
+                            ?></span></center> </h4>
                   <form class="m-t" role="form" action="{{URL::to('login-admin')}}">
                      <div class="form-group">
                         <input type="text" class="form-control" name="username" placeholder="Username" required="">

@@ -269,6 +269,7 @@ class AccountAdminController extends Controller
         $check = DB::table('tbl_account_admin')->where('id',$request->id_admin)->where('password',md5($request->old_password))->get();
         $count = count($check);
         $min = $request->new_password;
+      
         if($count > 0 )
         {
             $data['password']=md5($request->new_password);
@@ -279,6 +280,5 @@ class AccountAdminController extends Controller
             $mes['mes']='Mật khẩu cũ không chính xác';
             return json_encode($mes);
         }
-       
     }
 }

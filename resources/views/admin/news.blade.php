@@ -1,7 +1,7 @@
 @extends('dashboard')
 @section('admin_content') 
    <body>
-    <div style="clear: both; height: 61px;"></div>
+    <div style="clear: both; height: 20px;"></div>
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-lg-12">
@@ -68,7 +68,7 @@
             </div>
            </div>
             {{--  update    --}}
-        <div id="update_data_Modal" class="modal fade">
+        <div id="update_news_Modal" class="modal fade">
             <div class="modal-dialog">
              <div class="modal-content">
               <div class="modal-header">
@@ -138,7 +138,7 @@
                                 </td>
                                 <td class="project-actions">
                                     <button onClick="edit_news({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
-                                      {{--  <button type="button" name="x" id="x" data-toggle="modal" data-target="#update_data_Modal"><i class="fa fa-pencil"></i> Sửa </button>  --}}
+                                      {{--  <button type="button" name="x" id="x" data-toggle="modal" data-target="#update_news_Modal"><i class="fa fa-pencil"></i> Sửa </button>  --}}
                                 </td>
                                 <td class="project-actions">
                                     <button onClick="delete_news({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
@@ -279,7 +279,7 @@ $( document ).ready(function() {
                         <button onClick="delete_news(${data['data'][0].id})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                     </td>`;
                    $('#'+data['data'][0].id).html(output);   
-                   $('#update_data_Modal').modal('hide');
+                   $('#update_news_Modal').modal('hide');
              }
          });
     });
@@ -320,7 +320,7 @@ $.ajax({
 
         }
     });
-    $('#update_data_Modal').modal('show');
+    $('#update_news_Modal').modal('show');
 }
 
  

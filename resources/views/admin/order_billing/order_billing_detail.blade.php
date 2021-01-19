@@ -1,7 +1,7 @@
 @extends('dashboard')
 @section('admin_content') 
 
-<div style="clear: both; height: 61px;"></div>
+<div style="clear: both; height:5px;"></div>
     <div class="wrapper wrapper-content animated fadeInRight">
 
         <div class="row">
@@ -140,7 +140,7 @@
       </div>
       <div class="modal-footer">
        <button type="button" data-dismiss="modal" id="insert_service" onClick="insert_service({{$data['billing'][0]->id}})" class="btn btn-success">Thêm dịch vụ</button>
-       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+       <button type="button" class="btn btn-default" data-dismiss="modal"> Đóng </button>
       </div>
      </div>
     </div>
@@ -167,7 +167,7 @@
       </div>
       <div class="modal-footer">
        <button type="button" data-dismiss="modal" id="insert_service" onClick="insert_service({{$data['billing'][0]->id}})" class="btn btn-success">Thêm dịch vụ</button>
-       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+       <button type="button" class="btn btn-default" data-dismiss="modal"> Đóng </button>
       </div>
      </div>
     </div>
@@ -206,6 +206,30 @@
     </menu>
 </form>
 </dialog>
+<!-- ----------------------------- Tổng tiền ---------------------------------- -->
+    
+            <div class="col-sm-4">
+                <div class="inqbox ">
+                <div class="inqbox-content">
+                    <div class="tab-content">
+                        <div id="contact-1" class="tab-pane active">
+                            <div class="row m-b-lg">
+                           
+                            <div >  
+                              <center>  <h1 ><strong> <i class="fa fa-money"></i> Tổng tiền </strong> </h1>  </center>   
+                            </div>
+                            @if(isset($total_billing))
+                             <div  id="total_billing">
+                             <center> <h2> <strong style="color:green;"><i class="fa fa-glyphicon glyphicon-euro"></i> {{number_format($total_billing)}} VND </strong> </h2>
+                            </div>
+                            @endif 
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+                </div>
+            </div>
+      
             
 <!-- ----------------------------- thanh toán----------------------------------- -->
             @if($data['billing'][0]->billing_status != 5)
@@ -217,10 +241,9 @@
                             <div class="row m-b-lg">
                            
                             <div >  
-                              <center>  <h2 ><strong>  PT thanh toán </strong> </h2>  </center>
+                              <center>  <h2 ><strong><i class="fa fa-credit-card"></i>  PT thanh toán </strong> </h2>  </center>
                               
                             </div>
-                           
                             <div class="col-lg-12">
                             @if($data['billing'][0]->payment_type== 1)
                           
@@ -265,7 +288,7 @@
                         
                             <div class="row m-b-lg" >
                             <div>
-                            <center>  <h1 ><strong> Kết quả khám </strong> </h1>  </center>
+                            <center>  <h1 ><strong><i class="fa fa-image"></i> Kết quả khám </strong> </h1>  </center>
                             </div>
                             <div class="col-lg-12">
                             
@@ -362,28 +385,33 @@ function service_detail(id)
             </tr>`;
             $('tbody').html('');
             var sum =0 ;
-            response.forEach(function (item) {
+            response['service'].forEach(function (item) {
               //  console.log(item);
             output+=`
             <tr>
                 <td style="width:30px;"></td>
                 <td class="project-title">
-                    <p>${dem++}<p>
+                    <p>${dem++}</p>
                 </td>
                 <td class="project-title">
-                    <p>${item.service}<p>
+                    <p><i><img src="{{asset ('backend/icon/detail appointment schedule.svg')}}"></i> ${item.service}</p>
                 </td>
                 <td class="project-title">
-                    <p>${formatNumber(item.price)} VND<p>
+                    <p>${formatNumber(item.price)} VND</p>
                 </td>
                 <td style="width:30px;"></td>    
             </tr>`;
             sum +=parseInt(item.price); // billing_price
             });
              output+=`
-            <tr><td style="width:30px;"></td><td colspan="2"><strong> Tổng tiền: </strong></td>
+            <tr><td style="width:30px;"></td><td colspan="2" style="color:black"><strong> Thành tiền: </strong></td>
+            <td><strong style="color:black"> ${formatNumber(sum)} VND </strong></td></tr>
             
-            <td><strong> ${formatNumber(sum)} VND </strong></td></tr>`;
+            <tr><td style="width:30px;"></td><td colspan="2" style="color:blue"><strong> Người khám : </strong></td>
+            <td><strong style="color:blue"> X${response['total_person']}  </strong></td></tr>    
+            <tr><td style="width:30px;"></td><td colspan="2" style="color:green"><strong> Tổng dịch vụ ban đầu : </strong></td>
+            <td><strong style="color:green"> ${formatNumber(response['initial_total'])} VND  </strong></td></tr>
+            `;
             $('tbody').html(output);   
         }
     });
@@ -415,20 +443,20 @@ function customer_detail(id)
             <tr>
                 <td style="width:30px;"></td>
                 <td class="project-title">
-                    <p>${item.customer_name}<p>
+                    <p>${item.customer_name}</p>
                 </td>
                 <td class="project-title">
-                    <p>${item.customer_phone}<p>
+                    <p>${item.customer_phone}</p>
                 </td>
                 <td class="project-title">
-                    <p>${item.customer_address}<p>
+                    <p>${item.customer_address}</p>
                 </td>
                 <td class="project-title">
-                    <p>${item.billing_date}<p>
+                    <p>${item.billing_date}</p>
                 </td>
                 <td class="project-title" >
                 
-                    <p>${item.customer_sex}<p>
+                    <p>${item.customer_sex}</p>
                     <input type="hidden" id="${item.id}id_customer" value="${item.id}">
                 </td>
                 
@@ -518,8 +546,9 @@ function actually_detail(id)
             <tr> 
                 <th style="width:30px;"></th>
                 <th> Tên dịch vụ</th>
-                <th> Số lượng</th>
                 <th> Đơn giá </th>
+                <th> Số lượng</th>
+                <th> Tổng </th>
                 <th style="width:30px;"></th>
                 <th>
                 <button type="button" onClick="list_service1()" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning"><i class="fa fa-plus"></i></button>
@@ -532,14 +561,16 @@ function actually_detail(id)
             <tr>
                 <td style="width:30px;"></td>
                 <td class="project-title">
-                    <p>${item.service}<p>
+                   <p><i><img src="{{asset ('backend/icon/detail appointment schedule.svg')}}"></i> ${item.service}</p>
                 </td>
                 <td class="project-title">
-                    <p>${item.billing_quantity}<p>
+                    <p>${item.price}</p>
                 </td>
-                
                 <td class="project-title">
-                    <p>${formatNumber(item.billing_price)} VND<p>
+                   <p><input style="width:40px;" type="number" id="${item.id_service}_quanlity" onChange="update_quanlity(${item.id_service},${item.id_billing})" min="1" value="${item.billing_quantity}" ></p>
+                </td>
+                <td class="project-title" id="${item.id_service}_billing_price">
+                    <p>${formatNumber(item.billing_price)} VND</p>
                 </td>
                 <td >
                     <button type="button" class="btn btn-success btn-sm" onClick="remove_service(${item.id_service},${item.id_billing})"> Hủy </button>
@@ -549,8 +580,11 @@ function actually_detail(id)
             `;    
             });
             output+=`
-            <tr><td style="width:30px;"></td><td colspan="2"><strong> Tổng tiền:</strong></td>
-            <td colspan="2"><strong> ${formatNumber(response.total[0].total_actually)} VND</strong></td></tr>`;
+            <tr id="total_actually"><td style="width:30px;"></td><td colspan="3"><strong style="color:green"> Tổng phát sinh:</strong></td>
+            <td colspan="2"><strong style="color:green"> ${formatNumber(response.total[0].total_actually)} VND</strong></td></tr>`;
+            $('#total_billing').html(''); 
+            var output_total=` <center> <h2> <strong style="color:green;"><i class="fa fa-glyphicon glyphicon-euro"></i> ${formatNumber(response.total_billing)} VND </strong> </h2>`;
+            $('#total_billing').html(output_total); 
             $('tbody').html(output); 
             }
         
@@ -585,7 +619,7 @@ function billing_detail(id)
            <tr>
                 <td style="width:30px;"></td>
                 <td class="project-title">
-                    <p>${item.billing_code}<p>
+                    <p>${item.billing_code}</p>
                 </td>
                 <td class="project-title" id="date_time">
                     ${item.billing_date} | ${item.billing_time}`;
@@ -645,10 +679,10 @@ function appointment_detail(id)
             <tr>
                 <td style="width:30px;"></td>
                 <td class="project-title">
-                    <p>${item.service}<p>
+                    <p>${item.service}</p>
                 </td>
                 <td class="project-title">
-                <p>${item.appointment_time}<p>
+                <p>${item.appointment_time}</p>
                 </td>
                 <form id="${item.id}reset">
                 <td class="project-title">
@@ -855,7 +889,7 @@ function list_service1()
             console.log(response);
             var output=`
             <tr> 
-                <th style="width:20px;"></th>
+                <th style="width:50px;"></th>
                 <th >Tên dịch vụ</th>
                 <th>Giá tiền</th>
     
@@ -868,7 +902,7 @@ function list_service1()
                 //console.log(item);
             output+=`
             <tr>
-                <td style="width:20px;"></td>
+                <td style="width:50px;"></td>
                 <td class="project-title">
                     <p>${item.service}</p>  
                 </td>
@@ -959,6 +993,7 @@ function insert_service(id)
                 <th>Tên dịch vụ</th>
                 <th>Số lượng</th>
                 <th>Đơn giá</th>
+                <th> Tổng</th>
                 <th style="width:30px;"></th>
                 <th>
                 <button type="button" onClick="list_service1()" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning"><i class="fa fa-plus"> </i></button>
@@ -966,32 +1001,40 @@ function insert_service(id)
             </tr>`;
             $('tbody').html('');
             response.service.forEach(function (item) {
-                console.log(item);
+              //  console.log(item);
             output+=`
             <tr>
                 <td style="width:30px;"></td>
                 <td class="project-title">
-                    <p>${item.service}<p>
-                </td>
-                 <td class="project-title">
-                    <p>${item.billing_quantity}<p>
+                    <p><i><img src="{{asset ('backend/icon/detail appointment schedule.svg')}}"></i> ${item.service}</p>
                 </td>
                 <td class="project-title">
-                    <p>${formatNumber(item.billing_price)} VND<p>
+                    <p>${item.price}</p>
                 </td>
                 <td class="project-title">
-                    <button type="button" class="btn btn-success btn-sm"  onClick="remove_service(${item.id_service},${item.id_billing})">Hủy</button>
+                    <input  style="width:40px;" type="number" id="${item.id_service}_quanlity" onChange="update_quanlity(${item.id_service},${item.id_billing})" min="1" value="${item.billing_quantity}" >
                 </td>
-           
-                <td style="width:30px;"></td>
+                
+                <td class="project-title" id="${item.id_service}_billing_price">
+                    <p>${formatNumber(item.billing_price)} VND</p>
+                </td>
+                <td >
+                    <button type="button" class="btn btn-success btn-sm" onClick="remove_service(${item.id_service},${item.id_billing})"> Hủy </button>
+                </td>
+              
             </tr>
             `;    
-            });
+            });//total_biliing
             output+=`
-            <tr> <td style="width:30px;"></td><td colspan="2"><strong> Tổng tiền:</strong></td>
-        
-            <td colspan="2"><strong> ${formatNumber(response.total[0].total_actually)} VND </strong></td></tr>`;
+            <tr id="total_actually"> <td style="width:30px;"></td><td colspan="3"><strong style="color:green"> Tổng phát sinh :</strong></td>
+            <td colspan="2"><strong style="color:green"> ${formatNumber(response.total[0].total_actually)} VND </strong></td></tr>`;
             $('tbody').html(output); 
+
+            $('#total_billing').html(''); 
+            var output_total=` <center> <h2> <strong style="color:green;"><i class="fa fa-glyphicon glyphicon-euro"></i> ${formatNumber(response.total_biliing)} VND </strong> </h2>`;
+            $('#total_billing').html(output_total);
+
+            
             
         }
     });
@@ -1010,13 +1053,14 @@ function remove_service(id_service,id_billing)
         dataType: 'json',
         success: function (response) 
         {
-          //  console.log(response);
+            console.log(response);
             var output=`
             <tr> 
                 <th style="width:30px;"></th>
-                <th>Tên dịch vụ</th>
-                <th>Số lượng</th>
-                <th>Đơn giá</th>
+                <th> Tên dịch vụ</th>
+                <th> Đơn giá </th>
+                <th> Số lượng</th>
+                <th> Tổng </th>
                 <th style="width:30px;"></th>
                 <th>
                 <button type="button" onClick="list_service1()" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning"><i class="fa fa-plus"></i></button>
@@ -1024,31 +1068,41 @@ function remove_service(id_service,id_billing)
             </tr>`;
             $('tbody').html('');
             response.service.forEach(function (item) {
-                console.log(item);
+               // console.log(item);
             output+=`
             <tr>
                 <td style="width:30px;"></td>
                 <td class="project-title">
-                    <p>${item.service}<p>
+                    <p><i><img src="{{asset ('backend/icon/detail appointment schedule.svg')}}"></i> ${item.service}</p>
                 </td>
                 <td class="project-title">
-                    <p>${item.billing_quantity}<p>
+                    <p>${item.price}</p>
                 </td>
                 <td class="project-title">
-                    <p>${formatNumber(item.billing_price)} VND<p>
+                    <input  style="width:40px;" type="number" id="${item.id_service}_quanlity" onChange="update_quanlity(${item.id_service},${item.id_billing})" min="1" value="${item.billing_quantity}" >
                 </td>
-                <td class="project-title">
-                    <button type="button" class="btn btn-success btn-sm" onClick="remove_service(${item.id_service},${item.id_billing})">Hủy</button>
+                <td class="project-title" id="${item.id_service}_billing_price">
+                    <p>${formatNumber(item.billing_price)} VND</p>
                 </td>
-                <td style="width:30px;"></td>
+                <td >
+                    <button type="button" class="btn btn-success btn-sm" onClick="remove_service(${item.id_service},${item.id_billing})"> Hủy </button>
+                </td>
+                
+              
             </tr>
             `;    
             });
+
+            $('#total_billing').html(''); 
+            var output_total=` <center> <h2> <strong style="color:green;"><i class="fa fa-glyphicon glyphicon-euro"></i> ${formatNumber(response.total_biliing)} VND </strong> </h2>`;
+            $('#total_billing').html(output_total);
+            
+            if(response.total != '')
             output+=`
-            <tr> <td style="width:30px;"></td><td colspan="2"><strong> Tổng tiền: </strong></td>
-            <
-            <td colspan="2"><strong> ${formatNumber(response.total[0].total_actually)} VND</strong></td></tr>`;
+            <tr id="total_actually"><td style="width:30px;"></td><td colspan="3"><strong style="color:green"> Tổng phát sinh:</strong></td>
+            <td colspan="2"><strong style="color:green"> ${formatNumber(response.total[0].total_actually)} VND</strong></td></tr>`;
             $('tbody').html(output); 
+
             
         } 
     });
@@ -1163,7 +1217,38 @@ function remove_img_document(id)
     });
     }else{}
 }
+function update_quanlity(id_service, id_billing)
+{
+    //bliing_price
+    var billing_quantity = $('#'+id_service+"_quanlity").val();
+    $.ajax({
+        url: '{{URL::to('/update-billing-quanlity')}}',
+        type: 'POST',
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        data: {billing_quantity: billing_quantity, id_service:id_service, id_billing:id_billing},
+        dataType: 'json',
+        success: function (response) 
+        {
+            //console.log(response.total);
 
+            $('#'+id_service+"_billing_price").html('');
+            var output=`
+            <p>${formatNumber(response.billing_price)} VND</p> `;
+            $('#'+id_service+"_billing_price").html(output);
+
+            $('#total_actually').html('');
+            var total_actually=`
+            <td style="width:30px;"></td><td colspan="3"><strong style="color:green"> Tổng phát sinh: </strong></td>
+            <td colspan="2"><strong style="color:green"> ${formatNumber(response.total)} VND</strong></td>`;
+            $('#total_actually').html(total_actually);
+            
+            $('#total_billing').html(''); 
+            var output_total=` <center> <h2> <strong style="color:green;"><i class="fa fa-glyphicon glyphicon-euro"></i> ${formatNumber(response.total_biliing)} VND </strong> </h2>`;
+            $('#total_billing').html(output_total); 
+            
+        }
+    });
+}
 
 </script>
   

@@ -1,7 +1,7 @@
 @extends('dashboard')
 @section('admin_content') 
    <body>
-    <div style="clear: both; height: 61px;"></div>
+    <div style="clear: both; height: 20px;"></div>
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-lg-12">
@@ -214,6 +214,7 @@ function update_service(id)
             </tr>`;    
             });
             $('tbody').html(output);
+            alert('Cập nhật dịch vụ thành công')
         }
     });  
 }

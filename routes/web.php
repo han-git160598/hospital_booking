@@ -148,6 +148,7 @@ Route::post('/remove-service-actually','BillingController@remove_service_actuall
 Route::post('/appointment-detail','BillingController@appointment_detail');
 // Acctually
 Route::post('/save-billing-actually','BillingController@save_billing_acctually');
+Route::post('/update-billing-quanlity','BillingController@update_billing_quanlity');
 // billing customer
 Route::post('/add-prehistoric','BillingController@add_prehistoric');
 // billing document

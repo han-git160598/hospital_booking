@@ -1,7 +1,7 @@
 @extends('dashboard')
 @section('admin_content') 
    <body>
-    <div style="clear: both; height: 61px;"></div>
+    <div style="clear: both; height: 20px;"></div>
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-lg-12">
@@ -13,6 +13,13 @@
                 </div>
             </div>
         </div>
+        {{--  dialog thanh cong reset pass word  --}}
+        <dialog id="alert_resset_pass"> 
+        <form method="dialog">
+            <h3><strong> Thay đổi mật khẩu thành công </strong></h2>
+            <center>  <button class="btn btn-success btn-sm"> OK </button> </center>
+        </form>
+        </dialog>
 
          {{--  ////////////////////////danh sách quyền/////////////////////////  --}}
 
@@ -254,20 +261,15 @@ $.ajax({
             </form>
             </dialog>
 
-            <dialog id="favDialog">
+            <dialog id="reset_password">
             <form method="dialog">
-                <p><label>Mật khẩu:
-                </label></p>
-                <input type="password"  id="pass_admin" name="pass_admin">
-                <p><label>Nhập lại mật khẩu:
-                </label></p>
-                <input type="password"   id="pass_admin_again" name="pass_admin_again">
-                <p><label>
-                <smal id="erro_pass"></smal>
-                </label></p>
-                <button class="btn btn-default" type="button" onclick="show_password1()"><i class="fa fa-eye"></i></button>
+                <p><label>Mật khẩu:</label></p>
+                <input type="password"id="pass_admin" name="pass_admin"> <a type="button" onclick="show_password1()" href="#"><i class="fa fa-eye"></i></a>
+                <p><label>Nhập lại mật khẩu:</label></p>
+                <input type="password" id="pass_admin_again" name="pass_admin_again"><a type="button" onclick="show_password2()" href="#"><i class="fa fa-eye"></i></a>
+                <p><label><smal id="erro_pass"></smal></label></p>
                 <br/>
-                 <menu>
+                <menu>
                 <button type="submit" >Hủy </button>
                 <button type="submit" onClick="update_password_admin(${item[0].id})"> Xác nhận </button>
                 </menu>
@@ -278,7 +280,7 @@ $.ajax({
             <div class="col-lg-9">
                 <div class="animated fadeInUp">
                 <div class="inqbox">
-                    <div class="inqbox-content">
+                    <div class="inqbox-content">        
                         <div class="row">
                             <div class="col-lg-12">
                             <div class="m-b-md">
@@ -306,7 +308,7 @@ $.ajax({
                             <div class="col-lg-5">
                             <dl class="dl-horizontal" >
                                 <dt>Họ & Tên:</dt>
-                                <dd><input value="${item[0].full_name}" type="text" id="full_name_admin_ud"></dd>
+                                <dd><input value="${item[0].full_name}"  type="text" id="full_name_admin_ud"></dd>
                                 <dt>Số điện thoại</dt>
                                 <dd><input value="${item[0].phone_number}" type="number" onKeyPress="if(this.value.length==10) return false;" id="phone_number_ud"></dd>
                                 <dt>Tên đăng nhập:</dt>
@@ -461,11 +463,10 @@ function add_permission(id)
 function resetpass_admin(id)
 {
     console.log(id);
-    favDialog.showModal(id);
+    reset_password.showModal(id);
 }
 function update_password_admin(id)
 {
-
     $('#erro_pass').html('');
     var pass_admin1= $('#pass_admin').val();
     var pass_admin_again1= $('#pass_admin_again').val();
@@ -483,13 +484,18 @@ function update_password_admin(id)
         dataType: 'json',
         success: function (response) 
         {
-            console.log(response);
+           // console.log(response);
             alert(response['mes']);    
+            if(response['mes']=='Thay đổi mật khẩu thành công !')
+            {
+                alert_resset_pass.showModal();
+            }
 
         }
         });   
        
     }
+
     
 }
 function update_account_admin(id)
@@ -820,18 +826,13 @@ function search_account_admin()
 
 //// pass
         function show_password1(){
-            var x = document.getElementById("pass_admin");
-            var y = document.getElementById("pass_admin_again");
-            if (x.type === "password" ) {
-                x.type = "text";
-                y.type = "text";
-            
-            } else {
-                x.type = "password";
-                y.type = "password";
-             
-                }
-            }
+        var x = document.getElementById("pass_admin");
+        if (x.type === "password" ) {x.type = "text";} else {x.type = "password";}
+        }
+        function show_password2(){
+        var y = document.getElementById("pass_admin_again");
+        if (y.type === "password" ) {y.type = "text";} else {y.type = "password";}
+        }
             
            
 </script>

@@ -1,7 +1,7 @@
 @extends('dashboard')
 @section('admin_content') 
    <body>
-    <div style="clear: both; height: 61px;"></div>
+    <div style="clear: both; height: 20px;"></div>
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-lg-12">
@@ -57,7 +57,7 @@
            </form>
               </div>
               <div class="modal-footer">
-               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+               <button type="button" class="btn btn-default" data-dismiss="modal"> Đóng </button>
               </div>
              </div>
             </div>
@@ -93,7 +93,7 @@
            </form>
               </div>
               <div class="modal-footer">
-               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+               <button type="button" class="btn btn-default" data-dismiss="modal"> Đóng </button>
               </div>
              </div>
             </div>

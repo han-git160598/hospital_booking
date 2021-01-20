@@ -6,7 +6,7 @@
                <div class="col-lg-12">
                   <div class="inqbox float-e-margins">
                      <div class="inqbox-content">
-                        <h2>Báo cáo thông kê lịch khám</h2>
+                        <h2>Báo cáo thông kê dịch vụ </h2>
                      </div>
                   </div>
                </div>
@@ -32,7 +32,7 @@
     </label></p>
     <menu>
       <button>Hủy</button>
-      <button onClick="filter_report()">Xác nhận</button>
+      <button onClick="fillter_report()">Xác nhận</button>
     </menu>
   </form>
 </dialog>
@@ -52,7 +52,7 @@
                         </tr>
                         <center>
                         <div class="hr-line-dashed"></div>      
-                        <div><button onClick="fillter_total()" class="btn btn-primary">Tìm kiếm</button></div>
+                        <div><button onClick="fillter_total_serrvi()" class="btn btn-primary">Tìm kiếm</button></div>
                         <div class="hr-line-dashed"></div>      
                         <form role="form" id="form">
                         <tr>
@@ -72,9 +72,8 @@
                      </div>
                      <div class="inqbox-content">
                         <h2>
-                           <center><a onClick="list_year()"><i><img src="{{asset ('backend/icon/Group 4514.svg')}}"></i></center></a>
+                           <center><a onClick="list_service()"><i><img src="{{asset ('backend/icon/Group 4514.svg')}}"></i></center></a>
                         </h2>
-                        <div id="title_report"></div>
                         <table class="table table-bordered">
                            <thead>
                               <tr>
@@ -102,18 +101,15 @@
 function formatNumber(num) {
   return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 }
-function list_year()
+function title_report()
 {
    list_year_dialog.showModal();
-
 }
-function filter_report()// thống kê trong năm
+function fillter_report()
 {
    var year_statistical = $('#year_statistical').val();
-   var title_report=`<center><h3><Strong> Doanh thu của năm: ${year_statistical} </strong></h3></center>`;
-   $('#title_report').html(title_report);
    $.ajax({
-        url: '{{URL::to('/statistical-examination-schedule')}}',
+        url: '{{URL::to('/statistical-service')}}',
         type: 'POST',
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         data: {year_statistical:year_statistical},
@@ -141,13 +137,13 @@ function filter_report()// thống kê trong năm
         }
         });   
 }
-function fillter_total() // tổng doanh thu lọc theo khoảng tháng-năm
+function fillter_total()
 {
    var from_date = $('#from_date').val();
    var to_date = $('#to_date').val();
    console.log(from_date);console.log(to_date);
    $.ajax({
-        url: '{{URL::to('/fillter-total-examination-schedule')}}',
+        url: '{{URL::to('/fillter-total-service')}}',
         type: 'POST',
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         data: {from_date:from_date,to_date:to_date},

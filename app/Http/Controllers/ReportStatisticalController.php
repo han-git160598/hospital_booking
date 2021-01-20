@@ -10,6 +10,7 @@ use App\AuthModel;
 
 class ReportStatisticalController extends Controller
 {
+    //báo cáo thống kê theo lịch khám
     public function statistical_examination_schedule(Request $request)
     {
         $year = $request->year_statistical; 
@@ -62,25 +63,64 @@ class ReportStatisticalController extends Controller
     {
         $from_date = $request->from_date; 
         $to_date = $request->to_date; 
-        $total_billing= 0;
-        
-        $data_billing = DB::table('tbl_billing_billing')
+        $total_billing = DB::table('tbl_billing_billing')
         ->join('tbl_billing_detail','tbl_billing_detail.id_billing','=','tbl_billing_billing.id')
         ->where('tbl_billing_billing.billing_status',4)
-        ->where('tbl_billing_billing.billing_date', 'LIKE', "%{$from_date}%")
-        ->orwhere('tbl_billing_billing.billing_date', 'LIKE', "%{$to_date}%") 
-        ->select([DB::raw("SUM(tbl_billing_detail.billing_price) as total_billing")])
-        ->groupBy('tbl_billing_detail.id_billing')
-        ->get();
-
-        // $total_moth_billing = 0;
-        foreach($data_billing as $v)
-        {
-            $total_billing+=$v->total_billing;
-            
-        }
-      //  $total_moth_price = $total_moth_actually + $total_moth_billing;
-      //  array_push($total_moth,["moth"=>$i,"total_moth"=>$total_moth_price]);
-        return json_encode($total_billing);
+        ->whereBetween('billing_date', [$from_date."-01", $to_date."-31"])
+        ->sum('billing_price');
+        $total_actually = DB::table('tbl_billing_billing')
+        ->join('tbl_billing_actually','tbl_billing_actually.id_billing','=','tbl_billing_billing.id')
+        ->where('tbl_billing_billing.billing_status',4)
+        ->whereBetween('billing_date', [$from_date."-01", $to_date."-31"])
+        ->sum('billing_price');
+        $total_price = $total_billing + $total_actually;
+        return json_encode($total_price);
     }
+    // báo cáo thống kê theo dịch vụ
+
+    public function statistical_service(Request $request) // thống kê doanh thu trong 1 năm
+    {
+        $total_billing = DB::table('tbl_billing_billing')
+        ->join('tbl_billing_detail','tbl_billing_detail.id_billing','=','tbl_billing_billing.id')
+        ->where('tbl_billing_billing.billing_status',4)
+        ->whereBetween('id_service', [$from_date."-01", $to_date."-31"])
+        ->sum('billing_price');
+        $total_actually = DB::table('tbl_billing_billing')
+        ->join('tbl_billing_actually','tbl_billing_actually.id_billing','=','tbl_billing_billing.id')
+        ->where('tbl_billing_billing.billing_status',4)
+        ->whereBetween('billing_date', [$from_date."-01", $to_date."-31"])
+        ->sum('billing_price');
+        $total_price = $total_billing + $total_actually;
+
+        return json_encode($total_price);
+
+    }
+    public function fillter_total_service(Request $request) // tổng doanh thu trong khoảng time
+    {
+
+    }
+
+    // báo cáo thống kê theo khách hàng
+    public function statistical_customer(Request $request) // thống kê doanh thu trong 1 năm
+    {
+        $total_billing = DB::table('tbl_billing_billing')
+        ->join('tbl_billing_detail','tbl_billing_detail.id_billing','=','tbl_billing_billing.id')
+        ->where('tbl_billing_billing.billing_status',4)
+        ->where('tbl_billing_billing.id_customer',27) 
+        ->sum('billing_price');
+        $total_actually = DB::table('tbl_billing_billing')
+        ->join('tbl_billing_actually','tbl_billing_actually.id_billing','=','tbl_billing_billing.id')
+        ->where('tbl_billing_billing.billing_status',4)
+        ->where('tbl_billing_billing.id_customer',27)
+        ->sum('billing_price');
+        $total_price = $total_billing + $total_actually;
+
+        return json_encode($total_price);
+
+    }
+    public function fillter_total_customer(Request $request) // tổng doanh thu trong khoảng time
+    {
+
+    }
+
 }

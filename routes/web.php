@@ -195,10 +195,29 @@ Route::get('/report-statistical-examination-schedule',function()
     $permission=$model->permission();
     return view('admin.report_statistical.examination_schedule',compact('permission'));
 });
-
-Route::post('/fillter-year-statistical','ReportStatisticalController@statistical_examination_schedule');
+// báo cáo thống kê theo lịch khám
+Route::post('/statistical-examination-schedule','ReportStatisticalController@statistical_examination_schedule');
 Route::post('/fillter-total-examination-schedule','ReportStatisticalController@fillter_total_examination_schedule');
-
+// báo cáo thống kê theo dịch vụ
+Route::get('/report-statistical-service',function()
+{
+    $model = new AuthModel;
+    $id = Session::get('id');
+    $permission=$model->permission();
+    return view('admin.report_statistical.service_service',compact('permission'));
+});
+Route::post('/statistical-service','ReportStatisticalController@statistical_service');
+Route::post('/fillter-total-service','ReportStatisticalController@fillter_total_service');
+//báo cáo thống kê theo khách hàng
+Route::get('/report-statistical-customer',function()
+{
+    $model = new AuthModel;
+    $id = Session::get('id');
+    $permission=$model->permission();
+    return view('admin.report_statistical.customer_customer',compact('permission'));
+});
+Route::post('/statistical-customer','ReportStatisticalController@statistical_customer');
+Route::post('/fillter-total-customer','ReportStatisticalController@fillter_total_customer');
 
 
 

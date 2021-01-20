@@ -187,6 +187,21 @@ Route::get('/force-sign-out',function(){
 Route::post('/force-sign-out-staff','ForceSignOutController@force_sign_out_staff');
 Route::post('/force-sign-out-customer','ForceSignOutController@force_sign_out_customer');
 
+// Báo cáo thống kê
+Route::get('/report-statistical-examination-schedule',function()
+{
+    $model = new AuthModel;
+    $id = Session::get('id');
+    $permission=$model->permission();
+    return view('admin.report_statistical.examination_schedule',compact('permission'));
+});
+
+Route::post('/fillter-year-statistical','ReportStatisticalController@statistical_examination_schedule');
+Route::post('/fillter-total-examination-schedule','ReportStatisticalController@fillter_total_examination_schedule');
+
+
+
+
 //test
 Route::get('/test',function (){
 	return view('admin.filetest');

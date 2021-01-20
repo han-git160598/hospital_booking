@@ -476,7 +476,7 @@ function update_password_admin(id)
     }
     else{
 
-        $.ajax({
+    $.ajax({
         url: '{{URL::to('/reset-password-admin')}}',
         type: 'POST',
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -782,7 +782,7 @@ function search_account_admin()
                 <th>Chức vụ</th>
                 <th style="width:30px;"></th>
             </tr>`;
-            $('tbody').html('');
+           $('tbody').html('');
             response.forEach(function (item) {
             output+=`
             <tr>`;

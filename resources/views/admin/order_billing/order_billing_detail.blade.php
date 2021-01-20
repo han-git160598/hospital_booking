@@ -157,6 +157,7 @@
       <div class="modal-body">
        <form method="post" id="insert_form_service">
        <div class="pre-scrollable">
+       <input type="text" id="search_service_actually" onkeyup="search_service()">
        <div id="list_service2">    
        
        </div>
@@ -889,7 +890,7 @@ function list_service1()
             console.log(response);
             var output=`
             <tr> 
-                <th style="width:50px;"></th>
+                <th style="width:60px;"></th>
                 <th >Tên dịch vụ</th>
                 <th>Giá tiền</th>
     
@@ -902,7 +903,7 @@ function list_service1()
                 //console.log(item);
             output+=`
             <tr>
-                <td style="width:50px;"></td>
+                <td style="width:60px;"></td>
                 <td class="project-title">
                     <p>${item.service}</p>  
                 </td>
@@ -920,50 +921,49 @@ function list_service1()
         }
     });
 }
-// {{--  function search_service()
-// {
-//     var search = $('#search_ser').val();
-//     $.ajax({
-//         url: '{{URL::to('/search-service-service')}}',
-//         type: 'POST',
-//         data: {service:search},
-//         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-//         dataType: 'json',
-//         success: function (response) 
-//         {
-//         var output=`
-//             <tr>
-//              <td colspan="5"><input type="text" id="search_ser"  placeholder="Tìm kiếm"><button type="button" onClick="search_service()">Tìm</button></td>
-//             </tr>
-//             <tr> 
-//                 <th style="width:30px;"></th>
-//                 <th>Tên dịch vụ</th>
-//                 <th>Giá tiền</th>
-//                 <th style="width:30px;"></th>
-//                 <th style="width:30px;"></th>
-//             </tr>`;
-//             $('cbody').html('');
-//             response.forEach(function (item) {
-//                 //console.log(item);
-//             output+=`
-//             <tr>
-//                 <td style="width:30px;"></td>
-//                 <td class="project-title">
-//                     <p>${item.service}</p>  
-//                 </td>
-//                 <td class="project-title">
-//                     <p> ${item.price}</p> 
-//                 </td>
-//                 <td class="project-actions">
-//                     <input type="checkbox" value="${item.id}">
-//                 </td>
-//                 <td style="width:30px;"></td>
-//             </tr>`;    
-//             });
-//             $('cbody').html(output); 
-//         }
-//     });
-// }  --}}
+ function search_service()
+ {
+     var search = $('#search_service_actually').val();
+    // console.log(search);
+     $.ajax({
+         url: '{{URL::to('/search-service-service')}}',
+         type: 'POST',
+         data: {service:search},
+         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+         dataType: 'json',
+         success: function (response) 
+         {
+            // console.log(response)
+         var output=`
+            <tr> 
+                <th style="width:50px;"></th>
+                <th>Tên dịch vụ</th>
+                <th>Giá tiền</th>
+                <th style="width:30px;"></th>
+               <th style="width:20px;"></th>
+            </tr>`;
+           // $('#list_service2').html('');
+            response.forEach(function (item) {
+                console.log(item);
+            output+=`
+            <tr>
+                <td style="width:50px;"></td>
+                <td class="project-title">
+                    <p>${item.service}</p>  
+               </td>
+                <td class="project-title">
+                    <p> ${item.price}</p> 
+                </td>                
+                 <td class="project-actions">
+                     <input type="checkbox" value="${item.id}">
+                 </td>                
+                  <td style="width:20px;"></td>
+             </tr>`;    
+             });
+             $('#list_service2').html(output); 
+         }
+     });
+ }
 function insert_service(id)
 {
     var r = confirm('Kiểm tra lại thông tin trước khi xác nhận')

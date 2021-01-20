@@ -280,6 +280,8 @@
             <script src="{{ asset('backend/js/plugins/ckeditor/ckeditor.js')}}"></script>
             <!-- Summernote Plugin -->
             <script src="{{ asset('backend/js/plugins/summernote/summernote.min.js')}}"></script>
+                 <!-- Jquery Validate -->
+            <script src="{{ asset('backend/js/plugins/validate/jquery.validate.min.js')}}"></script>
     
 
             <script>
@@ -399,9 +401,40 @@
             function feedback(msg) {
             getElm('error-nwl').innerHTML = msg;
             }
-
-
         </script>     
+ 
+      <script>
+         $(document).ready(function () {
+             "use strict";
+             
+             $("#form").validate({
+                 rules: {
+                     password: {
+                         required: true,
+                         minlength: 3
+                     },
+                     url: {
+                         required: true,
+                         url: true
+                     },
+                     number: {
+                         required: true,
+                         number: true
+                     },
+                     min: {
+                         required: true,
+                         minlength: 6
+                     },
+                     max: {
+                         required: true,
+                         maxlength: 4
+                     }
+                 }
+             });
+         });
+      </script>
+     
+
       
             
     

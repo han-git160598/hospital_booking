@@ -97,7 +97,7 @@ Route::get('/edit-account-customer/{id}','AccountCustomerController@edit_account
 Route::get('/update-account-customer/{id}','AccountCustomerController@update_account_customer');
 
 Route::post('/search-account-customer','AccountCustomerController@search_account_custome');
-
+Route::post('/reset-password-customer','AccountCustomerController@reset_password_customer');
 
 Route::get('/history-account-customer/{id}','AccountCustomerController@all_history_account_customer');
 Route::get('/detail-order-customer/{id}','AccountCustomerController@detail_order_customer');

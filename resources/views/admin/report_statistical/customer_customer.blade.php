@@ -6,7 +6,7 @@
                <div class="col-lg-12">
                   <div class="inqbox float-e-margins">
                      <div class="inqbox-content">
-                        <h2>Báo cáo thông kê dịch vụ </h2>
+                        <h2>Báo cáo thông kê khách hàng </h2>
                      </div>
                   </div>
                </div>
@@ -108,16 +108,16 @@ function title_report()
 function fillter_report()
 {
    $.ajax({
-        url: '{{URL::to('/statistical-service')}}',
-        type: 'POST',
-        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        data: {year_statistical:year_statistical},
-        dataType: 'json',
-        success: function (response) 
-        {         
-         console.log(response);
-        }
-        });   
+      url: '{{URL::to('/statistical-service')}}',
+      type: 'POST',
+      headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+      data: {year_statistical:year_statistical},
+      dataType: 'json',
+      success: function (response) 
+      {         
+      console.log(response);
+      }
+      });   
 }
 function fillter_total()
 {

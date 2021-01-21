@@ -116,6 +116,16 @@
                                             <a href="{{URL::to('/all-slide')}}"><i><img src="{{asset ('backend/icon/slide management.svg')}}"></i> <span class="nav-label"> {{$v->description}} </span></a>
                                         </li>
                                         @endif
+                                        @if($v->permission == 'account_reports')
+                                        <li class="nav-parent">
+                                            <a href="#"><i><img src="{{asset ('backend/icon/statistic management1.svg')}}"></i> <span class="nav-label"> {{$v->description}} </span></a>
+                                            <ul class="children nav">
+                                                <li><a href="{{URL::to('/report-statistical-examination-schedule')}}">  Báo cáo thống kê theo lịch khám</a></li>
+                                                <li><a href="{{URL::to('/report-statistical-service')}}"> Báo cáo thống kê theo  dịch vụ</a></li>
+                         
+                                            </ul>
+                                        </li>
+                                        @endif
                                         @if($v->permission == 'account_customer')
                                         <li>
                                             <a href="{{URL::to('/all-account-customer')}}"><i><img src="{{asset ('backend/icon/customer manager.svg')}}"></i> <span class="nav-label"> {{$v->description}} </span></a>

@@ -11,10 +11,15 @@
    </head>
    <body class="gray-bg">
       <div class="loginColumns animated fadeInDown">
+      <hr>
          <div class="row">
             <div class="col-md-6">
-              <img  alt="" height="320px" width="320px" src="{{ asset('backend/img/logo.png')}}">
+             <center> <p><img  alt="" height="200px" width="200px" src="{{ asset('backend/img/logo.png')}}"></p></center>
+            <center>  <h3><p><strong style="color:black;">
+                CÔNG TY CỔ PHẦN INFORMATICS QTC
+              </strong ></p></h3></center>
             </div>
+             
             <div class="col-md-6">
                <div class="inqbox-content">
                <h4><center><span style="color: red"> <?php
@@ -27,20 +32,18 @@
                             ?></span></center> </h4>
                   <form class="m-t" role="form" action="{{URL::to('login-admin')}}">
                      <div class="form-group">
-                        <input type="text" class="form-control" name="username" placeholder="Username" required="">
+                        <input type="text" class="form-control" name="username" placeholder="Tên đăng nhập" required="">
                      </div>
                      <div class="form-group">
-                        <input type="password" class="form-control" name="password" placeholder="Password" required="">
+                        <input type="password" class="form-control" name="password" placeholder="Mật khẩu" required="">
                      </div>
                      <button type="submit" class="btn btn-primary block full-width m-b"> Đăng nhập </button>
                      <div class="hr-line-dashed"></div>   
                   </form>
-                  
                </div>
             </div>
          </div>
-         <hr/>
-      
+      <hr/>  
       </div>
    </body>
 </html>

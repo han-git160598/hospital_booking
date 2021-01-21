@@ -40,7 +40,7 @@ class SlideController extends Controller
         
         $image = $request->file('img_slide');
         $new_name = rand() . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('images/slide/'), $new_name);
+        $image->move('../../images/slide/', $new_name);
         $url='images/slide/'.$new_name;
 
         $data['order_slide']=$request->stt_slide;
@@ -76,10 +76,10 @@ class SlideController extends Controller
           return json_encode($mes); 
         }
         $new_name = rand() . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('images/slide/'), $new_name);
+        $image->move('../../images/slide/', $new_name);
         $url='images/slide/'.$new_name;
-        if (file_exists('../public/'. $slide[0]->image_upload)) {
-          @unlink('../public/'. $slide[0]->image_upload);
+        if (file_exists('../../'. $slide[0]->image_upload)) {
+          @unlink('../../'. $slide[0]->image_upload);
         }
         $data['order_slide']=$request->stt_slide_ud;
         $data['image_upload']=$url;
@@ -93,8 +93,8 @@ class SlideController extends Controller
        
         $image_path = DB::table('tbl_slide')->where('id',$id)->get();
         $a= DB::table('tbl_slide')->where('id',$id)->delete();
-        if (file_exists('../public/'. $image_path[0]->image_upload)) {
-          @unlink('../public/'. $image_path[0]->image_upload);
+        if (file_exists('../../'. $image_path[0]->image_upload)) {
+          @unlink('../../'. $image_path[0]->image_upload);
         }
         $data = DB::table('tbl_slide')->orderby('id','desc')->get();
         return json_encode($data);

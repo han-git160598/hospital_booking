@@ -254,6 +254,22 @@ function edit_account_customer(id)
         var output=``;
         $('tbody').html('');  
         output+=`
+         <dialog id="reset_password_customer">
+            <form method="dialog">
+                <p><label>Mật khẩu:</label></p>
+                <input type="password"id="pass_customer" name="pass_customer"> 
+                <p><label>Nhập lại mật khẩu:</label></p>
+                <input type="text" hidden id="id_customer" value="${response[0].id}">
+                <input type="password" id="pass_customer_again" name="pass_customer_again">
+                <p><label><smal id="erro_pass"></smal></label></p>
+                <br/>
+                <menu>
+                <button onClick="close_modal()"> Thoát </button>
+                <button type="submit" onClick="update_password_customer(${response[0].id})"> Xác nhận </button>
+                </menu>
+            </form>
+            </dialog>
+
         <div class="inqbox-content">
         <div  class="form-horizontal">
             <div class="form-group">
@@ -310,7 +326,7 @@ function edit_account_customer(id)
 
             <div class="form-group">
             <label class="col-sm-2 control-label">Mật khẩu :</label>
-            <div class="col-sm-10"><input type="password" id="password_ud" class="form-control"></div>
+            <div class="col-sm-10"><button class="btn btn-primary" onClick="open_dialog_reset(${response[0].id})">Đặt lại mật khẩu</button></div>
             </div>
             <div class="hr-line-dashed"></div>
 
@@ -441,6 +457,46 @@ function search_customer()
         }
     });
 }
+function open_dialog_reset()
+{
+    //console.log(id);
+    reset_password_customer.showModal();
+}
+function close_modal()
+{
+    reset_password_customer.close();
+}
 
+function update_password_customer(id)
+{
+    $('#erro_pass').html('');
+    var id_customer = $('#id_customer').val();
+    var pass_customer= $('#pass_customer').val();
+    var pass_customer_again= $('#pass_customer_again').val();
+    if(pass_customer !=pass_customer_again){
+    $('#erro_pass').html('Mật khẩu không trùng khớp');
+    alert(' Mật khẩu không trùng khớp');
+    }
+    else{
+
+    $.ajax({
+        url: '{{URL::to('/reset-password-customer')}}',
+        type: 'POST',
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        data: {id_customer:id_customer , pass_customer:pass_customer},
+        dataType: 'json',
+        success: function (response) 
+        {
+           // console.log(response);
+            alert(response['mes']);    
+            if(response['mes']=='Thay đổi mật khẩu thành công !')
+            {
+                reset_password_customer.close();
+            }
+        }
+        });   
+       
+    }
+}
 </script>
 @endsection

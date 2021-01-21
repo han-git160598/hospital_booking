@@ -236,6 +236,24 @@ class AccountCustomerController extends Controller
      
         return json_encode($data);     
     }
+    public function reset_password_customer(Request $request)
+    {
+        if($request->pass_customer== '')
+        {
+        $mes['mes']='Vui lòng không để trống !';
+        return json_encode($mes);    
+        }
+        if(strlen($request->pass_customer) < 6)
+        {
+        $mes['mes']='Mật khẩu phải tối thiểu 6 kí tự ';
+        return json_encode($mes);  
+        }
+        $data= array();
+        $data['password']=md5($request->pass_customer);
+        DB::table('tbl_account_customer')->where('id',$request->id_customer)->update($data);
+        $mes['mes']='Thay đổi mật khẩu thành công !';
+        return json_encode($mes);
+    }
     
 
     

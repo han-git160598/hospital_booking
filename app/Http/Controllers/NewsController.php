@@ -24,8 +24,8 @@ class NewsController extends Controller
         }
         $image = $request->file('img_news');
         $new_name = rand() . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('images/slide/'), $new_name);
-        $url='images/slide/'.$new_name;
+        $image->move('../../images/news/', $new_name);
+        $url='images/news/'.$new_name;
         $data = array();
         $data['home_action']='N';
         $data['content']=$request->content_news;
@@ -41,8 +41,8 @@ class NewsController extends Controller
         $image_path = DB::table('tbl_news')->where('id',$id)->get();
        // return json_encode($image_path);
         DB::table('tbl_news')->where('id',$id)->delete();
-        if (file_exists('../public/'. $image_path[0]->image_upload)) {
-          @unlink('../public/'. $image_path[0]->image_upload);
+        if (file_exists('../../'. $image_path[0]->image_upload)) {
+          @unlink('../../'. $image_path[0]->image_upload);
         }
         $data = DB::table('tbl_news')->orderby('id','desc')->get();
         return json_encode($data);
@@ -70,7 +70,7 @@ class NewsController extends Controller
         return json_encode($mes);   
         }
         $new_name = rand() . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('images/slide/'), $new_name);
+        $image->move('../../images/news', $new_name);
         $url='images/slide/'.$new_name;
 
 

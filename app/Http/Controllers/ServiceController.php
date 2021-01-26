@@ -30,11 +30,6 @@ class ServiceController extends Controller
         return json_encode($mes);   
         }
         $mes=array('mes'=>'kh');
-        if($request->service =='' || $request->content =='' ||$request->price == '' )
-        {
-        $mes['mes']='Vui lòng điền đủ';
-        return json_encode($mes);
-        }
         $data= array();
         $data['service'] = $request->service;
         $data['content'] = $request->content;

@@ -1,7 +1,7 @@
 @extends('dashboard')
 @section('admin_content') 
    <body>
-    <div style="clear: both; height: 20px;"></div>
+    <div style="clear: both; height: 63px;"></div>
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-lg-12">
@@ -70,7 +70,7 @@ function enable_service(id)
     var r = confirm('Bạn có muốn khôi phục dịch vụ này')
     if(r = true)
     {
-    console.log(id);
+  
     $.ajax({
         url: '{{URL::to('/enable-service-service')}}'+'/'+id,
         type: 'GET',
@@ -85,7 +85,7 @@ function enable_service(id)
             </tr>`;
             $('tbody').html('');
             response.forEach(function (item) {
-                console.log(item.service);
+             
             output+=`
             <tr>
                 <td class="project-title">
@@ -117,7 +117,7 @@ function search_service_disable()
     dataType: 'json',
     success: function (response) 
     { 
-        //console.log(response);
+        
          var output=`
             <tr> 
                 <th style="width:30px;"></th>
@@ -127,7 +127,7 @@ function search_service_disable()
             </tr>`;
             $('tbody').html('');
             response.forEach(function (item) {
-                //console.log(item);
+               
             output+=`
            <tr>
                 <td style="width:30px;"></td>

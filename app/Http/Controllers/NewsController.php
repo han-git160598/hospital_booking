@@ -27,7 +27,7 @@ class NewsController extends Controller
         $image->move('../../images/news/', $new_name);
         $url='images/news/'.$new_name;
         $data = array();
-        $data['home_action']='N';
+      //  $data['home_action']='N';
         $data['content']=$request->content_news;
         $data['title']=$request->name_news;
         $data['image_upload']=$url;

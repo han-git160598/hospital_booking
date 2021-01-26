@@ -1,7 +1,7 @@
 @extends('dashboard')
 @section('admin_content') 
    <body>
-    <div style="clear: both; height: 20px;"></div>
+    <div style="clear: both; height: 63px;"></div>
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-lg-12">
@@ -196,17 +196,36 @@ function save_service_packet()
    $(':checkbox:checked').each(function(i) {
        arr.push($(this).val());
     });
-  // console.log(arr);
+  // console.log(arr); 
     var packet_service1=$('#packet_service').val();
     var packet_content1=$('#packet_content').val();
+    if(packet_service1 =='' || packet_content1 =='')
+    {
+        alert('Vui lòng điền đủ trường ');
+        return ;
+    }
+    if(arr.length == 0 )
+    {
+        alert('Vui lòng chọn tối thiếu 1 dịch vụ');
+        return ;    
+    }
    $.ajax({
         url: '{{URL::to('/save-service-packet')}}',
         type: 'GET',
         data: {arr1: arr, packet_service:packet_service1, packet_content: packet_content1},
         dataType: 'json',
         success: function (response) 
-        {
-            alert(response['mes']);
+        { 
+            if(response['mes']=='Tạo gói khám thành công')
+            {
+                $('#packet_service').val("");
+                $('#packet_content').val("");
+                $('input:checkbox').removeAttr('checked');
+                alert(response['mes']);
+
+            }else{
+                alert(response['mes']);
+            }
         }
     });
 
@@ -219,7 +238,7 @@ function edit_service_packet(id)
         dataType: 'json',
         success: function (response) 
         {
-            console.log(response);
+         
         var output=``;
         $('tbody').html('');  
         output+=`
@@ -270,7 +289,7 @@ function edit_service_packet(id)
     });   
 }
 function list_service_in_packet(id) {
-    console.log(id);
+
     $.ajax({
         url: '{{URL::to('/list-service-in-packet')}}',
         type: 'POST',
@@ -288,7 +307,7 @@ function list_service_in_packet(id) {
             </tr>`;
             $('#list_service_in_packet').html('');
             response.forEach(function (item) {  
-            // console.log(item);
+          
                 output+=`
                 <tr>
                 <td style="width:55px;"></td>
@@ -314,7 +333,7 @@ function update_service_packet(id)
 {
     var packet_service1=$('#packet_service_ud').val();
     var packet_content1=$('#packet_content_ud').val();
-    console.log(id);
+    
     $.ajax({
         url: '{{URL::to('/update-service-packet')}}',
         type: 'POST',
@@ -333,8 +352,7 @@ function update_service_packet_detail() {
        arr.push($(this).val());
     });
     var id = $('#id_packet').val();
-    console.log(id);
-    console.log(arr);
+   
     $.ajax({
         url: '{{URL::to('/update-service-packet-detail')}}',
         type: 'POST',
@@ -343,7 +361,7 @@ function update_service_packet_detail() {
         dataType: 'json',
         success: function (response) 
         {
-            console.log(response);
+            alert('Cập nhật gói khám thành công, vui lòng bấm vào danh sách dịch vụ để xem cập nhật mới nhất')
         }
     });
 }
@@ -351,7 +369,7 @@ function update_service_packet_detail() {
 /// view edit service packet
 function list_service_packet_detail(id)
 {
- console.log(id);
+
  $.ajax({
     url: '{{URL::to('/list-service-packet-detail')}}',
     type: 'POST',
@@ -368,7 +386,7 @@ function list_service_packet_detail(id)
         </tr>`;
         $('#show_list_edit').html('');
         response.forEach(function (item) {
-           // console.log(item);
+        
             output+=`
             <tr>
             <td style="width:30px;"></td>
@@ -394,6 +412,9 @@ function list_service_packet_detail(id)
 }
 function remove_service(id_ser,id_packet)//remove service trong packet
 {
+    var r =confirm('Bạn có muốn xóa dịch vụ này không ?')
+    if(r == true)
+    {
     $.ajax({
         url: '{{URL::to('/remove-service-packet-detail')}}',
         type: 'POST',
@@ -427,15 +448,19 @@ function remove_service(id_ser,id_packet)//remove service trong packet
              
         });
         $('#show_list_edit').append(output); 
+        alert('Xóa dịch vụ khỏi gói khám thành công')
         }
     });
+    }else{
+
+    }
 }
 function delete_service_packet(id)
 {
     var r=confirm('Waring! Bạn có muốn xóa không !!');
     if(r==true)
     {
-    console.log(id);
+  
     $.ajax({
         url: '{{URL::to('/delete-service-packet')}}',
         type: 'POST',
@@ -489,7 +514,7 @@ function search_packet()
         dataType: 'json',
         success: function (response) 
         {
-            console.log(response);
+          
             var output=`
         <tr> 
             <th>Tên dịch vụ</th>

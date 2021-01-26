@@ -1,7 +1,7 @@
 @extends('dashboard')
 @section('admin_content') 
    <body>
-    <div style="clear: both; height: 20px;"></div>
+    <div style="clear: both; height:63px;"></div>
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-lg-12">
@@ -104,7 +104,7 @@ function save_account_type()
 {
     var type_account1 = $('#type_account').val();
     var description1 = $('#wmd-input').val();
-   // console.log(description1);
+
     $.ajax({
         url: '{{URL::to('/save-account-type')}}',
         type: 'GET',
@@ -129,7 +129,7 @@ function delete_account_type(id)
         dataType: 'json',
         success: function (response) 
         {
-            console.log(response);
+           
             if(response['mes']=='sucsses')
             {
             var output=`
@@ -208,10 +208,10 @@ function edit_account_type(id)
 }
 function update_account_type(id)
 {
-    console.log(id);
+   
     var type_account1 = $('#type_account_ud').val();
     var description1 = $('#wmd-input_ud').val();
-    console.log(description1);console.log(type_account1);
+   
     $.ajax({
         url: '{{URL::to('/update-account-type')}}'+'/'+id,
         type: 'GET',
@@ -219,7 +219,7 @@ function update_account_type(id)
         dataType: 'json',
         success: function (response) 
         {
-            //console.log(response);
+         
             alert(response['mes']);
         }
     }); 

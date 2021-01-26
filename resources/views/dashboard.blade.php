@@ -316,10 +316,24 @@
 
             $('#change_password_form').on('submit', function(event) {
                     event.preventDefault();
-                   
                     var new_password = $('#new_password').val();
                     var confirm_password = $('#confirm_password').val();
                    // console.log(new_password); console.log(confirm_password);
+                    if(new_password.indexOf(' ') >= 0)
+                    {
+                        alert('Mật khẩu không được thêm kí tự trắng');
+                        return;
+                    }
+                    if(new_password == '' || confirm_password =='')
+                    {
+                        alert('Vui lòng không bỏ trống');
+                        return;
+                    }
+                    if(new_password.length < 6 || confirm_password.length < 6)
+                    {
+                        alert('Mật khẩu phải tối thiểu 6 kí tự');
+                        return;
+                    }
                     if(new_password == confirm_password)
                     {
                         $.ajax({

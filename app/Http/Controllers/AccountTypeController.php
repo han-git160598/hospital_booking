@@ -61,12 +61,7 @@ class AccountTypeController extends Controller
         $mes['mes']='Vui lòng điền đủ thông tin!';
         return json_encode($mes);    
         }
-        $check=DB::table('tbl_account_type')->where('type_account',$request->type_account)->count();
-        if($check>0)
-        {
-        $mes['mes']='Chức vụ đã tồn tại';
-        return json_encode($mes);     
-        }
+        
         $data = array();
         $data['type_account']= $request->type_account;
         $data['description']= $request->description;

@@ -12,8 +12,8 @@ class ServicePacketController extends Controller
         $all_service_packet_detail= DB::table('tbl_service_packet_detail')
         ->leftjoin('tbl_service_packet','tbl_service_packet.id','=','tbl_service_packet_detail.id_service_packet')
         ->leftjoin('tbl_service_service','tbl_service_service.id','=','tbl_service_packet_detail.id_service_service')
-        ->where('status_service','Y')->get();
-        $all_service_packet = DB::table('tbl_service_packet')->get();  
+        ->where('status_service','Y')->orderby('tbl_service_packet.id','desc')->get();
+        $all_service_packet = DB::table('tbl_service_packet')->orderby('id','desc')->get();  
         $tam=array();
 
         
@@ -73,18 +73,13 @@ class ServicePacketController extends Controller
     }
     public function save_service_packet(Request $request)
     {
-        if($request->packet_service =='' || $request->packet_content =='')
-        {
-        $mes['mes']='Vui lòng điền đủ';
-        return json_encode($mes);
-        }
         $kt = DB::table('tbl_service_packet')->where('packet_service',$request->packet_service)->count();
         if($kt>0)
         {
         $mes['mes']='Goi dịch vụ đã tồn tại';
         return json_encode($mes);   
         }
-        if(isset($request->arr1))
+        if(isset($request->arr1) )
         {
             $data = array();
             $data['packet_service']=$request->packet_service; 
@@ -94,27 +89,15 @@ class ServicePacketController extends Controller
 
             $arrayservice=isset($request->arr1)?$request->arr1:array();
             $arr=array();
-            $x=count($arrayservice);
-            if($x==0)
-            {
-            $mes['mes']='Vui lòng chọn dịch vụ';
-            return json_encode($mes);
-            }
-            else
-            {
-                foreach($arrayservice as  $k => $v) 
-                {       
-                    $arr['id_service_service']=$v;
-                    $arr['id_service_packet']=$id->id;
-                    DB::table('tbl_service_packet_detail')->insert($arr); 
-                }
-               
+            foreach($arrayservice as  $k => $v) 
+            {       
+                $arr['id_service_service']=$v;
+                $arr['id_service_packet']=$id->id;
+                DB::table('tbl_service_packet_detail')->insert($arr); 
             }
             $mes['mes']='Tạo gói khám thành công';
             return json_encode($mes);
-        }else{
-            $mes['mes']='Vui lòng chọn tối thiếu một dịch vụ';
-            return json_encode($mes);}
+        }
     }
     public function edit_service_packet($id)
     {
@@ -176,6 +159,7 @@ class ServicePacketController extends Controller
         ->leftjoin('tbl_service_packet','tbl_service_packet.id','=','tbl_service_packet_detail.id_service_packet')
         ->where('tbl_service_packet_detail.id_service_packet',$request->id_packet)
         ->where('status_service','Y')
+        ->orderby('tbl_service_packet.id','desc')
         ->select('tbl_service_packet_detail.id_service_packet', 'service', 'price','tbl_service_packet_detail.id_service_service')
         ->get();
      

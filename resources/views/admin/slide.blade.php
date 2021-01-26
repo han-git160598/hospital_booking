@@ -1,7 +1,7 @@
 @extends('dashboard')
 @section('admin_content') 
    <body>
-    <div style="clear: both; height: 20px;"></div>
+    <div style="clear: both; height:63px;"></div>
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-lg-12">
@@ -119,7 +119,7 @@
                                     <p>{{$value->order_slide}}<p>
                                 </td>
                                 <td class="project-title">
-                                <img src="{{$value->image_upload}}" height="150" width="150" alt="Image">
+                                <img src="../../{{$value->image_upload}}" height="150" width="150" alt="Image">
                                 </td>
                                 <td class="project-actions">
                                     <button onClick="edit_slide({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
@@ -184,7 +184,7 @@ $( document ).ready(function() {
                         <p>${item.order_slide}<p>
                     </td>
                     <td >
-                    <img src="${item.image_upload}" height="150" width="150" alt="Image">
+                    <img src="../../${item.image_upload}" height="150" width="150" alt="Image">
                     </td>
                     <td class="project-actions">
                     <button onClick="edit_slide(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
@@ -206,7 +206,7 @@ $( document ).ready(function() {
 });
 function edit_slide(id)
 {
-    console.log(id);
+ 
 $.ajax({
         url: '{{URL::to('/edit-slide')}}',
         type: 'POST',
@@ -236,7 +236,7 @@ $('#update_category_form').on('submit', function(event) {
             processData: false,
             success: function(data) 
             {
-             console.log(data);
+             
                     alert(data['mes']);
                 if(data['data'] == 'faild')
                 {
@@ -312,7 +312,7 @@ function delete_slide(id)
                     <p>${item.order_slide}<p>
                 </td>
                 <td >
-                <img src="${item.image_upload}" height="150" width="150" alt="Image">
+                <img src="../../${item.image_upload}" height="150" width="150" alt="Image">
                 </td>
                  <td class="project-actions">
                  <button onClick="edit_slide(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>

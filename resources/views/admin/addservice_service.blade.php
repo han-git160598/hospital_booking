@@ -1,20 +1,18 @@
 @extends('dashboard')
 @section('admin_content') 
    <body> 
-   <div style="clear: both; height: 20px;"></div>
+   <div style="clear: both; height: 63px;"></div>
    <div class="wrapper wrapper-content animated fadeInRight">
       <div class="row">
          <div class="col-lg-12">
             <div class="inqbox float-e-margins">
                <div class="inqbox-content">
-                  <h2> THÊM DỊCH vụ </h2>
+                  <h2> THÊM DỊCH VỤ </h2>
                 
                </div>
             </div>
          </div>
       </div>
-      
-      
       <div class="row">
          <div class="col-lg-12">
             <div class="inqbox float-e-margins">
@@ -82,19 +80,30 @@ $("#save_service").click( function(){
       var service1=$('#service').val();
       var content1=$('#content').val();
       var price1=$('#price').val();
-      console.log(service1);
-      console.log(content1);
-      console.log(price1);
+      if(service1 =='' || content1 =='' || price1 == '' )
+      {
+         alert('Vui lòng điền đủ trường');
+         return ;
+      }
       $.ajax({
-               url: '{{URL::to('/save-service-service')}}',
-               type: 'GET',
-               data: {service: service1, content: content1, price: price1 },
-               dataType: 'json',
-               success: function (response) 
-               {
-                  alert(response['mes']);
-               }
-            });    
+         url: '{{URL::to('/save-service-service')}}',
+         type: 'GET',
+         data: {service: service1, content: content1, price: price1 },
+         dataType: 'json',
+         success: function (response) 
+         {
+            if(response['mes']== 'Thêm dịch vụ thành công')
+            {
+               alert(response['mes']);
+               $('#service').val("");
+               $('#content').val("");
+               $('#price').val("");
+            }else{
+               alert(response['mes']);
+            }
+           
+         }
+      });    
 });
 
 </script>

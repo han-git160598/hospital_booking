@@ -1,7 +1,7 @@
 @extends('dashboard')
 @section('admin_content') 
    <body>
-    <div style="clear: both; height: 20px;"></div>
+    <div style="clear: both; height: 63px;"></div>
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-lg-12">
@@ -134,7 +134,7 @@
                                     <p>{{substr($value->content, 0, 200)}} <p>
                                 </td>
                                 <td class="project-title">
-                                <img alt="" height="150" width="150" src="{{$value->image_upload}}">
+                                <img alt="" height="150" width="150" src="../../{{$value->image_upload}}">
                                 </td>
                                 <td class="project-actions">
                                     <button onClick="edit_news({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
@@ -180,7 +180,7 @@ $( document ).ready(function() {
             processData: false,
             success: function(response) {
                  alert(response['mes']);
-               //  console.log(response['data']);
+            
             if(response['data'] != 'faild')
             {
                  var output=`
@@ -194,7 +194,7 @@ $( document ).ready(function() {
                 </tr>`;
                 $('tbody').html('');
                 response['data'].forEach(function (item) {
-                  //  console.log(item);
+                
                 output+=`
                 <tr>`;
                 if(item.home_action == 'Y')
@@ -215,7 +215,7 @@ $( document ).ready(function() {
                         <p>${item.content.substr(0, 200)}<p>
                     </td>
                     <td class="project-title">
-                        <img alt="" height="150" width="150" src="${item.image_upload}">
+                        <img alt="" height="150" width="150" src="../../${item.image_upload}">
                     </td>
                     <td class="project-actions">
                         <button onClick="edit_news(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
@@ -270,7 +270,7 @@ $( document ).ready(function() {
                         <p>${data['data'][0].content.substr(0, 200)} <p>
                     </td>
                     <td class="project-title">
-                    <img alt="Image" height="100" width="100" src="${data['data'][0].image_upload}">
+                    <img alt="Image" height="100" width="100" src="../../${data['data'][0].image_upload}">
                     </td>
                     <td class="project-actions">
                         <button onClick="edit_news(${data['data'][0].id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
@@ -307,7 +307,7 @@ $.ajax({
             <br/>
             <label><label>Hình ảnh (<font style="color: red">*</font>)</label>
             <input type="file" id="img_news" value="${response[0].image_upload}" accept="image/png, image/jpeg" name="img_news_ud" class="form-control" multiple="multiple"  placeholder="Hình ảnh">
-            <img src="${response[0].image_upload}" height="150" width="200" >
+            <img src="../../${response[0].image_upload}" height="150" width="200" >
             </label>
             <br/>
                 <span id="upload_ed_image"></span>
@@ -345,7 +345,7 @@ function delete_news(id)
             </tr>`;
             $('tbody').html('');
             response.forEach(function (item) {
-                console.log(item);
+               
             output+=`
             <tr>`;
             if(item.home_action == 'Y')
@@ -367,7 +367,7 @@ function delete_news(id)
 
                 </td>
                 <td class="project-title">
-                     <img alt="" height="150" width="150" src="${item.image_upload}">
+                     <img alt="" height="150" width="150" src="../../${item.image_upload}">
                 </td>
                 <td class="project-actions">
                     <button onClick="edit_news(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
@@ -406,7 +406,7 @@ function disable_news(id)
                 <th style="width:30px;"></th>
             </tr>`;
             response.forEach(function (item) {
-                console.log(item);
+              
             output+=`
             <tr>`;
             if(item.home_action == 'Y')
@@ -427,7 +427,7 @@ function disable_news(id)
                     <p> ${item.content.substr(0, 200)} VND</p> 
                 </td>
                 <td class="project-title">
-                     <img alt="" height="150" width="150" src="${item.image_upload}">
+                     <img alt="" height="150" width="150" src="../../${item.image_upload}">
                 </td>
                 <td class="project-actions">
                     <button onClick="edit_news(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
@@ -458,7 +458,7 @@ function enable_news(id)
                 <th style="width:30px;"></th>
             </tr>`;
             response.forEach(function (item) {
-                console.log(item);
+             
             output+=`
             <tr>`;
             if(item.home_action == 'Y')
@@ -479,7 +479,7 @@ function enable_news(id)
                     <p> ${item.content.substr(0, 200)} VND</p> 
                 </td>
                 <td class="project-title" >
-                     <img alt="" height="150" width="150" src="${item.image_upload}">
+                     <img alt="" height="150" width="150" src="../../${item.image_upload}">
                 </td>
                 <td class="project-actions">
                     <button onClick="edit_news(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>
@@ -524,7 +524,7 @@ $('#search_news').keyup(function(){
             else
             output+=`  
                 <td class="project-status">
-                     <button class="label label-primary" onClick="enable_news(${item.id}))" >Enable</button>
+                     <button class="label label-primary" onClick="enable_news(${item.id})" >Enable</button>
                 </td>`;  
             output+=`
                 <td class="project-title">
@@ -534,7 +534,7 @@ $('#search_news').keyup(function(){
                     <p>${item.content.substr(0, 200)}<p>
                 </td>
                 <td class="project-title">
-                     <img alt="" height="150" width="150" src="${item.image_upload}">
+                     <img alt="" height="150" width="150" src="../../${item.image_upload}">
                 </td>
                 <td class="project-actions">
                     <button onClick="edit_news(${item.id})" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Sửa </button>

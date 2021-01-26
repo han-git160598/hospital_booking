@@ -25,7 +25,7 @@
       <div class="modal-body">
        <form method="post" id="insert_form_service">
        <div class="pre-scrollable">
-       <input type="text" id="search_service_actually" onkeyup="search_service()">
+       {{--  <input type="text" id="search_service_actually" onkeyup="search_service()">  --}}
        <div id="list_service2">    
        
        </div>

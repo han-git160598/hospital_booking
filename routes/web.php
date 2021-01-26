@@ -225,3 +225,10 @@ Route::post('/fillter-total-customer','ReportStatisticalController@fillter_total
 Route::get('/test',function (){
 	return view('admin.filetest');
 });
+// clear cache
+Route::get('/clear-cache', function() {
+    $exitCode = Artisan::call('config:clear');
+    $exitCode = Artisan::call('cache:clear');
+    $exitCode = Artisan::call('config:cache');
+    return 'DONE'; //tra ve gia tri
+});

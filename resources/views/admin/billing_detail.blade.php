@@ -1,7 +1,7 @@
 @extends('dashboard')
 @section('admin_content') 
 
-<div style="clear: both; height: 20px;"></div>
+<div style="clear: both; height: 63px;"></div>
     <div class="wrapper wrapper-content animated fadeInRight">
 
         <div class="row">
@@ -140,7 +140,7 @@ function service_detail(id)
         dataType: 'json',
         success: function (response) 
         {   
-            console.log(response);
+           
             var dem = 1;
             var output=`
             <tr>
@@ -153,7 +153,7 @@ function service_detail(id)
             $('tbody').html('');
             var sum =0 ;
             response['service'].forEach(function (item) {
-                console.log(item);
+             
             output+=`
             <tr>
                 <td style="width:30px;"></td>
@@ -185,14 +185,14 @@ function service_detail(id)
 }
 function customer_detail(id)
 {
-    //console.log(id);
+
     $.ajax({
         url: '{{URL::to('/customer-detail')}}'+'/'+id,
         type: 'GET',
         dataType: 'json',
         success: function (response) 
         {
-            //console.log(response);  
+         
             var output=`
             <tr> 
                 <th style="width:30px;"></th>
@@ -205,7 +205,7 @@ function customer_detail(id)
             </tr>`;
             $('tbody').html('');
             response.forEach(function (item) {
-                //console.log(item);
+               
             output+=`
             <tr>
                 <td style="width:30px;"></td>
@@ -234,7 +234,7 @@ function customer_detail(id)
 }
 function actually_detail(id)
 {
-   // console.log(id);
+  
    $.ajax({
         url: '{{URL::to('/actually-detail')}}',
         type: 'POST',
@@ -243,7 +243,7 @@ function actually_detail(id)
         dataType: 'json',
         success: function (response) 
         {
-            console.log(response);
+           
             var output=`
             <tr> 
                 <th style="width:30px;"></th>
@@ -280,7 +280,7 @@ function actually_detail(id)
 }
 function billing_detail(id)
 {
-    console.log(id);
+  
     $.ajax({
         url: '{{URL::to('/billing-detail')}}',
         type: 'POST',
@@ -289,7 +289,7 @@ function billing_detail(id)
         dataType: 'json',
         success: function (response) 
         {
-            console.log(response);
+           
         var output=`
             <tr> 
                 <th style="width:30px;"></th>
@@ -300,7 +300,7 @@ function billing_detail(id)
             </tr>`;
             $('tbody').html('');
             response.forEach(function (item) {
-               console.log(item);
+            
             output+=`
             <tr>
                 <td style="width:30px;"></td>

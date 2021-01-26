@@ -1,7 +1,7 @@
 @extends('dashboard')
 @section('admin_content') 
    <body> 
-   <div style="clear: both; height: 20px;"></div>
+   <div style="clear: both; height:63px;"></div>
    <div class="wrapper wrapper-content animated fadeInRight">
       <div class="row">
          <div class="col-lg-12">
@@ -81,9 +81,7 @@ $("#save_service").click( function(){
       var service1=$('#service').val();
       var content1=$('#content').val();
       var price1=$('#price').val();
-      console.log(service1);
-      console.log(content1);
-      console.log(price1);
+    
       $.ajax({
                url: '{{URL::to('/save-service-service')}}',
                type: 'GET',

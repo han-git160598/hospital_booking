@@ -13,7 +13,9 @@ class ForceSignOutController extends Controller
         $id = array(Session::get('id'));
         $data = array();
         $data['force_sign_out']='1';
-        DB::table('tbl_account_admin')->WhereNotIn('id',$id)->update($data);
+        DB::table('tbl_account_admin')
+        //->WhereNotIn('id',$id)
+        ->update($data);
         $mes['mes']='Cưỡng chế thành công!';
         return json_encode($mes);
     }

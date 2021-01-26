@@ -1,7 +1,7 @@
 @extends('dashboard')
 @section('admin_content') 
    <body>
-    <div style="clear: both; height: 20px;"></div>
+    <div style="clear: both; height:63px;"></div>
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-lg-12">
@@ -113,7 +113,7 @@ function save_account_permission()
         dataType:"json",
         success: function(response)
         {
-            console.log(response);
+           
             alert(response['mes']);
         }
     });
@@ -207,7 +207,7 @@ function edit_account_permission(id)
 }
 function update_account_permission(id)
 {
-    console.log(id);
+    
     var permission1 = $('#permission_up').val();
     var description1 = $('#description_up').val();
 
@@ -224,7 +224,7 @@ function update_account_permission(id)
 }
 $('#search_account_permission').keyup(function(){
     var result = $('#search_account_permission').val();
-   // console.log(result);
+  
     $.ajax({
         type:"POST",
         url:'{{URL::to('/search-account-permission')}}',

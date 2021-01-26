@@ -1,7 +1,7 @@
 @extends('dashboard')
 @section('admin_content') 
    <body>
-    <div style="clear: both; height: 20px;"></div>
+    <div style="clear: both; height:63px;"></div>
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-lg-12">
@@ -101,7 +101,7 @@
                                 </td>
                                 <td class="project-actions">
                                     <button onClick="account_admin_detail({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> Chi tiết</button>
-                                </td><td >   
+                                </td><td>   
                                     <button onClick="delete_account_admin({{$value->id}})" class="btn btn-white btn-sm"><i class="fa fa-remove"></i> Xóa </button>
                                 </td>
                                 
@@ -121,7 +121,7 @@
 <script>
 function disable_account_admin(id)
 {
-    console.log(id);
+  
     $.ajax({
         url: '{{URL::to('/disable-account-admin')}}'+'/'+id,
         type: 'GET',
@@ -156,7 +156,7 @@ function disable_account_admin(id)
                     <p>${item.full_name}</p>  
                 </td>
                 <td class="project-title">
-                    <p> ${item.phone_number} VND</p> 
+                    <p> ${item.phone_number}</p> 
                 </td>
                 <td class="project-title">
                     <p>${item.type_account}</p> 
@@ -176,7 +176,7 @@ function disable_account_admin(id)
 }
 function enable_account_admin(id)
 {
-    console.log(id);
+
     $.ajax({
         url: '{{URL::to('/enable-account-admin')}}'+'/'+id,
         type: 'GET',
@@ -211,7 +211,7 @@ function enable_account_admin(id)
                     <p>${item.full_name}</p>  
                 </td>
                 <td class="project-title">
-                    <p> ${item.phone_number} VND</p> 
+                    <p> ${item.phone_number} </p> 
                 </td>
                 <td class="project-title">
                     <p>${item.type_account}</p> 
@@ -241,7 +241,7 @@ $.ajax({
     dataType: 'json',
     success: function (response) 
     {
-        console.log(response);
+    
         var output=``;
         $('#detail').html(''); 
         response.forEach(function (item) {
@@ -307,12 +307,12 @@ $.ajax({
                         <div class="row">
                             <div class="col-lg-5">
                             <dl class="dl-horizontal" >
-                                <dt>Họ & Tên:</dt>
+                                <dt>Họ & Tên(*):</dt>
                                 <dd><input value="${item[0].full_name}"  type="text" id="full_name_admin_ud"></dd>
-                                <dt>Số điện thoại</dt>
-                                <dd><input value="${item[0].phone_number}" type="number" onKeyPress="if(this.value.length==10) return false;" id="phone_number_ud"></dd>
-                                <dt>Tên đăng nhập:</dt>
-                                <dd><input value="${item[0].username}" type="text" id="username_admin_ud"></dd>
+                                <dt>Số điện thoại(*):</dt>
+                                <dd><input value="${item[0].phone_number}" type="text" onkeypress='return event.charCode >= 47 && event.charCode <= 57' id="phone_number_ud"></dd>
+                                <dt>Tên đăng nhập(*):</dt>
+                                <dd><input type="text" value="${item[0].username}" readonly  id="username_admin_ud"></dd>
                                 <dt>Email:</dt>
                                 <dd><input value="${item[0].email}" type="email" id="email_admin_ud"></dd>
                             </dl>
@@ -365,8 +365,7 @@ $.ajax({
                 <div class="project-manager">
                 <h1 ><strong> Phân quyền </strong></h1>`;
                 output+=`   <div id="list_premission">`;
-              // console.log(item[1]);
-                //console.log(item[0]);
+            
                 item[1].forEach(function (v) {
 
                 output+=`
@@ -391,7 +390,7 @@ $.ajax({
 
 function list_permission(id)
 {
-  console.log(arr_author);
+  
   
   $.ajax({
     url: '{{URL::to('/list-account-permission')}}',
@@ -400,7 +399,7 @@ function list_permission(id)
     data: {id:id, arr_author1:arr_author},
     success: function (response) 
     {
-       console.log(response)
+       
     var output=`
     <tr> 
         <th style="width:80px;"></th>
@@ -410,7 +409,7 @@ function list_permission(id)
     </tr>`; 
     $('#permission').html('');
     response.forEach(function (item) {
-        //console.log(item);
+      
     output+=`
     <tr>
         <td style="width:80px;"></td>
@@ -430,12 +429,12 @@ function list_permission(id)
 
 function add_permission(id)
 {
-    console.log(id);
+
     var arr=[];
     $(':checkbox:checked').each(function(i){
        arr.push($(this).val());
     });
-    console.log(arr);
+  var arr_author2=[];
     $.ajax({
     url: '{{URL::to('/save-account-authorize')}}',
     type: 'POST',
@@ -444,7 +443,7 @@ function add_permission(id)
     dataType: 'json',
     success: function (response) 
     {
-        console.log(response);
+       
         
         output=``;
         $('#list_premission').html('');
@@ -452,17 +451,19 @@ function add_permission(id)
         output+=`
         <p><span><button onClick="remove_authorize(${item.id},${item.id_admin})" class="label label-primary" ><i class="fa fa-remove"></i></button> ${item.description}</span></p>
         `;
+          arr_author2.push(item.id);
         });   
+        arr_author=arr_author2;
         $('#list_premission').append(output); 
     }
     });
-    list_permission(id);
+   // list_permission(id);
 }
 /// dat mat khau
 
 function resetpass_admin(id)
 {
-    console.log(id);
+    
     reset_password.showModal(id);
 }
 function update_password_admin(id)
@@ -470,12 +471,26 @@ function update_password_admin(id)
     $('#erro_pass').html('');
     var pass_admin1= $('#pass_admin').val();
     var pass_admin_again1= $('#pass_admin_again').val();
+    if(pass_admin1.indexOf(' ') >= 0)
+    {
+        alert('Mật khẩu không được thêm kí tự trắng');
+        return;
+    }
+    if(pass_admin1 == '' || pass_admin_again1 =='')
+    {
+        alert('Vui lòng không bỏ trống');
+        return;
+    }
+    if(pass_admin1.length < 6)
+    {
+        alert('Mật khẩu phải tối thiểu 6 kí tự');
+        return;
+    }
     if(pass_admin_again1 !=pass_admin1){
     $('#erro_pass').html('Mật khẩu không trùng khớp');
     alert(' Mật khẩu không trùng khớp');
     }
     else{
-
     $.ajax({
         url: '{{URL::to('/reset-password-admin')}}',
         type: 'POST',
@@ -484,7 +499,7 @@ function update_password_admin(id)
         dataType: 'json',
         success: function (response) 
         {
-           // console.log(response);
+         
             alert(response['mes']);    
             if(response['mes']=='Thay đổi mật khẩu thành công !')
             {
@@ -505,7 +520,11 @@ function update_account_admin(id)
     var email= $('#email_admin_ud').val();
     var account_type= $('#account_type').val();
     var phone_number= $('#phone_number_ud').val();
-    console.log(account_type);
+    if(full_name=='' || username == '' || phone_number == '')
+    {
+        alert('Vui lòng điền đủ trường có kí hiệu (*) !');
+        return ;
+    }
     $.ajax({
         url: '{{URL::to('/update-account-admin')}}',
         type: 'POST',
@@ -514,7 +533,8 @@ function update_account_admin(id)
         dataType: 'json',
         success: function (response) 
         {
-        alert(response['mes']);    
+          //  console.log(response);
+            alert(response['mes']);    
         }
     });
     
@@ -522,14 +542,14 @@ function update_account_admin(id)
 function popup_remove_authorize(id_pre,id_admin)
 {
     
-    console.log(id_pre);console.log(id_admin);
+ 
     confirm_password.showModal();
 }
 
 function remove_authorize(id_pre,id_admin)
 {
     var arr_author2=[];
-   // console.log(id_pre);console.log(id_admin);
+ 
 var r=confirm('Waring! Bạn có muốn xóa không !!');
 if(r==true)
 {
@@ -541,7 +561,7 @@ if(r==true)
         dataType: 'json',
         success: function (response) 
         {
-           // console.log(response);
+           
             output=``;
             $('#list_premission').html('');
             response.forEach(function (item) {
@@ -569,7 +589,7 @@ $('#create_account_admin').click(function(){
     dataType: 'json',
     success: function (response) 
     {
-    console.log(response);
+   
     output+=` 
     <div class="row">
         <div class="col-lg-9">
@@ -583,25 +603,20 @@ $('#create_account_admin').click(function(){
                             <a href="{{URL::to('all-account-admin')}}"><button class="btn btn-sm btn-primary"> Trở về </button></a>
                             <h2>Thông tin nhân viên</h2>
                         </div>
-                        <dl class="dl-horizontal">
-                            <dt>Trạng thái:</dt>
-                            <dd>
-                            active
-                            </dd>
-                        </dl>
+                        
                         </div>
                     </div>
                     <form id="form_admin">
                     <div class="row">
                         <div class="col-lg-5">
                         <dl class="dl-horizontal" >
-                            <dt>Họ & Tên:</dt>
+                            <dt>Họ & Tên(*):</dt>
                             <dd><input  type="text" id="full_name_admin"></dd>
-                            <dt>Tên đăng nhập:</dt>
+                            <dt>Tên đăng nhập(*):</dt>
                             <dd><input type="text" id="username_admin"></dd>
-                            <dt>Số điện thoại:</dt>
+                            <dt>Số điện thoại(*):</dt>
                             <dd>
-                            <input type="number" onKeyPress="if(this.value.length==10) return false;" id="phone_number" >
+                            <input type="text" onkeypress='return event.charCode >= 47 && event.charCode <= 57' id="phone_number" >
                             </dd>
                         </dl>
                         </div>
@@ -610,17 +625,17 @@ $('#create_account_admin').click(function(){
                             
                             <dt>Email:</dt>
                             <dd><input type="email" id="email_admin"></dd>
-                            <dt>Mật khẩu:</dt>
+                            <dt>Mật khẩu(*):</dt>
                             <dd>
                             <input type="password" id="password_admin" >
                             </dd>
-                            <dt>Loại tài khoản :</dt>
+                            <dt>Loại tài khoản(*) :</dt>
                             <dd>
                             <select id="account_type1">
-                            <option >Chọn</option>`;
-                            console.log(response[1]);
+                            <option value="0">Chọn</option>`;
+                       
                             response[1].forEach(function (item) {
-                                console.log(item);
+                             
                             output+=`
                             <option value="${item.id}">${item.type_account}</option>`;
                             });
@@ -679,10 +694,20 @@ function save_account_admin()
     var password_admin1= $('#password_admin').val();
     var phone_number1= $('#phone_number').val();
     var arr_permission1=[];
-        $(':checkbox:checked').each(function(i){
-        arr_permission1.push($(this).val());
-        });
-        console.log(arr_permission1);
+    $(':checkbox:checked').each(function(i){
+    arr_permission1.push($(this).val());
+    });
+
+    if(account_type1 == 0 || full_name1=='' || username1 == '' || phone_number1 == '' || password_admin1=='' )
+    {
+        alert('Vui lòng điền đủ trường có kí hiệu (*) !');
+        return ;
+    }
+    if( arr_permission1.length == 0)
+    {
+        alert('Bạn chưa chọn quyền cho tài khoản ');
+        return ;
+    }
     $.ajax({
     url: '{{URL::to('/save-account-admin')}}',
     type: 'POST',
@@ -692,7 +717,18 @@ function save_account_admin()
     dataType: 'json',
     success: function (response) 
     {
-      alert(response['mes']);
+        if(response['mes']=='Tạo tài khoản thành công !')
+        {
+        alert(response['mes']);
+        $('#full_name_admin').val("");
+        $('#username_admin').val(""); 
+        $('#email_admin').val("");
+        $('#password_admin').val("");
+        $('#phone_number').val(""); 
+        }else{
+            alert(response['mes']);
+        }
+   
     }
     });
 }

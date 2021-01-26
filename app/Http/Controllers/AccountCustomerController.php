@@ -26,12 +26,6 @@ class AccountCustomerController extends Controller
     public function save_account_customer(Request $request)
     {  
         
-        if($request->phone_active == '' || $request->full_name == '' || $request->address=='' 
-        || $request->password =='' )
-        {
-        $mes['mes']='Không được bỏ trống !';
-        return json_encode($mes);     
-        }
         $checkphone = DB::table('tbl_account_customer')->where('phone_active',$request->phone_active)->count();
         if($checkphone>0 )
         {
@@ -48,7 +42,7 @@ class AccountCustomerController extends Controller
         $data['phone_number']= $request->phone_number;
         $data['email']= $request->email;
         $data['password']= md5($request->password);
-        $data['force_sign_out']= '0';
+        // $data['force_sign_out']= '0';
         DB::table('tbl_account_customer')->insert($data);
         $mes['mes']='Thêm thành công!';
         return json_encode($mes);   
@@ -90,10 +84,10 @@ class AccountCustomerController extends Controller
     }
     public function update_account_customer(Request $request, $id)
     {
-        if($request->full_name='' || $request->address == '' )
+        if( $request->full_name == '' || $request->address==''  )
         {
-        $mes['mes']='Không được bỏ trống !';
-        return json_encode($mes);     
+            $mes['mes']='Không được bỏ trống các trường có kí hiệu (*) !';
+            return json_encode($mes);     
         }
         $data =array();
         $data['full_name']= $request->full_name;
@@ -102,11 +96,6 @@ class AccountCustomerController extends Controller
         $data['address']= $request->address;
         $data['phone_number']= $request->phone_number;
         $data['email']= $request->email;
-        if($request->password=='')
-        {
-        }else{
-        $data['password']= md5($request->password);
-        }
         $data['nationality']= $request->nationality;
         $data['force_sign_out']= '0';
         DB::table('tbl_account_customer')->where('id',$id)->update($data);

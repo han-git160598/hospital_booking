@@ -221,10 +221,6 @@ Route::post('/fillter-total-customer','ReportStatisticalController@fillter_total
 
 
 
-//test
-Route::get('/test',function (){
-	return view('admin.filetest');
-});
 // clear cache
 Route::get('/clear-cache', function() {
     $exitCode = Artisan::call('config:clear');
@@ -232,3 +228,18 @@ Route::get('/clear-cache', function() {
     $exitCode = Artisan::call('config:cache');
     return 'DONE'; //tra ve gia tri
 });
+
+
+//test
+Route::get('/test',function (){
+	return view('admin.filetest');
+});
+Route::get('test-chart',function(){
+    return view('admin.testchart');
+});
+
+Route::get('test-chart-copy', function() {
+    return view('admin.testchart2');
+});
+
+Route::get('/test-total','ServicePacketController@data_service_packet');
